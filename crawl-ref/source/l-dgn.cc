@@ -1776,7 +1776,7 @@ LUAWRAP(dgn_apply_tide, shoals_apply_tides(0, true))
 
 LUAFN(dgn_state_is_descent)
 {
-    lua_pushboolean(ls, crawl_state.game_is_descent());
+    lua_pushboolean(ls, true);
     return 1;
 }
 

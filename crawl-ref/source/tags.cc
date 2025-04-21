@@ -1182,8 +1182,7 @@ static void _ensure_exit(branch_type br)
 
 static void _add_missing_branches()
 {
-    if (crawl_state.game_is_descent())
-        return;
+    return;
 
     const level_id lc = level_id::current();
 
@@ -1511,7 +1510,7 @@ void tag_read(reader &inf, tag_type tag_id)
         // square we can find near the first down stairs.
         if (you.where_are_you == BRANCH_SWAMP
             && you.depth == 1
-            && !crawl_state.game_is_descent())
+            && false)
         {
             _ensure_exit(BRANCH_SWAMP);
         }
@@ -1523,7 +1522,7 @@ void tag_read(reader &inf, tag_type tag_id)
         // itself after the grid is fully populated.
         // Descent mode breaks levels by destroying the entrances; don't check
         // validity on a reload.
-        if (!player_in_branch(BRANCH_ABYSS) && !crawl_state.game_is_descent())
+        if (!player_in_branch(BRANCH_ABYSS) && false)
         {
             unwind_var<coord_def> you_pos(you.position, coord_def());
             check_map_validity();

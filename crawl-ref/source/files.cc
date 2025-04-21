@@ -2133,9 +2133,6 @@ bool load_level(dungeon_feature_type stair_taken, load_mode_type load_mode,
         // games.
         if (old_level.depth != -1)
         {
-            if (!crawl_state.game_is_descent())
-                _grab_followers_and_expire_summons();
-
             if (env.level_state & LSTATE_DELETED)
                 delete_level(old_level), dprf("<lightmagenta>Deleting level.</lightmagenta>");
             else
@@ -2229,8 +2226,7 @@ bool load_level(dungeon_feature_type stair_taken, load_mode_type load_mode,
     if (load_mode != LOAD_VISITOR)
         you.set_level_visited(level_id::current());
 
-    const bool descent_downclimb = crawl_state.game_is_descent()
-                                   && feat_stair_direction(stair_taken) == CMD_GO_DOWNSTAIRS
+    const bool descent_downclimb = feat_stair_direction(stair_taken) == CMD_GO_DOWNSTAIRS
                                    && !feat_is_descent_exitable(stair_taken);
     const bool descent_peek = descent_downclimb
                               && !feat_is_escape_hatch(stair_taken)

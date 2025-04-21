@@ -66,8 +66,7 @@ void initialise_branch_depths()
 
     initialise_brentry();
 
-    if (crawl_state.game_is_descent())
-        brdepth[BRANCH_DUNGEON] = 12;
+    brdepth[BRANCH_DUNGEON] = 12;
 }
 
 static void _use_overflow_temple(vector<god_type> temple_gods)
@@ -100,7 +99,7 @@ void initialise_temples()
     map_def *main_temple = nullptr;
     int altar_count = 0;
 
-    if (crawl_state.game_is_descent())
+    if (true)
     {
         main_temple
             = const_cast<map_def*>(random_map_for_tag("temple_altars_0", false));

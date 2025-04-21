@@ -7812,36 +7812,10 @@ bool player::shaftable() const
 
 // Used for falling into traps and other bad effects, but is a slightly
 // different effect from the player invokable ability.
+// disabled in descent mode (by sniper)
 bool player::do_shaft()
 {
-    // disabled in descent mode
-    if (crawl_state.game_is_descent())
-        return false;
-
-    if (!shaftable()
-        || resists_dislodge("falling into an unexpected shaft"))
-    {
-        return false;
-    }
-    if (you.species == SP_FORMICID)
-    {
-        mpr("Your tunneler's instincts keep you from falling into a shaft!");
-        return false;
-    }
-    if (you_worship(GOD_YREDELEMNUL) && yred_torch_is_raised())
-    {
-        mpr("Yredelemnul refuses to let your conquest be stopped by a trick of"
-            " the earth!");
-        return false;
-    }
-
-    // Ensure altars, items, and shops discovered at the moment
-    // the player gets shafted are correctly registered.
-    maybe_update_stashes();
-
-    down_stairs(DNGN_TRAP_SHAFT);
-
-    return true;
+    return false;
 }
 
 bool player::can_do_shaft_ability(bool quiet) const

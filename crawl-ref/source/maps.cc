@@ -899,7 +899,7 @@ static bool _is_extra_compatible(maybe_bool want_extra, bool have_extra)
 
 bool map_selector::accept(const map_def &mapdef) const
 {
-    if (crawl_state.game_is_descent() && mapdef.has_tag("no_descent"))
+    if (mapdef.has_tag("no_descent"))
         return false;
 
     switch (sel)

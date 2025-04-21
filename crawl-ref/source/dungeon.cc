@@ -479,13 +479,6 @@ static bool _build_level_vetoable(bool enable_random_maps)
 
     _dgn_set_floor_colours();
 
-    if (crawl_state.game_has_random_floors()
-        && !crawl_state.game_is_descent()
-        && !_valid_dungeon_level())
-    {
-        return false;
-    }
-
 #ifdef DEBUG_MONS_SCAN
     // If debug_mons_scan() finds a problem while crawl_state.generating_level is
     // still true then it will announce that a problem was caused
@@ -2246,11 +2239,8 @@ static bool _add_connecting_escape_hatches()
     if (branches[you.where_are_you].branch_flags & brflag::islanded)
         return true;
 
-    // Veto D:1 or Pan if there are disconnected areas.
-    // Veto any  non-abyss descent level with disconnected areas
-    if (player_in_branch(BRANCH_PANDEMONIUM)
-        || (player_in_branch(BRANCH_DUNGEON) && you.depth == 1)
-        || (crawl_state.game_is_descent() && !player_in_branch(BRANCH_ABYSS)))
+    // Veto any non-abyss descent level with disconnected areas
+    if (!player_in_branch(BRANCH_ABYSS))
     {
         // Allow == 0 in case the entire level is one opaque vault.
         return dgn_count_disconnected_zones(false) <= 1;
@@ -2810,11 +2800,8 @@ static void _build_dungeon_level()
     if (player_in_hell())
         _fixup_hell_stairs();
 
-    if (crawl_state.game_is_descent())
-    {
-        _fixup_descent_hatches();
-        _place_dungeon_exit();
-    }
+    _fixup_descent_hatches();
+    _place_dungeon_exit();
 }
 
 static void _dgn_set_floor_colours()
@@ -3805,7 +3792,7 @@ static void _place_branch_entrances(bool use_vaults)
             && ((you.depth >= it->mindepth
                  && you.depth <= it->maxdepth)
                 || level_id::current() == brentry[it->id]
-                || crawl_state.game_is_descent()))
+                || true))
         {
             could_be_placed = true;
         }
@@ -3831,11 +3818,9 @@ static void _place_branch_entrances(bool use_vaults)
             }
     }
 
-    if (crawl_state.game_is_descent())
-    {
-        ASSERT(you.props.exists(DESCENT_WATER_BRANCH_KEY));
-        ASSERT(you.props.exists(DESCENT_POIS_BRANCH_KEY));
-    }
+    // descent asserts
+    ASSERT(you.props.exists(DESCENT_WATER_BRANCH_KEY));
+    ASSERT(you.props.exists(DESCENT_POIS_BRANCH_KEY));
 
     // Place actual branch entrances.
     for (branch_iterator it; it; ++it)
@@ -3847,20 +3832,11 @@ static void _place_branch_entrances(bool use_vaults)
 
         bool brentry_allowed = false;
 
-        if (crawl_state.game_is_descent())
-        {
-            brentry_allowed = it->entry_stairs != NUM_FEATURES
-                && _in_descent_parent(it->id)
-                && it->id != you.props[DESCENT_WATER_BRANCH_KEY].get_int()
-                && it->id != you.props[DESCENT_POIS_BRANCH_KEY].get_int()
-                && at_branch_bottom();
-        }
-        else
-        {
-            brentry_allowed = it->entry_stairs != NUM_FEATURES
-                && player_in_branch(parent_branch(it->id))
-                && level_id::current() == brentry[it->id];
-        }
+        brentry_allowed = it->entry_stairs != NUM_FEATURES
+            && _in_descent_parent(it->id)
+            && it->id != you.props[DESCENT_WATER_BRANCH_KEY].get_int()
+            && it->id != you.props[DESCENT_POIS_BRANCH_KEY].get_int()
+            && at_branch_bottom();
 
         if (brentry_allowed)
         {
@@ -4535,7 +4511,7 @@ static const vault_placement *_build_vault_impl(const map_def *vault,
             throw dgn_veto_exception("Pan map with disconnected zones");
     }
 
-    if (crawl_state.game_is_descent() && vault->get_tags_unsorted().count("no_descent"))
+    if (vault->get_tags_unsorted().count("no_descent"))
         throw dgn_veto_exception("Illegal map for descent");
 
     unwind_var<string> placing(env.placing_vault, vault->name);
@@ -7608,11 +7584,6 @@ static void _mark_solid_squares()
 int starting_absdepth()
 {
     if (you.char_class == JOB_DELVER)
-    {
-        // makes delver sort of work in descent
-        if (crawl_state.game_is_descent())
-            return 1;
-        return 4;
-    }
+        return 1;
     return 0; // (absdepth is 0-indexed)
 }

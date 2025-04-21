@@ -387,7 +387,7 @@ static bool _check_fall_down_stairs(const dungeon_feature_type ftype, bool going
     if (!you.airborne()
         && you.confused()
         && !feat_is_escape_hatch(ftype)
-        && !crawl_state.game_is_descent()
+        && false
         && coinflip())
     {
         const char* fall_where = "down the stairs";
@@ -460,10 +460,6 @@ static void _maybe_use_runes(dungeon_feature_type ftype)
 {
     switch (ftype)
     {
-    case DNGN_ENTER_ZOT:
-        if (!you.level_visited(level_id(BRANCH_ZOT, 1)) && !crawl_state.game_is_descent())
-            _rune_effect(ftype);
-        break;
     case DNGN_EXIT_VAULTS:
         if (vaults_is_locked())
         {
@@ -1083,7 +1079,7 @@ void floor_transition(dungeon_feature_type how,
                               !forced);
 
         // scary hack!
-        if (crawl_state.game_is_descent() && !env.properties.exists(DESCENT_STAIRS_KEY))
+        if (!env.properties.exists(DESCENT_STAIRS_KEY))
             load_level(how, LOAD_RESTART_GAME, old_level);
     }
 

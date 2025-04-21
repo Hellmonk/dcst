@@ -253,9 +253,7 @@ void set_turns_until_zot(int turns_left)
 
 bool gem_clock_active()
 {
-    return !player_has_orb()
-           && !crawl_state.game_is_sprint()
-           && !crawl_state.game_is_descent();
+    return false;
 }
 
 /// Destroy all gems on the current floor. Note that there may be multiple, if
@@ -383,7 +381,7 @@ void maybe_break_floor_gem()
     const gem_type gem = gem_for_branch(you.where_are_you);
     if (gem != NUM_GEM_TYPES
         && !you.gems_shattered[gem]
-        && (crawl_state.game_is_descent() // No descent gems :(
+        && (true // No descent gems :(
             || gem_time_left(gem) <= 0))
     {
         _shatter_floor_gem(gem, true);

@@ -175,13 +175,10 @@ vector<branch_type> random_choose_disabled_branches()
         disabled_branch.push_back(swap_branches[i][random_choose(0,1)]);
 
     // Descent mode disables some other branches for dungeon structure reasons
-    if (crawl_state.game_is_descent())
-    {
-        disabled_branch.push_back(BRANCH_TEMPLE);
-        disabled_branch.push_back(BRANCH_TOMB);
-        you.props[DESCENT_WATER_BRANCH_KEY] = random_choose(BRANCH_SWAMP, BRANCH_SHOALS);
-        you.props[DESCENT_POIS_BRANCH_KEY] = random_choose(BRANCH_SPIDER, BRANCH_SNAKE);
-    }
+    disabled_branch.push_back(BRANCH_TEMPLE);
+    disabled_branch.push_back(BRANCH_TOMB);
+    you.props[DESCENT_WATER_BRANCH_KEY] = random_choose(BRANCH_SWAMP, BRANCH_SHOALS);
+    you.props[DESCENT_POIS_BRANCH_KEY] = random_choose(BRANCH_SPIDER, BRANCH_SNAKE);
 
     return disabled_branch;
 }

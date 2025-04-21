@@ -2631,7 +2631,7 @@ static bool _feat_is_descent_upstairs(dungeon_feature_type feat)
 
 void descent_crumble_stairs()
 {
-    if (!crawl_state.game_is_descent() || env.properties.exists(DESCENT_STAIRS_KEY))
+    if (env.properties.exists(DESCENT_STAIRS_KEY))
         return;
 
     for (rectangle_iterator ri(0); ri; ++ri)

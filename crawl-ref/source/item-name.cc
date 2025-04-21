@@ -2257,7 +2257,7 @@ void RuneMenu::set_footer()
 
 bool RuneMenu::can_show_gems()
 {
-    return !crawl_state.game_is_sprint() || !crawl_state.game_is_descent();
+    return !crawl_state.game_is_sprint();
 }
 
 bool RuneMenu::can_show_more_gems()
