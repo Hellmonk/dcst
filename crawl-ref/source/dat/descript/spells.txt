@@ -1256,7 +1256,7 @@ shorter time.
 %%%%
 Metal Splinters spell
 
-Fires a burst of metal splinters. Its damage is strongly reduced by armour.
+Fires a burst of metal splinters. Its damage is reduced thrice by armour.
 %%%%
 Miasma Breath spell
 
