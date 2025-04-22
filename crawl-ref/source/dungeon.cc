@@ -1605,10 +1605,12 @@ static int _num_items_wanted(int absdepth0)
 {
     if (branches[you.where_are_you].branch_flags & brflag::no_items)
         return 0;
-    else if (absdepth0 > 5 && one_chance_in(500 - 5 * absdepth0))
-        return 9 + random2avg(80, 2); // rich level!
-    else
+    else if (you.where_are_you == BRANCH_ORC)
         return 3 + roll_dice(3, 9);
+    else if (absdepth0 > 5 && one_chance_in(500 - 5 * absdepth0))
+        return 2 + random2avg(20, 2); // rich level!
+    else
+        return 1 + roll_dice(2, 3);
 }
 
 static int _mon_die_size()
@@ -4198,20 +4200,12 @@ static void _randomly_place_item(int item)
 static void _builder_items()
 {
     int i = 0;
-    object_class_type specif_type = OBJ_RANDOM;
+    object_class_type specif_type = OBJ_GOLD;
     int items_levels = env.absdepth0;
     int items_wanted = _num_items_wanted(items_levels);
 
-    if (player_in_branch(BRANCH_VAULTS))
-    {
-        items_levels *= 15;
-        items_levels /= 10;
-    }
-    else if (player_in_branch(BRANCH_ORC))
-    {
-        specif_type = OBJ_GOLD;  // Lots of gold in the orcish mines.
-        items_levels *= 2;       // Four levels' worth, in fact.
-    }
+    if (player_in_branch(BRANCH_ORC))
+        items_levels *= 2;       // Four levels' worth of gold.
 
     for (i = 0; i < items_wanted; i++)
     {
@@ -4947,6 +4941,10 @@ int dgn_place_item(const item_spec &spec,
     if (spec.base_type == OBJ_UNASSIGNED)
         return NON_ITEM;
 
+    // Remove floor items sorry bye
+    if (spec.base_type != OBJ_RUNES && spec.base_type != OBJ_GOLD)
+        return NON_ITEM;
+
     const int level = _concretize_level(spec.level, dgn_level);
     const object_class_type base_type = _concretize_type(spec);
 
@@ -5508,7 +5506,7 @@ static void _vault_grid_glyph(vault_placement &place, const coord_def& where,
     }
 
     // Then, handle grids that place "stuff" {dlb}:
-    if (vgrid == '$' || vgrid == '%' || vgrid == '*' || vgrid == '|')
+    if (vgrid == '$')
     {
         int item_made = NON_ITEM;
         object_class_type which_class = OBJ_RANDOM;
