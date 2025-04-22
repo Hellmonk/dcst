@@ -106,11 +106,11 @@ int bezotting_level_in(branch_type br)
         return 0;
 
     const int remaining_turns = turns_until_zot_in(br) * _zot_lifespan_div();
-    if (remaining_turns < 100)
+    if (remaining_turns < 50)
         return 3;
-    if (remaining_turns < 500)
+    if (remaining_turns < 150)
         return 2;
-    if (remaining_turns < 1000)
+    if (remaining_turns < 500)
         return 1;
     return 0;
 }
@@ -205,7 +205,7 @@ void incr_zot_clock()
         dec_max_hp(loss);
         interrupt_activity(activity_interrupt::force);
 
-        set_turns_until_zot(you.has_mutation(MUT_SHORT_LIFESPAN) ? 200 : 1000);
+        set_turns_until_zot(150);
     }
 
     const int lvl = bezotting_level();
