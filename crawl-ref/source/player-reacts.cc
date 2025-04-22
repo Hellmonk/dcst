@@ -1182,8 +1182,6 @@ void player_reacts()
 
     you.handle_constriction();
 
-    _regenerate_hp_and_mp(you.time_taken);
-
     if (you.duration[DUR_CELEBRANT_COOLDOWN] && you.hp == you.hp_max)
     {
         mprf(MSGCH_DURATION, "You are ready to perform a blood rite again.");

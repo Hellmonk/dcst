@@ -1114,6 +1114,8 @@ int player_regen()
         rr += REGEN_PIP + (REGEN_PIP * (piety_rank(you.piety) - 1)) / 5;
     }
 
+    rr /= 2;
+
     return rr;
 }
 
@@ -1148,6 +1150,8 @@ int player_mp_regen()
     }
 
     regen_amount += get_form()->mp_regen_bonus();
+
+    regen_amount /= 2;
 
     return regen_amount;
 }
@@ -5627,24 +5631,9 @@ bool player::is_banished() const
 
 bool player::is_sufficiently_rested(bool starting) const
 {
-    // Only return false if resting will actually help. Anything here should
-    // explicitly trigger an appropriate activity interrupt to prevent infinite
-    // resting (and shouldn't just rely on a message interrupt).
-    // if an interrupt is disabled, we don't count it at all for resting. (So
-    // if someone disables all these interrupts, resting becomes impossible.)
-    const bool hp_interrupts = Options.activity_interrupts["rest"][
-                                static_cast<int>(activity_interrupt::full_hp)];
-    const bool mp_interrupts = Options.activity_interrupts["rest"][
-                                static_cast<int>(activity_interrupt::full_mp)];
     const bool can_freely_move = you.is_motile() && !you.duration[DUR_BARBS];
 
-    return (!player_regenerates_hp()
-                || _should_stop_resting(hp, hp_max, !starting)
-                || !hp_interrupts)
-        && (!player_regenerates_mp()
-                || _should_stop_resting(magic_points, max_magic_points, !starting)
-                || !mp_interrupts)
-        && (can_freely_move || !hp_interrupts);
+    return can_freely_move;
 }
 
 bool player::in_water() const

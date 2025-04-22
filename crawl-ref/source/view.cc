@@ -55,6 +55,7 @@
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "player-reacts.h" // maybe_attune_regen_items
 #include "random.h"
 #include "religion.h"
 #include "shout.h"
@@ -1047,11 +1048,56 @@ void flash_view_delay(use_animation_type a, colour_t colour, int flash_delay,
 
 static void _do_explore_healing()
 {
-    // Full heal in, on average, 420 tiles. (270 for MP.)
-    const int healing = div_rand_round(random2(you.hp_max), 210);
-    inc_hp(healing);
-    const int mp = div_rand_round(random2(you.max_magic_points), 135);
-    inc_mp(mp);
+    if (crawl_state.disables[DIS_PLAYER_REGEN])
+        return;
+
+    const int old_hp = you.hp;
+    const int old_mp = you.magic_points;
+
+    // HP Regeneration
+    if (!you.duration[DUR_DEATHS_DOOR])
+    {
+        const int base_val = player_regen();
+        you.hit_points_regeneration += base_val;
+    }
+
+    while (you.hit_points_regeneration >= 100)
+    {
+        // at low mp, "mana link" restores mp in place of hp
+        if (you.has_mutation(MUT_MANA_LINK)
+            && !x_chance_in_y(you.magic_points, you.max_magic_points))
+        {
+            inc_mp(1);
+        }
+        else // standard hp regeneration
+            inc_hp(1);
+        you.hit_points_regeneration -= 100;
+    }
+
+    ASSERT_RANGE(you.hit_points_regeneration, 0, 100);
+
+    // MP Regeneration
+    if (player_regenerates_mp())
+    {
+        if (you.magic_points < you.max_magic_points)
+        {
+            const int base_val = player_mp_regen();
+            you.magic_points_regeneration += base_val;
+        }
+
+        while (you.magic_points_regeneration >= 100)
+        {
+            inc_mp(1);
+            you.magic_points_regeneration -= 100;
+        }
+
+        ASSERT_RANGE(you.magic_points_regeneration, 0, 100);
+    }
+
+    // Update attunement of regeneration items if our hp/mp has refilled.
+    maybe_attune_regen_items(you.hp != old_hp && you.hp == you.hp_max,
+                             you.magic_points != old_mp
+                             && you.magic_points == you.max_magic_points);
 }
 
 enum class update_flag
@@ -1104,8 +1150,7 @@ static update_flags player_view_update_at(const coord_def &gc)
     if (!(env.pgrid(gc) & FPROP_SEEN_OR_NOEXP))
     {
         if (!crawl_state.game_is_arena()
-            && !(branches[you.where_are_you].branch_flags & brflag::fully_map)
-            && you.has_mutation(MUT_EXPLORE_REGEN))
+            && !(branches[you.where_are_you].branch_flags & brflag::fully_map))
         {
             _do_explore_healing();
         }
