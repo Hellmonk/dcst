@@ -1093,7 +1093,7 @@ void StashTracker::update_visible_stashes()
             lev->add_stash(*ri);
         }
 
-        if (feat == DNGN_ENTER_SHOP)
+        if (feat == DNGN_ENTER_SHOP || feat == DNGN_ENTER_VENDOR)
             get_shop(*ri);
     }
 

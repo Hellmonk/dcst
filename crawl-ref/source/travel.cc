@@ -1034,6 +1034,12 @@ static command_type _get_non_move_command()
     return feat_stair_direction(env.grid(you.pos()));
 }
 
+static bool _on_explore_enterable_feature()
+{
+    return env.grid(you.pos()) == DNGN_ENTER_SHOP
+            || env.grid(you.pos()) == DNGN_ENTER_VENDOR;
+}
+
 // Top-level travel control (called indirectly from TravelDelay::handle()).
 //
 // travel() is responsible for making the individual moves that constitute
@@ -1075,7 +1081,7 @@ command_type travel()
         }
 
         // Exploring.
-        if (env.grid(you.pos()) == DNGN_ENTER_SHOP
+        if (_on_explore_enterable_feature()
             && you.running == RMODE_EXPLORE_GREEDY)
         {
             LevelStashes *lev = StashTrack.find_current_level();
@@ -4792,7 +4798,8 @@ static bool _feat_is_branchlike(dungeon_feature_type feat)
 void explore_discoveries::found_feature(const coord_def &pos,
                                         dungeon_feature_type feat)
 {
-    if (feat == DNGN_ENTER_SHOP && ES_shop)
+    if (feat == DNGN_ENTER_SHOP && ES_shop
+        || feat == DNGN_ENTER_VENDOR && ES_shop)
     {
         shops.emplace_back(shop_name(*shop_at(pos)), feat);
         es_flags |= ES_SHOP;

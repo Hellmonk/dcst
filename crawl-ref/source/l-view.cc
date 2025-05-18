@@ -295,7 +295,7 @@ LUAFN(view_get_map)
 
         if (is_excluded(p))
             LUA_PUSHBOOL("excluded", true);
-        if (feat == DNGN_ENTER_SHOP)
+        if (feat == DNGN_ENTER_SHOP || feat == DNGN_ENTER_VENDOR)
         {
             LevelStashes *lev = StashTrack.find_current_level();
             if (lev && lev->shop_needs_visit(p))

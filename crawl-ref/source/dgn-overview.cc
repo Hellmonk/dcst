@@ -112,7 +112,7 @@ void seen_notable_thing(dungeon_feature_type which_thing, const coord_def& pos)
     {
         _seen_staircase(pos);
     }
-    else if (which_thing == DNGN_ENTER_SHOP)
+    else if (which_thing == DNGN_ENTER_SHOP || which_thing == DNGN_ENTER_VENDOR)
         _seen_shop(pos);
     else if (feat_is_gate(which_thing)) // overinclusive
         _seen_portal(which_thing, pos);

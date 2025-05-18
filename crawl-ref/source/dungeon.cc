@@ -1477,17 +1477,6 @@ static bool _ensure_vault_placed_ex(bool vault_success, const map_def *vault)
                                     vault->name);
 }
 
-static coord_def _find_level_feature(int feat)
-{
-    for (rectangle_iterator ri(1); ri; ++ri)
-    {
-        if (env.grid(*ri) == feat)
-            return *ri;
-    }
-
-    return coord_def(0, 0);
-}
-
 static bool _has_connected_stone_stairs_from(const coord_def &c)
 {
     flood_find<feature_grid, coord_predicate> ff(env.grid, in_bounds);
@@ -1500,27 +1489,6 @@ static bool _has_connected_stone_stairs_from(const coord_def &c)
 
     coord_def where = ff.find_first_from(c, env.level_map_mask);
     return where.x || !ff.did_leave_vault();
-}
-
-static bool _has_connected_downstairs_from(const coord_def &c)
-{
-    flood_find<feature_grid, coord_predicate> ff(env.grid, in_bounds);
-    ff.add_feat(DNGN_STONE_STAIRS_DOWN_I);
-    ff.add_feat(DNGN_STONE_STAIRS_DOWN_II);
-    ff.add_feat(DNGN_STONE_STAIRS_DOWN_III);
-    ff.add_feat(DNGN_ESCAPE_HATCH_DOWN);
-
-    coord_def where = ff.find_first_from(c, env.level_map_mask);
-    return where.x || !ff.did_leave_vault();
-}
-
-static bool _is_level_stair_connected(dungeon_feature_type feat)
-{
-    coord_def up = _find_level_feature(feat);
-    if (up.x && up.y)
-        return _has_connected_downstairs_from(up);
-
-    return false;
 }
 
 void dgn_reset_level(bool enable_random_maps)
@@ -6298,7 +6266,7 @@ void place_vendor(const coord_def& where, bool consumables)
 
     _set_grd(where, DNGN_ENTER_VENDOR);
 
-    const int num_items = 4 + you.get_mutation_level(MUT_ITEM_CHOICES);
+    const int num_items = 5 + you.get_mutation_level(MUT_ITEM_CHOICES);
 
     shop.stock.clear();
     for (int j = 0; j < num_items; j++)

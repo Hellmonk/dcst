@@ -48,6 +48,7 @@
 #include "skills.h"
 #include "spl-book.h"
 #include "spl-util.h"
+#include "stash.h"
 #include "state.h"
 #include "stringutil.h"
 #include "tag-version.h"
@@ -141,7 +142,7 @@ static equipment_slot _acquirement_armour_slot(int agent)
     }
 
     vector<pair<equipment_slot, int>> weights = {
-        { SLOT_BODY_ARMOUR,   (agent == GOD_OKAWARU ? 6 : 2) },
+        { SLOT_BODY_ARMOUR,   (agent == GOD_OKAWARU ? 6 : 3) },
         { SLOT_OFFHAND,       1 },
         { SLOT_CLOAK,         (_armour_slot_seen(SLOT_CLOAK)   ? 1 : 3) },
         { SLOT_HELMET,        (_armour_slot_seen(SLOT_HELMET)  ? 1 : 3) },
@@ -562,15 +563,6 @@ static const vector<pair<misc_item_type, int> > _misc_base_weights()
         if (you.seen_misc[p.first])
             p.second = 0;
     return choices;
-}
-
-static bool _unided_acq_misc()
-{
-    const vector<pair<misc_item_type, int> > choices = _misc_base_weights();
-    for (auto &p : choices)
-        if (p.second > 0)
-            return true;
-    return false;
 }
 
 /**
@@ -1555,7 +1547,8 @@ AcquireMenu::AcquireMenu(CrawlVector &aitems, string ikey,
               | MF_ALLOW_FORMATTING | MF_INIT_HOVER),
       acq_items(aitems),
       items_key(ikey),
-      is_gizmo(_is_gizmo)
+      is_gizmo(_is_gizmo),
+      is_vendor(_is_vendor)
 {
     menu_action = ACT_EXECUTE;
     action_cycle = CYCLE_TOGGLE;
@@ -1760,7 +1753,7 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll, bool vendor)
         // other (either they are exactly what your pure caster wants
         // or they are the wrong staff or you aren't interested in
         // staves). So make this option a bit rarer.
-        if (coinflip())
+        if (one_chance_in(3))
             rand_classes.emplace_back(OBJ_STAVES);
     }
 
@@ -1777,20 +1770,11 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll, bool vendor)
             rand_classes.emplace_back(OBJ_TALISMANS);
     }
 
-    // dungeon generation
-    if (!scroll && !vendor)
-    {
-        if (_unided_acq_misc())
-            rand_classes.emplace_back(OBJ_MISCELLANY);
-
-        rand_classes.emplace_back(OBJ_WANDS);
-    }
-
     if (vendor)
     {
         if (x_chance_in_y(2,3) && !you.has_mutation(MUT_NO_ARTIFICE))
             rand_classes.emplace_back(OBJ_MISCELLANY);
-        if (one_chance_in(3) && !you.has_mutation(MUT_NO_GRASPING))
+        if (one_chance_in(4) && !you.has_mutation(MUT_NO_GRASPING))
             rand_classes.emplace_back(OBJ_MISSILES);
     }
 
@@ -1852,6 +1836,8 @@ void vend()
 
     AcquireMenu acq_menu(vendor_items, VENDOR_ITEMS_KEY, false, true);
     acq_menu.show();
+
+    StashTrack.get_shop(vendor.pos) = ShopInfo(vendor);
 
     if (!you.props.exists(VENDOR_ITEMS_KEY))
         destroy_shop_at(you.pos());
