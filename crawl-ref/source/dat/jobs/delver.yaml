@@ -12,6 +12,8 @@ equipment:
   - "scroll of fear"
   - "potion of haste"
   - "wand of digging charges:3"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: plain
 recommended_species:
   - felid

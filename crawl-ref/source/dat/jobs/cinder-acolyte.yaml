@@ -10,6 +10,8 @@ spells:
   - SPELL_SCORCH
 equipment:
   - "robe"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: plain
 recommended_species:
   - mountain dwarf

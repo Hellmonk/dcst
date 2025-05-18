@@ -7,6 +7,8 @@ int: -1
 dex: 4
 equipment:
   - "animal skin"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: plain
 recommended_species:
   - mountain dwarf

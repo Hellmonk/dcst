@@ -11,6 +11,8 @@ equipment:
   - "cloak"
   - "dart ego:poisoned q:9"
   - "dart ego:curare q:3"
+  - "scroll of teleportation"
+  - "potion of curing"
 recommended_species:
   - troll
   - spriggan

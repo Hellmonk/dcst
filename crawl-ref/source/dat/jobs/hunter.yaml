@@ -9,6 +9,8 @@ equipment:
   - "shortbow"
   - "leather armour"
   - "scroll of butterflies no_exclude"
+  - "scroll of teleportation"
+  - "potion of curing"
 recommended_species:
   - minotaur
   - gnoll

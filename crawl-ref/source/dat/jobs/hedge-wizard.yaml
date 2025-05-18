@@ -17,6 +17,8 @@ equipment:
   - "robe"
   - "hat"
   - "potion of magic"
+  - "scroll of teleportation"
+  - "potion of curing"
 recommended_species:
   - deep elf
   - naga

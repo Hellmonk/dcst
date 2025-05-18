@@ -9,6 +9,8 @@ equipment:
   - "scale mail"
   - "buckler"
   - "potion of might q:2"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: good
 recommended_species:
   - mountain dwarf

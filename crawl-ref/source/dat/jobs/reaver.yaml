@@ -12,6 +12,8 @@ spells:
   - SPELL_RENDING_BLADE
 equipment:
   - "leather armour"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: plain
 recommended_species:
   - gnoll

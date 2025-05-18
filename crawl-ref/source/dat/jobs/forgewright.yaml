@@ -16,6 +16,8 @@ equipment:
   - "mace tile:wpn_hammer wtile:hammer itemname:hammer"
   - "robe"
   - "potion of magic"
+  - "scroll of teleportation"
+  - "potion of curing"
 recommended_species:
   - mountain dwarf
   - coglin

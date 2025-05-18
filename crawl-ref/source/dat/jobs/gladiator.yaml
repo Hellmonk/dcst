@@ -9,6 +9,8 @@ equipment:
   - "leather armour"
   - "helmet"
   - "throwing net q:3"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: good
 recommended_species:
   - mountain dwarf

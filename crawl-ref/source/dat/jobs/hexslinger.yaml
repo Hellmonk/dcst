@@ -16,6 +16,8 @@ equipment:
   - "robe"
   - "scroll of poison"
   - "sling plus:1"
+  - "scroll of teleportation"
+  - "potion of curing"
 recommended_species:
   - formicid
   - deep elf

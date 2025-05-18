@@ -16,6 +16,8 @@ equipment:
   - "leather armour"
   - "scroll of blinking"
   - "dart ego:disjunction q:4"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: plain
 recommended_species:
   - felid

@@ -11,6 +11,8 @@ equipment:
   - "wand of flame charges:15"
   - "wand of charming charges:15 no_exclude"
   - "wand of iceblast charges:5 no_exclude"
+  - "scroll of teleportation"
+  - "potion of curing"
 recommended_species:
   - kobold
   - spriggan

@@ -9,6 +9,8 @@ equipment:
   - "robe"
   - "potion of ambrosia"
   - "orb ego:light"
+  - "scroll of teleportation"
+  - "potion of curing"
 weapon_choice: plain
 recommended_species:
   - mountain dwarf
