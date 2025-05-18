@@ -47,7 +47,7 @@ enum run_mode_type
     RMODE_NOT_RUNNING    = 0,  // must remain equal to 0
     RMODE_CONTINUE,
     RMODE_START,
-    RMODE_WAIT_DURATION = 100,
+    RMODE_WAIT_DURATION = 10,
     RMODE_REST_DURATION = 9999999, // just rest until fully healed
     RMODE_CONNECTIVITY,        // Pathfinding connectivity check, not running.
 };

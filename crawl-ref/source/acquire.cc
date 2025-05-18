@@ -1770,6 +1770,10 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll, bool vendor)
             rand_classes.emplace_back(OBJ_TALISMANS);
     }
 
+    // dungeon generation
+    if (!scroll && !vendor)
+        rand_classes.emplace_back(OBJ_MISCELLANY);
+
     if (vendor)
     {
         if (x_chance_in_y(2,3) && !you.has_mutation(MUT_NO_ARTIFICE))
