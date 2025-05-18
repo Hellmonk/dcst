@@ -223,6 +223,7 @@ dungeon_feature_type sanitize_feature(dungeon_feature_type feature, bool strict)
         case DNGN_LAVA_SEA:
             return DNGN_LAVA;
         case DNGN_ENTER_SHOP:
+        case DNGN_ENTER_VENDOR:
             return DNGN_ABANDONED_SHOP;
         case DNGN_FOUNTAIN_BLUE:
         case DNGN_FOUNTAIN_SPARKLING:

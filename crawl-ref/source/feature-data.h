@@ -749,4 +749,11 @@ FOUNTAIN(DNGN_RUNELIGHT, "runelight", "runelight", ETC_DISJUNCTION),
     FFT_OPAQUE | FFT_WALL | FFT_SOLID, MF_WALL,
 },
 
+{
+    DNGN_ENTER_VENDOR, "vending machine", "vending machine",
+    DCHAR_ARCH, NUM_DCHAR_TYPES,
+    GREEN, LIGHTGREY, GREEN, GREEN, LIGHTGREY,
+    FFT_NOTABLE, MF_FEATURE,
+},
+
 };

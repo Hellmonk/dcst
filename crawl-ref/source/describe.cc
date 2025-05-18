@@ -3433,7 +3433,7 @@ void get_feature_desc(const coord_def &pos, describe_info &inf, bool include_ext
             make_stringf("\nPray here with <w>%s</w> to learn more.\n",
                          command_to_string(CMD_GO_DOWNSTAIRS).c_str());
     }
-    else if (feat == DNGN_ENTER_SHOP)
+    else if (feat == DNGN_ENTER_SHOP || feat == DNGN_ENTER_VENDOR)
     {
         long_desc += make_stringf(
                 "\nWhile standing here, you can enter <w>%s</w> with "

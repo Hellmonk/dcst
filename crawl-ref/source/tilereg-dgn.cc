@@ -971,6 +971,8 @@ bool tile_dungeon_tip(const coord_def &gc, string &tip)
             _add_tip(tip, "[Shift + L-Click] ");
             if (feat == DNGN_ENTER_SHOP)
                 tip += "enter shop";
+            else if (feat == DNGN_ENTER_VENDOR)
+                tip += "enter vending machine";
             else if (feat_is_altar(feat)
                      && player_can_join_god(feat_altar_god(feat)))
             {

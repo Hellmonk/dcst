@@ -611,19 +611,21 @@ static int _acquirement_misc_subtype(int & /*quantity*/,
 static int _acquirement_wand_subtype(int & /*quantity*/,
                                      int /*agent */)
 {
-    const auto hex_wand_type = (wand_type)item_for_set(ITEM_SET_HEX_WANDS);
-    const auto beam_wand_type = (wand_type)item_for_set(ITEM_SET_BEAM_WANDS);
-    const auto blast_wand_type = (wand_type)item_for_set(ITEM_SET_BLAST_WANDS);
-    const int hex_wand_weight = hex_wand_type == WAND_CHARMING
-                                && you.allies_forbidden() ? 0 : 20;
+    const bool no_allies = you.allies_forbidden();
+    const bool no_poly = you.religion == GOD_ZIN;
     vector<pair<wand_type, int>> weights = {
-        { beam_wand_type, 20 },
-        { blast_wand_type, 20 },
-        { hex_wand_type,  hex_wand_weight },
-        { WAND_MINDBURST, 8 },
-        { WAND_POLYMORPH, 5 },
+        { WAND_PARALYSIS, 10 },
+        { WAND_CHARMING, no_allies ? 0 : 10 },
+        { WAND_POLYMORPH, no_poly ? 0 : 10 },
+        { WAND_MINDBURST, 10 },
+        { WAND_ICEBLAST, 8 },
+        { WAND_ACID, 8 },
+        { WAND_LIGHT, 8 },
+        { WAND_QUICKSILVER, 8 },
+        { WAND_ROOTS, 8 },
+        { WAND_WARPING, 8 },
         { WAND_DIGGING,   5 },
-        { WAND_FLAME,     2 },
+        { WAND_FLAME,     5 },
     };
 
     // Unknown wands get a huge weight bonus.
@@ -719,6 +721,69 @@ static int _acquirement_talisman_subtype(int & /*quantity*/,
     return talisman;
 }
 
+static int _acquirement_scroll_subtype(int & /*quantity*/,
+                                        int /*agent*/)
+{
+    const bool stasis = you.stasis();
+    const bool no_allies = you.allies_forbidden();
+    const bool no_armour = !player_can_use_armour();
+    const bool no_weapons = you.has_mutation(MUT_NO_GRASPING);
+    const bool no_evil = is_good_god(you.religion);
+
+    return random_choose_weighted(stasis ? 0 : 10, SCR_TELEPORTATION,
+                                  10, SCR_FEAR,
+                                  no_allies ? 0 : 10, SCR_SUMMONING,
+                                  no_weapons ? 0 : 10, SCR_ENCHANT_WEAPON,
+                                  no_armour ? 0 : 10, SCR_ENCHANT_ARMOUR,
+                                  no_evil ? 0 : 10, SCR_TORMENT,
+                                  10, SCR_IMMOLATION,
+                                  stasis ? 0 : 10, SCR_BLINKING,
+                                  10, SCR_REVELATION,
+                                  10, SCR_FOG,
+                                  no_weapons ? 0 : 10, SCR_BRAND_WEAPON,
+                                  10, SCR_VULNERABILITY,
+                                  10, SCR_SILENCE,
+                                  10, SCR_POISON,
+                                  no_allies ? 0 : 10, SCR_BUTTERFLIES,
+                                  1, SCR_ACQUIREMENT);
+}
+
+static int _acquirement_potion_subtype(int & /*quantity*/,
+                                        int /*agent*/)
+{
+    const bool stasis = you.stasis();
+    const bool no_potion_heal = you.get_mutation_level(MUT_NO_POTION_HEAL) >= 2;
+    const bool no_spells = you.religion == GOD_TROG;
+    const bool haloed = you.religion == GOD_SHINING_ONE;
+    const bool no_mutation = you.religion == GOD_ZIN || you.undead_state(false);
+
+    return random_choose_weighted(no_potion_heal ? 15 : 20, POT_CURING,
+                                  no_potion_heal ? 0 : 10, POT_HEAL_WOUNDS,
+                                  stasis ? 0 : 10, POT_HASTE,
+                                  10, POT_MIGHT,
+                                  no_spells ? 0 : 10, POT_BRILLIANCE,
+                                  10, POT_ATTRACTION,
+                                  10, POT_ENLIGHTENMENT,
+                                  10, POT_CANCELLATION,
+                                  10, POT_AMBROSIA,
+                                  haloed ? 0 : 10, POT_INVISIBILITY,
+                                  no_spells ? 0 : 10, POT_MAGIC,
+                                  10, POT_BERSERK_RAGE,
+                                  no_mutation ? 0 : 10, POT_MUTATION,
+                                  10, POT_RESISTANCE,
+                                  no_mutation ? 0 : 10, POT_LIGNIFY,
+                                  1, POT_EXPERIENCE);
+}
+
+static int _acquirement_bauble_subtype(int & /*quantity*/,
+                                        int /*agent*/)
+{
+    //you will get flux baubles and you will like them
+    bauble_type bauble = BAUBLE_FLUX;
+
+    return bauble;
+}
+
 typedef int (*acquirement_subtype_finder)(int &quantity, int agent);
 static const acquirement_subtype_finder _subtype_finders[] =
 {
@@ -729,9 +794,9 @@ static const acquirement_subtype_finder _subtype_finders[] =
 #if TAG_MAJOR_VERSION == 34
     0, // no food
 #endif
-    0, // no scrolls
+    _acquirement_scroll_subtype,
     _acquirement_jewellery_subtype,
-    0, // no potions
+    _acquirement_potion_subtype,
     _acquirement_book_subtype,
     _acquirement_staff_subtype,
     0, // no, you can't acquire the orb
@@ -745,7 +810,7 @@ static const acquirement_subtype_finder _subtype_finders[] =
     _acquirement_talisman_subtype,
     0, // no gems either
     0, // no gizmos (handled elsewhere)
-    0, // no baubles
+    _acquirement_bauble_subtype,
 };
 
 static int _find_acquirement_subtype(object_class_type &class_wanted,
@@ -892,25 +957,10 @@ static bool _should_acquire_manual(int agent)
     if (agent == GOD_XOM || agent == GOD_SIF_MUNA)
         return false;
 
-    int magic_weights = 0;
-    int other_weights = 0;
-
-    for (skill_type sk = SK_FIRST_SKILL; sk < NUM_SKILLS; ++sk)
-    {
-        const int weight = _skill_rdiv(sk);
-
-        if (_is_magic_skill(sk))
-            magic_weights += weight;
-        else
-            other_weights += weight;
-    }
-
     if (you_worship(GOD_TROG))
-        magic_weights = 0;
+        return true;
 
-    // Give magic skills double the weight of non-magic skills, since
-    // even a pure caster will be training various non-magic skills.
-    return x_chance_in_y(other_weights, 2*magic_weights + other_weights);
+    return one_chance_in(4);
 }
 
 /**
@@ -931,14 +981,14 @@ static bool _acquire_manual(item_def &book)
         if (skl == 27 || is_useless_skill(sk))
             continue;
 
-        int w = (skl < 12) ? skl + 3 : max(0, 25 - skl);
+        int w = 2 + max(0, 25 - skl);
 
         // Greatly reduce the chances of getting a manual for a skill
         // you couldn't use unless you switched your religion.
         // Note: manuals that gods actively hate, e.g. spellcasting under
         // Trog, will be mulched and replaced later. This is silly!
         if (_skill_useless_with_god(sk))
-            w /= 2;
+            w = 0;
 
         weights[sk] = w;
         total_weights += w;
@@ -1168,6 +1218,70 @@ static string _why_reject(const item_def &item, int agent)
     return ""; // all OK
 }
 
+static int _item_quant_for_type(object_class_type basetype, int subtype)
+{
+    if (basetype == OBJ_BAUBLES)
+        return 3 + random2(6);
+
+    if (basetype == OBJ_POTIONS)
+    {
+        switch (subtype)
+        {
+        case POT_CURING:
+            return 2 + random2(4) + random2(4);
+        case POT_ATTRACTION:
+        case POT_AMBROSIA:
+        case POT_LIGNIFY:
+        case POT_BERSERK_RAGE:
+        case POT_ENLIGHTENMENT:
+            return 1 + random2(3) + random2(4);
+        case POT_MIGHT:
+        case POT_BRILLIANCE:
+        case POT_RESISTANCE:
+        case POT_CANCELLATION:
+        case POT_INVISIBILITY:
+        case POT_MUTATION:
+            return 1 + coinflip() + random2(3);
+        case POT_HASTE:
+        case POT_HEAL_WOUNDS:
+        case POT_MAGIC:
+            return 1 + coinflip();
+        default:
+            return 1;
+        }
+    }
+
+    if (basetype == OBJ_SCROLLS)
+    {
+        switch (subtype)
+        {
+            case SCR_ENCHANT_ARMOUR:
+            case SCR_ENCHANT_WEAPON:
+                return 2 + random2(5);
+            case SCR_IMMOLATION:
+            case SCR_SILENCE:
+            case SCR_TORMENT:
+            case SCR_VULNERABILITY:
+            case SCR_POISON:
+                return 1 + random2(3) + random2(4);
+            case SCR_FOG:
+            case SCR_TELEPORTATION:
+            case SCR_BRAND_WEAPON:
+            case SCR_REVELATION:
+            case SCR_SUMMONING:
+            case SCR_BUTTERFLIES:
+            case SCR_FEAR:
+                return 1 + coinflip() + random2(3);
+            case SCR_BLINKING:
+                return 1 + one_chance_in(5);
+            default:
+                return 1;
+        }
+    }
+
+    return 1;
+}
+
 int acquirement_create_item(object_class_type class_wanted,
                             int agent, bool quiet,
                             const coord_def &pos)
@@ -1239,7 +1353,11 @@ int acquirement_create_item(object_class_type class_wanted,
         ASSERT(acq_item.is_valid());
 
         if (class_wanted == OBJ_WANDS)
+        {
             acq_item.plus = max(static_cast<int>(acq_item.plus), 3 + random2(3));
+            if (acq_item.sub_type == WAND_FLAME)
+                acq_item.plus += random2(9);
+        }
         else if (class_wanted == OBJ_GOLD)
             acq_item.quantity = random_range(200, 1400, 2);
         else if (class_wanted == OBJ_MISSILES)
@@ -1250,6 +1368,11 @@ int acquirement_create_item(object_class_type class_wanted,
                 acq_item.quantity = max(1, acq_item.quantity / 2);
             else
                 acq_item.quantity *= 5;
+        }
+        else if (class_wanted == OBJ_POTIONS || class_wanted == OBJ_SCROLLS
+                 || class_wanted == OBJ_BAUBLES)
+        {
+            acq_item.quantity = _item_quant_for_type(acq_item.base_type, acq_item.sub_type);
         }
         else if (quant > 1)
             acq_item.quantity = quant;
@@ -1388,13 +1511,14 @@ class AcquireMenu : public InvMenu
     string items_key;
 
     bool is_gizmo;
+    bool is_vendor;
 
     void init_entries();
     string get_keyhelp(bool unused) const override;
     bool examine_index(int i) override;
     bool skip_process_command(int keyin) override;
 public:
-    AcquireMenu(CrawlVector &aitems, string ikey, bool is_gizmo);
+    AcquireMenu(CrawlVector &aitems, string ikey, bool is_gizmo, bool is_vendor);
 };
 
 class AcquireEntry : public InvEntry
@@ -1426,7 +1550,7 @@ public:
 };
 
 AcquireMenu::AcquireMenu(CrawlVector &aitems, string ikey,
-                         bool _is_gizmo = false)
+                         bool _is_gizmo = false, bool _is_vendor = false)
     : InvMenu(MF_SINGLESELECT | MF_QUIET_SELECT
               | MF_ALLOW_FORMATTING | MF_INIT_HOVER),
       acq_items(aitems),
@@ -1443,6 +1567,8 @@ AcquireMenu::AcquireMenu(CrawlVector &aitems, string ikey,
 
     if (is_gizmo)
         set_title("Choose a gizmo to assemble.");
+    else if (is_vendor)
+        set_title("Choose an item to dispense.");
     else
         set_title("Choose an item to acquire.");
 }
@@ -1620,7 +1746,7 @@ static item_def _acquirement_item_def(object_class_type item_type, int agent)
     return item;
 }
 
-vector<object_class_type> shuffled_acquirement_classes(bool scroll)
+vector<object_class_type> shuffled_acquirement_classes(bool scroll, bool vendor)
 {
     vector<object_class_type> rand_classes;
 
@@ -1634,24 +1760,25 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll)
         // other (either they are exactly what your pure caster wants
         // or they are the wrong staff or you aren't interested in
         // staves). So make this option a bit rarer.
-        if (one_chance_in(3))
+        if (coinflip())
             rand_classes.emplace_back(OBJ_STAVES);
     }
 
     if (!you.has_mutation(MUT_NO_JEWELLERY))
         rand_classes.emplace_back(OBJ_JEWELLERY);
 
-    rand_classes.emplace_back(OBJ_BOOKS);
+    if (!vendor || x_chance_in_y(2,3))
+        rand_classes.emplace_back(OBJ_BOOKS);
 
     if (!you_worship(GOD_ZIN) && !you.has_mutation(MUT_NO_FORMS))
     {
         // We want talisman acq to be rarer than others.
-        if (x_chance_in_y(45, 100))
+        if (x_chance_in_y(33, 100))
             rand_classes.emplace_back(OBJ_TALISMANS);
     }
 
     // dungeon generation
-    if (!scroll)
+    if (!scroll && !vendor)
     {
         if (_unided_acq_misc())
             rand_classes.emplace_back(OBJ_MISCELLANY);
@@ -1659,8 +1786,79 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll)
         rand_classes.emplace_back(OBJ_WANDS);
     }
 
+    if (vendor)
+    {
+        if (x_chance_in_y(2,3) && !you.has_mutation(MUT_NO_ARTIFICE))
+            rand_classes.emplace_back(OBJ_MISCELLANY);
+        if (one_chance_in(3) && !you.has_mutation(MUT_NO_GRASPING))
+            rand_classes.emplace_back(OBJ_MISSILES);
+    }
+
     shuffle_array(rand_classes);
     return rand_classes;
+}
+
+vector<object_class_type> consumable_vendor_classes()
+{
+    vector<object_class_type> rand_classes;
+
+    if (you.can_drink(false))
+        rand_classes.emplace_back(OBJ_POTIONS);
+
+    rand_classes.emplace_back(OBJ_SCROLLS);
+
+    if (!you.has_mutation(MUT_NO_ARTIFICE))
+    {
+        if (one_chance_in(4))
+            rand_classes.emplace_back(OBJ_MISCELLANY);
+
+        rand_classes.emplace_back(OBJ_WANDS);
+    }
+
+    if (!you.has_mutation(MUT_NO_GRASPING) && coinflip())
+        rand_classes.emplace_back(OBJ_MISSILES);
+
+    if (one_chance_in(3))
+        rand_classes.emplace_back(OBJ_BOOKS);
+
+    if (!you_worship(GOD_ZIN) && !you.has_mutation(MUT_NO_FORMS))
+    {
+        if (one_chance_in(6))
+            rand_classes.emplace_back(OBJ_TALISMANS);
+
+        if (one_chance_in(15))
+            rand_classes.emplace_back(OBJ_BAUBLES);
+    }
+
+    shuffle_array(rand_classes);
+    return rand_classes;
+}
+
+void vend()
+{
+    if (env.grid(you.pos()) != DNGN_ENTER_VENDOR)
+        return;
+
+    shop_struct& vendor = *shop_at(you.pos());
+
+    CrawlVector &vendor_items = you.props[VENDOR_ITEMS_KEY].get_vector();
+    vendor_items.empty();
+
+    for (const item_def &item : vendor.stock)
+    {
+        if (item.defined())
+            vendor_items.push_back(item);
+    }
+
+    AcquireMenu acq_menu(vendor_items, VENDOR_ITEMS_KEY, false, true);
+    acq_menu.show();
+
+    if (!you.props.exists(VENDOR_ITEMS_KEY))
+        destroy_shop_at(you.pos());
+
+    you.props.erase(VENDOR_ITEMS_KEY);
+    redraw_screen();
+    update_screen();
 }
 
 void make_acquirement_items()

@@ -29,6 +29,7 @@ enum item_source_type
     IT_SRC_START,
     IT_SRC_SHOP,
     AQ_INVENTED,
+    AQ_VENDOR,
 
     // Empty space for new non-wizmode acquisition methods
 

@@ -695,6 +695,9 @@ tileidx_t tileidx_feature(const coord_def &gc)
     case DNGN_ENTER_SHOP:
         return tileidx_shop(shop_at(gc));
 
+    case DNGN_ENTER_VENDOR:
+        return TILE_DNGN_ENTER_VENDOR;
+
     case DNGN_DEEP_WATER:
         if (env.map_knowledge(gc).feat_colour() == GREEN
             || env.map_knowledge(gc).feat_colour() == LIGHTGREEN)

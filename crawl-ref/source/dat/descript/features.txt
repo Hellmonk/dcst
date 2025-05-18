@@ -256,6 +256,11 @@ is interested in nothing you may have to sell. Some shops hawk antiques of
 unknown provenance, and offer little hint as to the quality or nature of their
 goods.
 %%%%
+A vending machine
+
+A magical vending machine. It will dispense a single item, then break down
+forever. Choose carefully!
+%%%%
 A stone staircase leading down
 
 A staircase leading further down.

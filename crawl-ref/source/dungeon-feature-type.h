@@ -394,6 +394,7 @@ enum dungeon_feature_type
     DNGN_ENTER_NECROPOLIS,
     DNGN_EXIT_NECROPOLIS,
     DNGN_FRIGID_WALL,
+    DNGN_ENTER_VENDOR,
 #endif
 
     NUM_FEATURES

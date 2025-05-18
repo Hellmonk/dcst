@@ -11,12 +11,14 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "acquire.h"
 #include "artefact.h"
 #include "branch.h"
 #include "cio.h"
 #include "colour.h"
 #include "describe.h"
 #include "dgn-overview.h"
+#include "dungeon.h"
 #include "english.h"
 #include "env.h"
 #include "files.h"
@@ -1550,7 +1552,7 @@ void destroy_shop_at(coord_def p)
 
 shop_struct *shop_at(const coord_def& where)
 {
-    if (env.grid(where) != DNGN_ENTER_SHOP)
+    if (env.grid(where) != DNGN_ENTER_SHOP && env.grid(where) != DNGN_ENTER_VENDOR)
         return nullptr;
 
     auto it = env.shop.find(where);
@@ -1706,6 +1708,9 @@ shop_type str_to_shoptype(const string &s)
 #endif
     if (s == "random" || s == "any")
         return SHOP_RANDOM;
+
+    if (s == "vendor")
+        return SHOP_VENDOR;
 
     for (size_t i = 0; i < ARRAYSZ(shop_types); ++i)
         if (s == shop_types[i])

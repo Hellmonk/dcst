@@ -393,7 +393,7 @@ class feature_list
             return feat_dir(feat);
         if (feat == DNGN_TRAP_SHAFT)
             return G_DOWN;
-        if (feat_is_altar(feat) || feat == DNGN_ENTER_SHOP)
+        if (feat_is_altar(feat) || feat == DNGN_ENTER_SHOP || feat == DNGN_ENTER_VENDOR)
             return G_OTHER;
         if (get_feature_dchar(feat) == DCHAR_ARCH)
             return G_PORTAL;

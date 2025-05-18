@@ -600,6 +600,7 @@ shop_gadgets SHOP_GADGETS
 %back none
 %shrink 1
 abandoned_shop DNGN_ABANDONED_SHOP
+enter_vendor DNGN_ENTER_VENDOR
 
 #### Automatic animation starts here.
 

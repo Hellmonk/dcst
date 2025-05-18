@@ -242,6 +242,7 @@ void place_specific_trap(const coord_def& where, trap_type trap_spec, int charge
 struct shop_spec;
 void place_spec_shop(const coord_def& where, shop_type force_type);
 void place_spec_shop(const coord_def& where, shop_spec &spec, int shop_level = 0);
+void place_vendor(const coord_def& where, bool consumables);
 int greed_for_shop_type(shop_type shop, int level_number);
 object_class_type item_in_shop(shop_type shop_type);
 bool seen_destroy_feat(dungeon_feature_type old_feat);

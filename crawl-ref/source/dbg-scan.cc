@@ -652,7 +652,10 @@ void check_map_validity()
         trap_at(*ri); // this has all needed asserts already
 
         if (shop_struct *shop = shop_at(*ri))
-            ASSERT_RANGE(shop->type, 0, NUM_SHOPS);
+        {
+            if (shop->type != SHOP_VENDOR)
+                ASSERT_RANGE(shop->type, 0, NUM_SHOPS);
+        }
 
         // border must be impassable
         if (!in_bounds(*ri))

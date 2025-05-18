@@ -2701,6 +2701,13 @@ static const mutation_def mut_data[] =
   TILEG_MUT_EXPLORE_REGEN,
 },
 
+{ MUT_ITEM_CHOICES, 0, 1, mutflag::good,
+  "more item choices",
+  {"You get an additional item choice at vendors.", "", ""},
+  {"You feel like getting more items.", "", ""},
+  {"You feel like getting fewer items.", "", ""},
+},
+
 { MUT_DOUBLE_POTION_HEAL, 0, 1, mutflag::good,
   "double potion healing",
   {"You gain doubled healing and magic from potions.", "", ""},

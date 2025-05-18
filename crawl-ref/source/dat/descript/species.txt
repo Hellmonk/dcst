@@ -60,7 +60,7 @@ skill, but instead gradually become proficient in all skills at once.
 %%%%
 Human
 
-Humans are natural explorers. Discovering new places refreshes and invigorates them.
+Humans are naturally flexible and get more item choices at vendors.
 They are otherwise completely average.
 %%%%
 Tengu

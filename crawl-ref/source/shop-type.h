@@ -21,6 +21,7 @@ enum shop_type
     SHOP_SCROLL,
     SHOP_GENERAL,
     NUM_SHOPS, // must remain last 'regular' member {dlb}
+    SHOP_VENDOR = 99,
     SHOP_UNASSIGNED = 100,
     SHOP_RANDOM,
 };

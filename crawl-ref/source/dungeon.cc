@@ -55,6 +55,7 @@
 #include "mon-pick.h"
 #include "mon-place.h"
 #include "mon-poly.h"
+#include "mutation.h"
 #include "nearby-danger.h"
 #include "notes.h"
 #include "place.h"
@@ -89,7 +90,6 @@
 // DUNGEON BUILDERS
 static bool _build_level_vetoable(bool enable_random_maps);
 static void _build_dungeon_level();
-static bool _valid_dungeon_level();
 
 static bool _builder_by_type();
 static bool _builder_normal();
@@ -1254,6 +1254,18 @@ static void _fixup_descent_hatches()
             _set_grd(*ri, DNGN_FLOOR);
 }
 
+static void _fixup_dcst_shops()
+{
+    for (rectangle_iterator ri(1); ri; ++ri)
+    {
+        if (env.grid(*ri) == DNGN_ENTER_SHOP && !player_in_branch(BRANCH_ORC)
+            && !one_chance_in(10))
+        {
+            _set_grd(*ri, DNGN_ABANDONED_SHOP);
+        }
+    }
+}
+
 static void _dgn_place_feature_at_random_floor_square(dungeon_feature_type feat,
                                                       unsigned mask = MMT_VAULT)
 {
@@ -1276,6 +1288,14 @@ static void _dgn_place_feature_at_random_floor_square(dungeon_feature_type feat,
         throw dgn_veto_exception("Cannot place feature at random floor square.");
     else
         _set_grd(place, feat);
+}
+
+static void _place_vendors()
+{
+    coord_def place = _dgn_random_point_in_bounds(DNGN_FLOOR, 0, DNGN_FLOOR);
+    place_vendor(place, true);
+    place = _dgn_random_point_in_bounds(DNGN_FLOOR, 0, DNGN_FLOOR);
+    place_vendor(place, false);
 }
 
 static void _place_dungeon_exit()
@@ -1501,17 +1521,6 @@ static bool _is_level_stair_connected(dungeon_feature_type feat)
         return _has_connected_downstairs_from(up);
 
     return false;
-}
-
-static bool _valid_dungeon_level()
-{
-    // D:1 only.
-    // Also, what's the point of this check?  Regular connectivity should
-    // do that already.
-    if (player_in_branch(BRANCH_DUNGEON) && you.depth == 1)
-        return _is_level_stair_connected(branches[BRANCH_DUNGEON].exit_stairs);
-
-    return true;
 }
 
 void dgn_reset_level(bool enable_random_maps)
@@ -2802,8 +2811,10 @@ static void _build_dungeon_level()
     if (player_in_hell())
         _fixup_hell_stairs();
 
+    _fixup_dcst_shops();
     _fixup_descent_hatches();
     _place_dungeon_exit();
+    _place_vendors();
 }
 
 static void _dgn_set_floor_colours()
@@ -6200,6 +6211,31 @@ static void _stock_shop_item(int j, shop_type shop_type_,
                     item.name(DESC_PLAIN, false, true).c_str());
 }
 
+static void _stock_vendor_item (shop_struct &shop, bool consumables)
+{
+    int item_index; // index into env.item (global item array)
+                    // where the generated item will be stored
+
+    object_class_type basetype;
+
+    if (consumables)
+        basetype = consumable_vendor_classes()[0];
+    else
+        basetype = shuffled_acquirement_classes(false, true)[0];
+
+    item_index = acquirement_create_item(basetype, AQ_VENDOR, true);
+
+    if (item_index != NON_ITEM)
+    {
+        item_def item = env.item[item_index];
+        item.flags |= ISFLAG_IDENTIFIED;
+        dec_mitm_item_quantity(item_index, item.quantity, false);
+        item.pos = shop.pos;
+        item.link = ITEM_IN_SHOP;
+        shop.stock.push_back(item);
+    }
+}
+
 static shop_type _random_shop()
 {
     return random_choose(SHOP_WEAPON, SHOP_ARMOUR, SHOP_WEAPON_ANTIQUE,
@@ -6250,6 +6286,23 @@ void place_spec_shop(const coord_def& where, shop_spec &spec, int shop_level)
     shop.stock.clear();
     for (int j = 0; j < num_items; j++)
         _stock_shop_item(j, shop.type, stocked, spec, shop, shop_level);
+}
+
+void place_vendor(const coord_def& where, bool consumables)
+{
+    shop_struct& shop = env.shop[where];
+
+    shop.shop_name = "vending machine";
+    shop.type = SHOP_VENDOR;
+    shop.pos = where;
+
+    _set_grd(where, DNGN_ENTER_VENDOR);
+
+    const int num_items = 4 + you.get_mutation_level(MUT_ITEM_CHOICES);
+
+    shop.stock.clear();
+    for (int j = 0; j < num_items; j++)
+        _stock_vendor_item(shop, consumables);
 }
 
 object_class_type item_in_shop(shop_type shop_type)

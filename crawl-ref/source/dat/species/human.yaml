@@ -24,4 +24,4 @@ recommended_jobs:
   - ice elementalist
 mutations:
   1:
-    MUT_EXPLORE_REGEN: 1
+    MUT_ITEM_CHOICES: 1

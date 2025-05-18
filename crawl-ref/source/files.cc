@@ -2433,7 +2433,7 @@ bool load_level(dungeon_feature_type stair_taken, load_mode_type load_mode,
             || you.duration[DUR_REPEL_STAIRS_CLIMB])
         {
             dungeon_feature_type feat = env.grid(you.pos());
-            if (feat != DNGN_ENTER_SHOP
+            if (feat != DNGN_ENTER_SHOP && feat != DNGN_ENTER_VENDOR
                 && feat_stair_direction(feat) != CMD_NO_CMD
                 && feat_stair_direction(stair_taken) != CMD_NO_CMD)
             {

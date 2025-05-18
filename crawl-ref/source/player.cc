@@ -113,6 +113,7 @@ static void _moveto_maybe_repel_stairs()
 
     if (stair_dir == CMD_NO_CMD
         || new_grid == DNGN_ENTER_SHOP
+        || new_grid == DNGN_ENTER_VENDOR
         ||  !you.duration[DUR_REPEL_STAIRS_MOVE])
     {
         return;

@@ -362,6 +362,7 @@ command_type feat_stair_direction(dungeon_feature_type feat)
     case DNGN_TRANSIT_PANDEMONIUM:
     case DNGN_TRANSPORTER:
     case DNGN_ENTER_SHOP:
+    case DNGN_ENTER_VENDOR:
         return CMD_GO_DOWNSTAIRS;
 
     default:
@@ -1965,6 +1966,8 @@ const char* feat_type_name(dungeon_feature_type feat)
         return "staircase";
     if (feat == DNGN_ENTER_SHOP || feat == DNGN_ABANDONED_SHOP)
         return "shop";
+    if (feat == DNGN_ENTER_VENDOR)
+        return "vending machine";
     if (feat_is_fountain(feat))
         return "fountain";
     if (feat == DNGN_ORB_DAIS)

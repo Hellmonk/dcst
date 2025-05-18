@@ -31,6 +31,7 @@
 
 #include "ability.h"
 #include "abyss.h"
+#include "acquire.h"
 #include "act-iter.h"
 #include "adjust.h"
 #include "areas.h"
@@ -1325,18 +1326,21 @@ static bool _can_take_stairs(dungeon_feature_type ftype, bool down,
                              bool known_shaft)
 {
     // Up and down both work for shops, portals, and altars.
-    if (ftype == DNGN_ENTER_SHOP || feat_is_altar(ftype))
+    if (ftype == DNGN_ENTER_SHOP || ftype == DNGN_ENTER_VENDOR || feat_is_altar(ftype))
     {
         if (crawl_state.doing_prev_cmd_again)
         {
             mprf("You can't repeat %s actions.",
-                ftype == DNGN_ENTER_SHOP ? "shop" : "altar");
+                ftype == DNGN_ENTER_SHOP ? "shop"
+                    : ftype == DNGN_ENTER_VENDOR ? "vending machine" : "altar");
             crawl_state.cancel_cmd_all();
         }
         else if (you.berserk())
             canned_msg(MSG_TOO_BERSERK);
         else if (ftype == DNGN_ENTER_SHOP) // don't convert to capitalism
             shop();
+        else if (ftype == DNGN_ENTER_VENDOR)
+            vend();
         else
             try_god_conversion(feat_altar_god(ftype));
         // Even though we may have "succeeded", return false so we don't keep

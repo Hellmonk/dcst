@@ -3721,7 +3721,7 @@ static vector<coord_def> _nearby_stairs()
 
         dungeon_feature_type feat = env.grid(*ri);
         if (feat_stair_direction(feat) != CMD_NO_CMD
-            && feat != DNGN_ENTER_SHOP)
+            && feat != DNGN_ENTER_SHOP && feat != DNGN_ENTER_VENDOR)
         {
             stairs_avail.push_back(*ri);
         }
@@ -4949,7 +4949,8 @@ static const vector<xom_event_data> _list_xom_bad_actions = {
         XOM_BAD_CLIMB_STAIRS, 55, 0, [](int /*sv*/, int tn)
         { return tn > 0 && !(_nearby_stairs().empty()) &&
                  (feat_stair_direction(env.grid(you.pos())) != CMD_NO_CMD
-                 && env.grid(you.pos()) != DNGN_ENTER_SHOP);}
+                 && env.grid(you.pos()) != DNGN_ENTER_SHOP
+                 && env.grid(you.pos()) != DNGN_ENTER_VENDOR);}
     },
 };
 
