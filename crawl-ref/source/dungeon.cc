@@ -1708,20 +1708,28 @@ void fixup_misplaced_items()
 
         if (in_bounds(item.pos))
         {
-            dungeon_feature_type feat = env.grid(item.pos);
-            if (feat_has_solid_floor(feat))
-                continue;
+            if (item.base_type != OBJ_GOLD && item.base_type != OBJ_RUNES
+                && item.base_type != OBJ_GEMS && is_connected_branch(you.where_are_you))
+            {
+               item.quantity = 0;
+            }
+            else
+            {
+                dungeon_feature_type feat = env.grid(item.pos);
+                if (feat_has_solid_floor(feat))
+                    continue;
 
-            // We accept items in deep water in the Abyss---they are likely to
-            // be revealed eventually by morphing, and having deep water push
-            // items away leads to strange results.
-            if (feat == DNGN_DEEP_WATER && player_in_branch(BRANCH_ABYSS))
-                continue;
+                // We accept items in deep water in the Abyss---they are likely to
+                // be revealed eventually by morphing, and having deep water push
+                // items away leads to strange results.
+                if (feat == DNGN_DEEP_WATER && player_in_branch(BRANCH_ABYSS))
+                    continue;
 
-            mprf(MSGCH_ERROR, "Item %s buggily placed in feature %s at (%d, %d).",
-                 item.name(DESC_PLAIN).c_str(),
-                 feature_description_at(item.pos, false, DESC_PLAIN).c_str(),
-                 item.pos.x, item.pos.y);
+                mprf(MSGCH_ERROR, "Item %s buggily placed in feature %s at (%d, %d).",
+                    item.name(DESC_PLAIN).c_str(),
+                    feature_description_at(item.pos, false, DESC_PLAIN).c_str(),
+                    item.pos.x, item.pos.y);
+            }
         }
         else
         {
@@ -2782,7 +2790,9 @@ static void _build_dungeon_level()
     _fixup_dcst_shops();
     _fixup_descent_hatches();
     _place_dungeon_exit();
-    _place_vendors();
+
+    if (is_connected_branch(you.where_are_you))
+        _place_vendors();
 }
 
 static void _dgn_set_floor_colours()
@@ -4920,10 +4930,6 @@ int dgn_place_item(const item_spec &spec,
     if (spec.base_type == OBJ_UNASSIGNED)
         return NON_ITEM;
 
-    // Remove floor items sorry bye
-    if (spec.base_type != OBJ_RUNES && spec.base_type != OBJ_GOLD)
-        return NON_ITEM;
-
     const int level = _concretize_level(spec.level, dgn_level);
     const object_class_type base_type = _concretize_type(spec);
 
@@ -5457,6 +5463,8 @@ static void _vault_grid_mapspec(vault_placement &place, const coord_def &where,
 static void _vault_grid_glyph(vault_placement &place, const coord_def& where,
                               int vgrid)
 {
+    bool in_portal = !is_connected_branch(you.where_are_you);
+
     // First, set base tile for grids {dlb}:
     if (vgrid != -1)
         env.grid(where) = _glyph_to_feat(vgrid);
@@ -5485,36 +5493,39 @@ static void _vault_grid_glyph(vault_placement &place, const coord_def& where,
     }
 
     // Then, handle grids that place "stuff" {dlb}:
-    if (vgrid == '$')
+    if (vgrid == '$' || vgrid == '%' || vgrid == '*' || vgrid == '|')
     {
-        int item_made = NON_ITEM;
-        object_class_type which_class = OBJ_RANDOM;
-        uint8_t which_type = OBJ_RANDOM;
-        int which_depth = env.absdepth0;
-
-        if (vgrid == '$')
-            which_class = OBJ_GOLD;
-        else if (vgrid == '|')
+        if (in_portal || vgrid == '$')
         {
-            which_class = _superb_object_class();
-            which_depth = ISPEC_GOOD_ITEM;
-        }
-        else if (vgrid == '*')
-            which_depth = 5 + which_depth * 2;
+            int item_made = NON_ITEM;
+            object_class_type which_class = OBJ_RANDOM;
+            uint8_t which_type = OBJ_RANDOM;
+            int which_depth = env.absdepth0;
 
-        item_made = items(true, which_class, which_type, which_depth);
-        if (item_made != NON_ITEM)
-        {
-            env.item[item_made].pos = where;
-            env.level_map_mask(where) |= MMT_NO_TRAP;
-            dprf(DIAG_DNGN, "vault grid: placing %s at %d,%d",
-                env.item[item_made].name(DESC_PLAIN, false, true).c_str(),
-                env.item[item_made].pos.x, env.item[item_made].pos.y);
+            if (vgrid == '$')
+                which_class = OBJ_GOLD;
+            else if (vgrid == '|')
+            {
+                which_class = _superb_object_class();
+                which_depth = ISPEC_GOOD_ITEM;
+            }
+            else if (vgrid == '*')
+                which_depth = 5 + which_depth * 2;
+
+            item_made = items(true, which_class, which_type, which_depth);
+            if (item_made != NON_ITEM)
+            {
+                env.item[item_made].pos = where;
+                env.level_map_mask(where) |= MMT_NO_TRAP;
+                dprf(DIAG_DNGN, "vault grid: placing %s at %d,%d",
+                    env.item[item_made].name(DESC_PLAIN, false, true).c_str(),
+                    env.item[item_made].pos.x, env.item[item_made].pos.y);
+            }
         }
     }
 
     // defghijk - items
-    if (map_def::valid_item_array_glyph(vgrid))
+    if (map_def::valid_item_array_glyph(vgrid) && in_portal)
     {
         int slot = map_def::item_array_glyph_to_slot(vgrid);
         _dgn_place_item_explicit(slot, where, place);

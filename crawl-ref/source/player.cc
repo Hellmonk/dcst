@@ -1115,7 +1115,8 @@ int player_regen()
         rr += REGEN_PIP + (REGEN_PIP * (piety_rank(you.piety) - 1)) / 5;
     }
 
-    rr /= 2;
+    rr *= 27 + you.experience_level;
+    rr /= 54;
 
     return rr;
 }
@@ -1152,7 +1153,8 @@ int player_mp_regen()
 
     regen_amount += get_form()->mp_regen_bonus();
 
-    regen_amount /= 2;
+    regen_amount *= 27 + you.experience_level;
+    regen_amount /= 54;
 
     return regen_amount;
 }
