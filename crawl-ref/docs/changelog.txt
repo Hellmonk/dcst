@@ -1,3 +1,17 @@
+DCST (0.0001)
+-------------
+*Descent mode enforced for all games.
+*Floor items removed (except gold/runes and items in portals).
+*Monster items removed (except uniques).
+*Shops much rarer (except in orc).
+*Two vendors on every main branch floor that give you an item for free
+    - one offers acquirement level items
+    - the other gives mostly consumables
+*Explore regen for all species. No rest regen.
+*Zot clock reduced to 1500 turns/level and 1500 turn cap.
+*All starts get +1 tele scroll +1 cure potion except Wn.
+*Wn gets two random decent consumables instead.
+
 Stone Soup 0.33 (through 0.33-a0-1449-0d2a297ef60)
 --------------------------------------------------
 
