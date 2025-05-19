@@ -115,6 +115,9 @@ enum dungeon_feature_type
 #endif
 
     DNGN_ENTER_SHOP,
+#if TAG_MAJOR_VERSION > 34
+    DNGN_ENTER_VENDOR,
+#endif
     DNGN_ABANDONED_SHOP,
 
     DNGN_STONE_STAIRS_DOWN_I,
