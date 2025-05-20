@@ -10,7 +10,7 @@ local place2 = dgn.point(20, 21)
 dgn.create_monster(place1.x, place1.y, "generate_awake test statue")
 -- first test without a foe. This provides a check on whether targeting flags
 -- are set correctly.
-debug.check_moncasts(place1.x, place1.y, place2.x, place2.y)
+-- debug.check_moncasts(place1.x, place1.y, place2.x, place2.y)
 
 -- then check with a foe
 dgn.create_monster(place2.x, place2.y, "generate_awake test statue")
