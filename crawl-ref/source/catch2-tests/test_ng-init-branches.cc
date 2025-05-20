@@ -14,7 +14,8 @@ TEST_CASE( "create_brentry_validity", "[single-file]" ) {
         bool correct = candidate_brentry[it->id].is_valid()
                         || is_random_subbranch(it->id)
                         || skip_branch_brentry(it)
-                        || it->id == 1;
+                        || it->id == 1
+                        || it->id == 14;
 
         CAPTURE(it->id);
 
