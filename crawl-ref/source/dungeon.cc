@@ -1709,7 +1709,8 @@ void fixup_misplaced_items()
         if (in_bounds(item.pos))
         {
             if (item.base_type != OBJ_GOLD && item.base_type != OBJ_RUNES
-                && item.base_type != OBJ_GEMS && is_connected_branch(you.where_are_you))
+                && item.base_type != OBJ_GEMS && item.base_type != OBJ_ORBS
+                && is_connected_branch(you.where_are_you))
             {
                item.quantity = 0;
             }
