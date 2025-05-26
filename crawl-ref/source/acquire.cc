@@ -1346,7 +1346,7 @@ int acquirement_create_item(object_class_type class_wanted,
 
         if (class_wanted == OBJ_WANDS)
         {
-            acq_item.plus = max(static_cast<int>(acq_item.plus), 3 + random2(3));
+            acq_item.plus = max(static_cast<int>(acq_item.plus), 3 + random2(7));
             if (acq_item.sub_type == WAND_FLAME)
                 acq_item.plus += random2(9);
         }
@@ -1359,7 +1359,7 @@ int acquirement_create_item(object_class_type class_wanted,
             if (agent == GOD_OKAWARU || agent == GOD_XOM)
                 acq_item.quantity = max(1, acq_item.quantity / 2);
             else
-                acq_item.quantity *= 5;
+                acq_item.quantity += 2 + random2avg(11,2);
         }
         else if (class_wanted == OBJ_POTIONS || class_wanted == OBJ_SCROLLS
                  || class_wanted == OBJ_BAUBLES)
