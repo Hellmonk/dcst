@@ -897,6 +897,33 @@ static bool _purchase(shop_struct& shop, const level_pos& pos, int index,
     return true;
 }
 
+int could_stack_with(const item_def &item)
+{
+    for (int inv_slot = 0; inv_slot < ENDOFPACK; inv_slot++)
+    {
+        if (item.base_type == OBJ_WANDS && you.inv[inv_slot].base_type == OBJ_WANDS
+            && you.inv[inv_slot].sub_type == item.sub_type)
+        {
+            return you.inv[inv_slot].charges;
+        }
+
+        if (!items_stack(you.inv[inv_slot], item))
+            continue;
+
+        return you.inv[inv_slot].quantity;
+    }
+
+    return 0;
+}
+
+string player_qty_string(int amount)
+{
+    if (amount < 1)
+        return "";
+
+    return make_stringf(" (%d carried)", amount);
+}
+
 enum shopping_order
 {
     ORDER_TYPE,
@@ -981,7 +1008,7 @@ class ShopEntry : public InvEntry
         const string keystr = colour_to_str(keycol);
         const string itemstr =
             colour_to_str(menu_colour(text, item_prefix(*item, false), tag, false));
-        return make_stringf(" <%s>%c %c </%s><%s>%4d gold   %s%s</%s>",
+        return make_stringf(" <%s>%c %c </%s><%s>%4d gold   %s%s%s</%s>",
                             keystr.c_str(),
                             hotkeys[0],
                             selected() ? '+' : on_list ? '$' : '-',
@@ -990,6 +1017,7 @@ class ShopEntry : public InvEntry
                             cost,
                             text.c_str(),
                             shop_item_unknown(*item) ? " (unknown)" : "",
+                            player_qty_string(could_stack_with(*item)).c_str(),
                             itemstr.c_str());
     }
 
@@ -2365,14 +2393,23 @@ void ShoppingList::fill_out_menu(Menu& shopmenu)
         const bool unknown = thing_is_item(thing)
                              && shop_item_unknown(get_thing_item(thing));
 
+        // How many of a consumable does the player have already?
+        int player_qty = 0;
+        if (thing_is_item(thing)
+            && is_stackable_item(get_thing_item(thing)))
+        {
+            player_qty = could_stack_with(get_thing_item(thing));
+        }
+
         const string etitle =
             make_stringf(
-                "%*s%5d gold  %s%s",
+                "%*s%5d gold  %s%s%s",
                 longest,
                 describe_thing_pos(thing).c_str(),
                 cost,
                 name_thing(thing, DESC_A).c_str(),
-                unknown ? " (unknown)" : "");
+                unknown ? " (unknown)" : "",
+                player_qty > 0 ? player_qty_string(player_qty).c_str() : "");
 
         MenuEntry *me = new MenuEntry(etitle, MEL_ITEM, 1, hotkey);
         me->data = &thing;

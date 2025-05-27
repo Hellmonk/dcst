@@ -16,6 +16,9 @@ struct shop_struct;
 
 int artefact_value(const item_def &item);
 
+int could_stack_with(const item_def &item);
+string player_qty_string(int amount);
+
 // ident == true overrides the item ident level and gives the price
 // as if the item was fully id'd
 unsigned int item_value(item_def item, bool ident = false);

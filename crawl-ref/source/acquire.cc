@@ -1523,7 +1523,8 @@ class AcquireEntry : public InvEntry
             colour_to_str(menu_colour(text, item_prefix(*item), tag, false));
         const string gold_text = item->base_type == OBJ_GOLD
             ? make_stringf(" (you have %d gold)", you.gold) : "";
-        return make_stringf(" <%s>%c %c </%s><%s>%s%s</%s>",
+        const string carried_text = player_qty_string(could_stack_with(*item));
+        return make_stringf(" <%s>%c %c </%s><%s>%s%s%s</%s>",
                             keystr.c_str(),
                             hotkeys[0],
                             selected() ? '+' : '-',
@@ -1531,6 +1532,7 @@ class AcquireEntry : public InvEntry
                             itemstr.c_str(),
                             text.c_str(),
                             gold_text.c_str(),
+                            carried_text.c_str(),
                             itemstr.c_str());
     }
 
