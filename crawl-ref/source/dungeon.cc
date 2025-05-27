@@ -6198,12 +6198,47 @@ static void _stock_vendor_item (shop_struct &shop, bool consumables)
 
     object_class_type basetype;
 
-    if (consumables)
-        basetype = consumable_vendor_classes()[0];
-    else
-        basetype = shuffled_acquirement_classes(false, true)[0];
+    while (true)
+    {
+        if (consumables)
+            basetype = consumable_vendor_classes()[0];
+        else
+            basetype = shuffled_acquirement_classes(false, true)[0];
 
-    item_index = acquirement_create_item(basetype, AQ_VENDOR, true);
+        item_index = acquirement_create_item(basetype, AQ_VENDOR, true);
+
+        // Try to deduplicate item types
+        if (item_index != NON_ITEM)
+        {
+            for (const auto& item : shop.stock)
+            {
+                // same basetype armour / weapon could be an interesting choice
+                if (is_artefact(item) || item.base_type == OBJ_WEAPONS
+                    || item.base_type == OBJ_ARMOUR)
+                {
+                    continue;
+                }
+
+                if (env.item[item_index].base_type == item.base_type
+                    && env.item[item_index].sub_type == item.sub_type)
+                {
+                    // different types of javelins or darts
+                    if (item.base_type == OBJ_MISSILES
+                        && item.brand != env.item[item_index].brand)
+                    {
+                        continue;
+                    }
+
+                    env.item[item_index].clear();
+                    item_index = NON_ITEM; // try again
+                    break;
+                }
+            }
+        }
+
+        if (item_index != NON_ITEM)
+            break;
+    }
 
     if (item_index != NON_ITEM)
     {
