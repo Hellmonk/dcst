@@ -3608,96 +3608,6 @@ static bool _monster_swaps_places(monster* mon, const coord_def& delta)
     return false;
 }
 
-static void _maybe_randomize_energy(monster &mons, coord_def orig_pos)
-{
-    if (!mons.alive() // barbs!
-        || !crawl_state.potential_pursuers.count(&mons)
-        || mons.wont_attack()
-        || mons_is_confused(mons, true)
-        || mons_is_fleeing(mons)
-        || !mons.can_see(you))
-    {
-        return;
-    }
-
-
-    // Only randomize energy for monsters moving toward you, not doing tricky
-    // M_MAINTAIN_RANGE nonsense or wandering around a lake or what have you.
-    if (grid_distance(mons.pos(), you.pos()) > grid_distance(orig_pos, you.pos()))
-        return;
-
-    // If the monster forgot about you between your turn and its, move on.
-    actor* foe = mons.get_foe();
-    if (!foe || !foe->is_player())
-        return;
-
-    // Randomize energy.
-    mons.speed_increment += random2(3) - 1;
-}
-
-static void _launch_opportunity_attack(monster& mons)
-{
-    monster *ru_target = nullptr;
-    if (_handle_ru_melee_redirection(mons, &ru_target))
-        return;
-    _melee_attack_player(mons, ru_target);
-    learned_something_new(HINT_OPPORTUNITY_ATTACK);
-}
-
-static void _maybe_launch_opportunity_attack(monster &mon, coord_def orig_pos)
-{
-    if (!mon.alive() || !crawl_state.potential_pursuers.count(&mon))
-        return;
-
-    // Don't launch opportunity attacks on dead felids awaiting revival
-    if (you.hp <= 0)
-        return;
-
-    const int new_dist = grid_distance(you.pos(), mon.pos());
-    // Some of these duplicate checks when marking potential
-    // pursuers. This is to avoid state changes after your turn
-    // and before the monster's.
-    // No, there is no logic to this ordering (pf):
-    if (!mon.alive()
-        || !one_chance_in(3)
-        || mon.wont_attack()
-        || !mons_has_attacks(mon)
-        || mon.confused()
-        || mon.incapacitated()
-        || mons_is_fleeing(mon)
-        || !mon.can_see(you)
-        // the monster must actually be approaching you.
-        || new_dist >= grid_distance(you.pos(), orig_pos)
-        // make sure they can actually reach you.
-        || new_dist > mon.reach_range()
-        || !cell_see_cell(mon.pos(), you.pos(), LOS_NO_TRANS)
-        // Zin protects!
-        || is_sanctuary(mon.pos()))
-    {
-        return;
-    }
-
-    actor* foe = mon.get_foe();
-    if (!foe || !foe->is_player())
-        return;
-
-    // No random energy and no double opportunity attacks in a turn
-    // that they already launched an attack.
-    crawl_state.potential_pursuers.erase(&mon);
-
-    const string msg = make_stringf(" attacks as %s pursue%s you!",
-                                    mon.pronoun(PRONOUN_SUBJECTIVE).c_str(),
-                                    mon.pronoun_plurality() ? "" : "s");
-    simple_monster_message(mon, msg.c_str());
-    const int old_energy = mon.speed_increment;
-    _launch_opportunity_attack(mon);
-    // Refund most of the energy from the attack - for normal attack
-    // speed monsters, it will cost 0 energy 1/2 of the time and
-    // 1 energy 1/2 of the time.
-    // Only slow-attacking monsters will spend more than 1 energy.
-    mon.speed_increment = min(mon.speed_increment + 10, old_energy - random2(2));
-}
-
 static bool _do_move_monster(monster& mons, const coord_def& delta)
 {
     const coord_def orig_pos = mons.pos();
@@ -3830,9 +3740,6 @@ static bool _do_move_monster(monster& mons, const coord_def& delta)
     mons.did_deliberate_movement();
 
     _swim_or_move_energy(mons);
-
-    _maybe_launch_opportunity_attack(mons, orig_pos);
-    _maybe_randomize_energy(mons, orig_pos);
 
     return true;
 }
