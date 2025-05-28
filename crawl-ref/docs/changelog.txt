@@ -1,3 +1,11 @@
+DCST (0.0003)
+-------------
+* Adjusted base regen rate to be a bit better lategame
+* Nerfed equip vendors to be less reliable
+* Vendor wands are a little less common
+* Zot clock now displays by default
+* Fixed some bugs with vendor names and placement
+
 DCST (0.0002)
 -------------
 * Remove some vaults that don't behave nicely with DCST mechanics
