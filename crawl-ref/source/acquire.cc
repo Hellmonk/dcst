@@ -385,7 +385,7 @@ static skill_type _acquirement_weapon_skill(int agent)
 
         // Adding a small constant allows for the occasional
         // weapon in an untrained skill.
-        int weight = _skill_rdiv(sk) + 1;
+        int weight = _skill_rdiv(sk) + agent == AQ_VENDOR ? 5 : 1;
         // Exaggerate the weighting if it's not a Trog gift.
         if (agent != GOD_TROG && agent != AQ_VENDOR)
             weight = (weight + 1) * (weight + 2);
