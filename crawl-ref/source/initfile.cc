@@ -570,7 +570,7 @@ const vector<GameOption*> game_options::build_options_list()
         new BoolGameOption(SIMPLE_NAME(rest_wait_both), false),
         new BoolGameOption(SIMPLE_NAME(rest_wait_ancestor), false),
         new BoolGameOption(SIMPLE_NAME(cloud_status), !is_tiles()),
-        new BoolGameOption(SIMPLE_NAME(always_show_zot), false),
+        new BoolGameOption(SIMPLE_NAME(always_show_zot), true),
         new BoolGameOption(SIMPLE_NAME(always_show_gems), false),
         new BoolGameOption(SIMPLE_NAME(more_gem_info), false),
         new BoolGameOption(SIMPLE_NAME(darken_beyond_range), true),
