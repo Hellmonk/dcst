@@ -1097,7 +1097,7 @@ int player_regen()
     // Note: if some condition can set rr = 0, can't be rested off, and
     // would allow travel, please update is_sufficiently_rested.
 
-    int rr = 20 + you.hp_max / 6;
+    int rr = you.hp_max / 2;
 
     // Add in miscellaneous bonuses
     rr += _player_bonus_regen();
@@ -1124,9 +1124,6 @@ int player_regen()
         rr += REGEN_PIP + (REGEN_PIP * (piety_rank(you.piety) - 1)) / 5;
     }
 
-    rr *= 27 + you.experience_level;
-    rr /= 54;
-
     return rr;
 }
 
@@ -1135,7 +1132,7 @@ int player_mp_regen()
     if (you.has_mutation(MUT_HP_CASTING))
         return 0;
 
-    int regen_amount = 7 + you.max_magic_points / 2;
+    int regen_amount = 1 + you.max_magic_points * 3 / 4;
 
     if (you.get_mutation_level(MUT_MANA_REGENERATION))
         regen_amount *= 2;
@@ -1161,9 +1158,6 @@ int player_mp_regen()
     }
 
     regen_amount += get_form()->mp_regen_bonus();
-
-    regen_amount *= 27 + you.experience_level;
-    regen_amount /= 54;
 
     return regen_amount;
 }
