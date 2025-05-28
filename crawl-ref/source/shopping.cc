@@ -1621,6 +1621,8 @@ string shop_type_name(shop_type type)
             return "Distillery";
         case SHOP_GENERAL:
             return "General Store";
+        case SHOP_VENDOR:
+            return "";
         default:
             return "Bug";
     }
@@ -1630,7 +1632,8 @@ static const char *_shop_type_suffix(shop_type type, const coord_def &where)
 {
     if (type == SHOP_GENERAL
         || type == SHOP_GENERAL_ANTIQUE
-        || type == SHOP_DISTILLERY)
+        || type == SHOP_DISTILLERY
+        || type == SHOP_VENDOR)
     {
         return "";
     }
@@ -1661,7 +1664,8 @@ string shop_name(const shop_struct& shop)
             | (static_cast<uint32_t>(shop.keeper_name[1]) << 8)
             | (static_cast<uint32_t>(shop.keeper_name[1]) << 16);
 
-        sh_name += apostrophise(make_name(seed)) + " ";
+        if (type != SHOP_VENDOR)
+            sh_name += apostrophise(make_name(seed)) + " ";
     }
 
     if (!shop.shop_type_name.empty())
