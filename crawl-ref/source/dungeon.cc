@@ -2267,6 +2267,19 @@ static bool _branch_entrances_are_connected()
     return true;
 }
 
+static bool _vendors_are_connected()
+{
+    for (rectangle_iterator ri(0); ri; ++ri)
+    {
+        if (env.grid(*ri) != DNGN_ENTER_VENDOR)
+            continue;
+        if (!_has_connected_stone_stairs_from(*ri))
+            return false;
+    }
+
+    return true;
+}
+
 static bool _branch_needs_stairs()
 {
     // Irrelevant for branches with a single level and all encompass maps.
@@ -2794,6 +2807,10 @@ static void _build_dungeon_level()
 
     if (is_connected_branch(you.where_are_you))
         _place_vendors();
+
+    // vendors placed in a bad spot
+    if (!player_in_hell(true) && !_vendors_are_connected())
+        throw dgn_veto_exception("Bad vendor connectivity.");
 }
 
 static void _dgn_set_floor_colours()
