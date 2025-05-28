@@ -387,7 +387,7 @@ static skill_type _acquirement_weapon_skill(int agent)
         // weapon in an untrained skill.
         int weight = _skill_rdiv(sk) + 1;
         // Exaggerate the weighting if it's not a Trog gift.
-        if (agent != GOD_TROG)
+        if (agent != GOD_TROG && agent != AQ_VENDOR)
             weight = (weight + 1) * (weight + 2);
         count += weight;
 
@@ -438,7 +438,7 @@ static int _acquirement_weapon_subtype(int & /*quantity*/, int agent)
             acqweight = acqweight * (54 + _skill_rdiv(SK_SHIELDS)) / 54;
 
         if (!you.seen_weapon[i])
-            acqweight *= 5; // strong emphasis on type variety, brands go only second
+            acqweight *= agent == AQ_VENDOR ? 3 : 5; // strong emphasis on type variety, brands go only second
 
         // reservoir sampling
         if (x_chance_in_y(acqweight, count += acqweight))
@@ -449,12 +449,12 @@ static int _acquirement_weapon_subtype(int & /*quantity*/, int agent)
 }
 
 static int _acquirement_missile_subtype(int & /*quantity*/,
-                                        int /*agent*/)
+                                        int agent)
 {
     // Choose from among all usable missile types.
     vector<pair<missile_type, int> > missile_weights;
 
-    missile_weights.emplace_back(MI_BOOMERANG, 50);
+    missile_weights.emplace_back(MI_BOOMERANG, agent == AQ_VENDOR ? 120 : 50);
     missile_weights.emplace_back(MI_DART, 75);
 
     if (you.body_size() >= SIZE_MEDIUM)
@@ -467,15 +467,17 @@ static int _acquirement_missile_subtype(int & /*quantity*/,
 }
 
 static int _acquirement_jewellery_subtype(int & /*quantity*/,
-                                          int /*agent*/)
+                                          int agent)
 {
     int result = 0;
+
+    int new_weight = agent == AQ_VENDOR ? 4 : 10;
 
     // Rings are (number of usable rings) times as common as amulets.
     const int ring_num = you.equipment.num_slots[SLOT_RING];
 
     // Try ten times to give something the player hasn't seen.
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < new_weight; i++)
     {
         result = one_chance_in(ring_num + 1) ? get_random_amulet_type()
                                              : get_random_ring_type();
@@ -644,7 +646,7 @@ static int _acquirement_book_subtype(int & /*quantity*/,
 static vector<pair<talisman_type, int>> _scale_talisman_weights(int agent)
 {
     // Xom always selects a talisman purely at random.
-    if (agent == GOD_XOM)
+    if (agent == GOD_XOM || (agent == AQ_VENDOR && one_chance_in(4)))
         return {{NUM_TALISMANS, 1000}};
 
     // This will produce a target tier between 3 and 6 depending on skill.
@@ -1163,6 +1165,9 @@ static void _adjust_brand(item_def &item, int agent)
         return;
     }
 
+    if (agent == AQ_VENDOR && coinflip())
+        return;
+
     // Otherwise we weight "boring" brands lower.
     if (agent != GOD_TROG && item.base_type == OBJ_WEAPONS)
     {
@@ -1282,7 +1287,9 @@ int acquirement_create_item(object_class_type class_wanted,
 
     // Trog/Xom gifts are generally lower quality than scroll acquirement or
     // Oka gifts. We also use lower quality for missile gifts.
-    const int item_level = ((agent == GOD_TROG || agent == GOD_XOM || class_wanted == OBJ_MISSILES) ? ISPEC_GIFT : ISPEC_GOOD_ITEM);
+    int item_level = ((agent == GOD_TROG || agent == GOD_XOM || class_wanted == OBJ_MISSILES) ? ISPEC_GIFT : ISPEC_GOOD_ITEM);
+    if (agent == AQ_VENDOR && you.where_are_you == BRANCH_DUNGEON)
+        item_level = 50 + 15 * you.depth;
     int thing_created = NON_ITEM;
     int quant = 1;
 #define MAX_ACQ_TRIES 40
@@ -1322,7 +1329,7 @@ int acquirement_create_item(object_class_type class_wanted,
         // rerolling non-artefacts.
         if (acq_item.base_type == OBJ_ARMOUR && !is_artefact(acq_item))
         {
-            if (agent != GOD_XOM && !one_chance_in(13))
+            if (agent != GOD_XOM && !one_chance_in(13) && (agent != AQ_VENDOR || !one_chance_in(3)))
             {
                 destroy_item(thing_created, true);
                 thing_created = NON_ITEM;
@@ -1402,7 +1409,7 @@ int acquirement_create_item(object_class_type class_wanted,
             }
 
             // bump jewel acq power up a bit
-            if (one_chance_in(2) && !is_artefact(acq_item))
+            if (one_chance_in(agent == AQ_VENDOR ? 4 : 2) && !is_artefact(acq_item))
                 make_item_randart(acq_item);
         }
         else if (acq_item.base_type == OBJ_WEAPONS
@@ -1413,7 +1420,8 @@ int acquirement_create_item(object_class_type class_wanted,
             // ...except actually, trog can give them antimagic brand, so...
             if (is_giant_club_type(acq_item.sub_type)
                 && get_weapon_brand(acq_item) == SPWPN_NORMAL
-                && !one_chance_in(25))
+                && !one_chance_in(25)
+                && (agent != AQ_VENDOR || !x_chance_in_y(3, you.get_experience_level())))
             {
                 make_item_randart(acq_item, true);
             }
@@ -1802,7 +1810,8 @@ vector<object_class_type> consumable_vendor_classes()
         if (one_chance_in(4))
             rand_classes.emplace_back(OBJ_MISCELLANY);
 
-        rand_classes.emplace_back(OBJ_WANDS);
+        if (x_chance_in_y(2,3))
+            rand_classes.emplace_back(OBJ_WANDS);
     }
 
     if (!you.has_mutation(MUT_NO_GRASPING) && coinflip())
