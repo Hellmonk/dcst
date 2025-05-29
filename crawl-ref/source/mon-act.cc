@@ -3610,7 +3610,6 @@ static bool _monster_swaps_places(monster* mon, const coord_def& delta)
 
 static bool _do_move_monster(monster& mons, const coord_def& delta)
 {
-    const coord_def orig_pos = mons.pos();
     const coord_def f = mons.pos() + delta;
 
     if (!in_bounds(f))

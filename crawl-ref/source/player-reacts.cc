@@ -1021,7 +1021,7 @@ void maybe_attune_regen_items(bool attune_regen, bool attune_mana_regen)
 // BASELINE_DELAY, and your regeneration rate. MP regeneration happens
 // similarly, but the countup depends on delay, BASELINE_DELAY, and
 // you.max_magic_points
-static void _regenerate_hp_and_mp(int delay)
+/*static void _regenerate_hp_and_mp(int delay)
 {
     if (crawl_state.disables[DIS_PLAYER_REGEN])
         return;
@@ -1074,7 +1074,7 @@ static void _regenerate_hp_and_mp(int delay)
     maybe_attune_regen_items(you.hp != old_hp && you.hp == you.hp_max,
                              you.magic_points != old_mp
                              && you.magic_points == you.max_magic_points);
-}
+}*/
 
 static void _handle_fugue(int delay)
 {

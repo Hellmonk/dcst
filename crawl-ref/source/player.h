@@ -524,7 +524,7 @@ public:
     int visible_igrd(const coord_def&) const;
     bool rampaging() const override;
     bool is_banished() const override;
-    bool is_sufficiently_rested(bool starting=false) const; // Up to rest_wait_percent HP and MP.
+    bool is_sufficiently_rested() const; // Up to rest_wait_percent HP and MP.
     bool is_web_immune() const override;
     bool is_binding_sigil_immune() const override;
     bool cannot_speak() const;

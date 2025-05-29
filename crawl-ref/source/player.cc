@@ -5642,7 +5642,7 @@ bool player::is_banished() const
     return banished;
 }
 
-bool player::is_sufficiently_rested(bool starting) const
+bool player::is_sufficiently_rested() const
 {
     const bool can_freely_move = you.is_motile() && !you.duration[DUR_BARBS];
 

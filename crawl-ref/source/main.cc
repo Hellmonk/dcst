@@ -1762,7 +1762,7 @@ static void _do_rest()
 
     if (i_feel_safe() && can_rest_here())
     {
-        if (you.is_sufficiently_rested(true) && ancestor_full_hp())
+        if (you.is_sufficiently_rested() && ancestor_full_hp())
         {
             mpr("You start waiting.");
             _start_running(RDIR_REST, RMODE_WAIT_DURATION);
