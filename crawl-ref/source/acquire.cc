@@ -474,7 +474,7 @@ static int _acquirement_jewellery_subtype(int & /*quantity*/,
     int new_weight = agent == AQ_VENDOR ? 4 : 10;
 
     // Rings are (number of usable rings) times as common as amulets.
-    const int ring_num = you.equipment.num_slots[SLOT_RING];
+    const int ring_num = agent == AQ_VENDOR ? 3 : you.equipment.num_slots[SLOT_RING];
 
     // Try ten times to give something the player hasn't seen.
     for (int i = 0; i < new_weight; i++)
