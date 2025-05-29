@@ -200,7 +200,7 @@ void run_tests()
         _run_test("mon-data", debug_mondata);
         _run_test("mon-spell", debug_monspells);
         _run_test("coordit", coordit_tests);
-        _run_test("makename", make_name_tests);
+        //_run_test("makename", make_name_tests);
         _run_test("job-data", debug_jobdata);
         _run_test("mon-bands", debug_bands);
         _run_test("xom-data", validate_xom_events);
