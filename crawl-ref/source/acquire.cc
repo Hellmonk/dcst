@@ -1259,7 +1259,7 @@ static int _item_quant_for_type(object_class_type basetype, int subtype)
         {
             case SCR_ENCHANT_ARMOUR:
             case SCR_ENCHANT_WEAPON:
-                return 2 + random2(5);
+                return 2 + random2(3);
             case SCR_IMMOLATION:
             case SCR_SILENCE:
             case SCR_TORMENT:
