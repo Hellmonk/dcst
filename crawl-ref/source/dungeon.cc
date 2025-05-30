@@ -2805,7 +2805,7 @@ static void _build_dungeon_level()
     _fixup_descent_hatches();
     _place_dungeon_exit();
 
-    if (is_connected_branch(you.where_are_you))
+    if (is_connected_branch(you.where_are_you) && !player_in_branch(BRANCH_SLIME))
         _place_vendors();
 
     // vendors placed in a bad spot

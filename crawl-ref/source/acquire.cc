@@ -57,9 +57,9 @@
 #include "ui.h"
 
 static equipment_slot _acquirement_armour_slot(int);
-static armour_type _acquirement_armour_for_slot(equipment_slot);
-static armour_type _acquirement_shield_type();
-static armour_type _acquirement_body_armour();
+static armour_type _acquirement_armour_for_slot(equipment_slot, int);
+static armour_type _acquirement_shield_type(int);
+static armour_type _acquirement_body_armour(int);
 static armour_type _useless_armour_type();
 static bool _armour_slot_seen(equipment_slot);
 
@@ -91,7 +91,7 @@ static int _skill_rdiv(skill_type skill, int mult = 1)
 static int _acquirement_armour_subtype(int & /*quantity*/, int agent)
 {
     const equipment_slot slot_type = _acquirement_armour_slot(agent);
-    return _acquirement_armour_for_slot(slot_type);
+    return _acquirement_armour_for_slot(slot_type, agent);
 }
 
 /**
@@ -170,7 +170,7 @@ static equipment_slot _acquirement_armour_slot(int agent)
  *
  * @return          The armour_type of the armour to be generated.
  */
-static armour_type _acquirement_armour_for_slot(equipment_slot slot_type)
+static armour_type _acquirement_armour_for_slot(equipment_slot slot_type, int agent)
 {
     switch (slot_type)
     {
@@ -187,9 +187,9 @@ static armour_type _acquirement_armour_for_slot(equipment_slot slot_type)
                 return random_choose(ARM_HELMET, ARM_HAT);
             return ARM_HAT;
         case SLOT_OFFHAND:
-            return _acquirement_shield_type();
+            return _acquirement_shield_type(agent);
         case SLOT_BODY_ARMOUR:
-            return _acquirement_body_armour();
+            return _acquirement_body_armour(agent);
         default:
             die("Unknown armour slot %d!", slot_type);
     }
@@ -203,13 +203,15 @@ static armour_type _acquirement_armour_for_slot(equipment_slot slot_type)
  *
  * @return A potentially wearable type of shield.
  */
-static armour_type _acquirement_shield_type()
+static armour_type _acquirement_shield_type(int agent)
 {
+    const int base_weight = agent == AQ_VENDOR ? 54 : 27;
+
     vector<pair<armour_type, int>> weights = {
-        { ARM_ORB,           27 - _skill_rdiv(SK_SHIELDS) },
-        { ARM_BUCKLER,       27 - _skill_rdiv(SK_SHIELDS) },
-        { ARM_KITE_SHIELD,   27},
-        { ARM_TOWER_SHIELD,  27 + _skill_rdiv(SK_SHIELDS, 2) },
+        { ARM_ORB,           base_weight - _skill_rdiv(SK_SHIELDS) },
+        { ARM_BUCKLER,       base_weight - _skill_rdiv(SK_SHIELDS) },
+        { ARM_KITE_SHIELD,   base_weight},
+        { ARM_TOWER_SHIELD,  base_weight + _skill_rdiv(SK_SHIELDS, 2) },
     };
 
     return filtered_vector_select<armour_type>(weights, [] (armour_type shtyp) {
@@ -225,9 +227,12 @@ static armour_type _acquirement_shield_type()
  * @param armour    The type of armour in question. (E.g. ARM_ROBE.)
  * @return          A weight for the armour.
  */
-static int _body_acquirement_weight(armour_type armour)
+static int _body_acquirement_weight(armour_type armour, int agent)
 {
-    const int base_weight = armour_acq_weight(armour);
+    int base_weight = armour_acq_weight(armour);
+    if (agent == AQ_VENDOR && armour <= ARM_LAST_MUNDANE_BODY)
+        base_weight += 90;
+
     const int ac = armour_prop(armour, PARM_AC);
     return base_weight * (300 + (_skill_rdiv(SK_ARMOUR) - 6) * ac);
 }
@@ -238,7 +243,7 @@ static int _body_acquirement_weight(armour_type armour)
  *
  * @return A potentially wearable type of body armour.
  */
-static armour_type _acquirement_body_armour()
+static armour_type _acquirement_body_armour(int agent)
 {
     vector<pair<armour_type, int>> weights;
     for (int i = ARM_FIRST_MUNDANE_BODY; i < NUM_ARMOURS; ++i)
@@ -250,7 +255,7 @@ static armour_type _acquirement_body_armour()
         if (!check_armour_size(armour, you.body_size(PSIZE_TORSO, true)))
             continue;
 
-        const int weight = _body_acquirement_weight(armour);
+        const int weight = _body_acquirement_weight(armour, agent);
 
         if (weight)
         {
@@ -1289,7 +1294,7 @@ int acquirement_create_item(object_class_type class_wanted,
     // Oka gifts. We also use lower quality for missile gifts.
     int item_level = ((agent == GOD_TROG || agent == GOD_XOM || class_wanted == OBJ_MISSILES) ? ISPEC_GIFT : ISPEC_GOOD_ITEM);
     if (agent == AQ_VENDOR && you.where_are_you == BRANCH_DUNGEON)
-        item_level = 50 + 15 * you.depth;
+        item_level = 15 + 10 * you.depth;
     int thing_created = NON_ITEM;
     int quant = 1;
 #define MAX_ACQ_TRIES 40
@@ -1366,7 +1371,7 @@ int acquirement_create_item(object_class_type class_wanted,
             if (agent == GOD_OKAWARU || agent == GOD_XOM)
                 acq_item.quantity = max(1, acq_item.quantity / 2);
             else
-                acq_item.quantity += 2 + random2avg(11,2);
+                acq_item.quantity += 2 + random2avg(7,2);
         }
         else if (class_wanted == OBJ_POTIONS || class_wanted == OBJ_SCROLLS
                  || class_wanted == OBJ_BAUBLES)
@@ -1409,7 +1414,7 @@ int acquirement_create_item(object_class_type class_wanted,
             }
 
             // bump jewel acq power up a bit
-            if (one_chance_in(agent == AQ_VENDOR ? 4 : 2) && !is_artefact(acq_item))
+            if (one_chance_in(agent == AQ_VENDOR ? 5 : 2) && !is_artefact(acq_item))
                 make_item_randart(acq_item);
         }
         else if (acq_item.base_type == OBJ_WEAPONS
@@ -1437,7 +1442,7 @@ int acquirement_create_item(object_class_type class_wanted,
         {
             make_item_randart(acq_item);
         }
-        else if (acq_item.base_type == OBJ_STAVES
+        else if (acq_item.base_type == OBJ_STAVES && (agent != AQ_VENDOR || one_chance_in(3))
                  && !is_artefact(acq_item) && !one_chance_in(5))
         {
             make_item_randart(acq_item);
