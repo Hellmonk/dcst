@@ -1259,7 +1259,7 @@ static void _fixup_dcst_shops()
     for (rectangle_iterator ri(1); ri; ++ri)
     {
         if (env.grid(*ri) == DNGN_ENTER_SHOP && !player_in_branch(BRANCH_ORC)
-            && !one_chance_in(10))
+            && is_connected_branch(you.where_are_you) && !one_chance_in(10))
         {
             _set_grd(*ri, DNGN_ABANDONED_SHOP);
         }
