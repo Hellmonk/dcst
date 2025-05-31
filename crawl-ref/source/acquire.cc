@@ -1302,8 +1302,6 @@ int acquirement_create_item(object_class_type class_wanted,
             item_level = 15 + 5 * you.depth;
         else if (you.where_are_you == BRANCH_LAIR)
             item_level = 80 + 5 * you.depth;
-        else if (you.where_are_you == BRANCH_ORC)
-            item_level = 125;
     }
     int thing_created = NON_ITEM;
     int quant = 1;
@@ -1804,7 +1802,7 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll, bool vendor)
 
     if (vendor)
     {
-        if (x_chance_in_y(2,3) && !you.has_mutation(MUT_NO_ARTIFICE))
+        if (one_chance_in(3) && !you.has_mutation(MUT_NO_ARTIFICE))
             rand_classes.emplace_back(OBJ_MISCELLANY);
         if (one_chance_in(4) && !you.has_mutation(MUT_NO_GRASPING))
             rand_classes.emplace_back(OBJ_MISSILES);
@@ -1825,7 +1823,7 @@ vector<object_class_type> consumable_vendor_classes()
 
     if (!you.has_mutation(MUT_NO_ARTIFICE))
     {
-        if (one_chance_in(4))
+        if (one_chance_in(6))
             rand_classes.emplace_back(OBJ_MISCELLANY);
 
         if (x_chance_in_y(2,3))
