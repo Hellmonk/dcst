@@ -1233,20 +1233,20 @@ static int _item_quant_for_type(object_class_type basetype, int subtype)
         switch (subtype)
         {
         case POT_CURING:
-            return 2 + random2(4) + random2(4);
+            return 2 + random2(3) + random2(3);
         case POT_ATTRACTION:
         case POT_AMBROSIA:
         case POT_LIGNIFY:
         case POT_BERSERK_RAGE:
         case POT_ENLIGHTENMENT:
-            return 1 + random2(3) + random2(4);
+            return 1 + random2(3) + random2(3);
         case POT_MIGHT:
         case POT_BRILLIANCE:
         case POT_RESISTANCE:
         case POT_CANCELLATION:
         case POT_INVISIBILITY:
         case POT_MUTATION:
-            return 1 + coinflip() + random2(3);
+            return 1 + coinflip() + coinflip();
         case POT_HASTE:
         case POT_HEAL_WOUNDS:
         case POT_MAGIC:
@@ -1268,7 +1268,7 @@ static int _item_quant_for_type(object_class_type basetype, int subtype)
             case SCR_TORMENT:
             case SCR_VULNERABILITY:
             case SCR_POISON:
-                return 1 + random2(3) + random2(4);
+                return 1 + random2(3) + random2(3);
             case SCR_FOG:
             case SCR_TELEPORTATION:
             case SCR_BRAND_WEAPON:
@@ -1276,7 +1276,7 @@ static int _item_quant_for_type(object_class_type basetype, int subtype)
             case SCR_SUMMONING:
             case SCR_BUTTERFLIES:
             case SCR_FEAR:
-                return 1 + coinflip() + random2(3);
+                return 1 + coinflip() + coinflip();
             case SCR_BLINKING:
                 return 1 + one_chance_in(5);
             default:
@@ -1296,8 +1296,15 @@ int acquirement_create_item(object_class_type class_wanted,
     // Trog/Xom gifts are generally lower quality than scroll acquirement or
     // Oka gifts. We also use lower quality for missile gifts.
     int item_level = ((agent == GOD_TROG || agent == GOD_XOM || class_wanted == OBJ_MISSILES) ? ISPEC_GIFT : ISPEC_GOOD_ITEM);
-    if (agent == AQ_VENDOR && you.where_are_you == BRANCH_DUNGEON)
-        item_level = 15 + 10 * you.depth;
+    if (agent == AQ_VENDOR)
+    {
+        if (you.where_are_you == BRANCH_DUNGEON)
+            item_level = 15 + 5 * you.depth;
+        else if (you.where_are_you == BRANCH_LAIR)
+            item_level = 80 + 5 * you.depth;
+        else if (you.where_are_you == BRANCH_ORC)
+            item_level = 125;
+    }
     int thing_created = NON_ITEM;
     int quant = 1;
 #define MAX_ACQ_TRIES 40
