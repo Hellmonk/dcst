@@ -571,7 +571,7 @@ static const vector<pair<misc_item_type, int> > _misc_base_weights()
     // The player never needs more than one of any of these.
     for (auto &p : choices)
         if (you.seen_misc[p.first])
-            p.second = 0;
+            p.second /= 2;
     return choices;
 }
 
@@ -613,19 +613,19 @@ static int _acquirement_misc_subtype(int & /*quantity*/,
 static int _acquirement_wand_subtype(int & /*quantity*/,
                                      int /*agent */)
 {
-    const bool no_allies = you.allies_forbidden();
+    const auto hex_wand_type = (wand_type)item_for_set(ITEM_SET_HEX_WANDS);
+    const auto beam_wand_type = (wand_type)item_for_set(ITEM_SET_BEAM_WANDS);
+    const auto blast_wand_type = (wand_type)item_for_set(ITEM_SET_BLAST_WANDS);
+    const int hex_wand_weight = hex_wand_type == WAND_CHARMING
+                                && you.allies_forbidden() ? 0 : 10;
+
     const bool no_poly = you.religion == GOD_ZIN;
     vector<pair<wand_type, int>> weights = {
-        { WAND_PARALYSIS, 10 },
-        { WAND_CHARMING, no_allies ? 0 : 10 },
+        { beam_wand_type, 10 },
+        { blast_wand_type, 10 },
+        { hex_wand_type, hex_wand_weight },
         { WAND_POLYMORPH, no_poly ? 0 : 10 },
         { WAND_MINDBURST, 10 },
-        { WAND_ICEBLAST, 8 },
-        { WAND_ACID, 8 },
-        { WAND_LIGHT, 8 },
-        { WAND_QUICKSILVER, 8 },
-        { WAND_ROOTS, 8 },
-        { WAND_WARPING, 8 },
         { WAND_DIGGING,   5 },
         { WAND_FLAME,     5 },
     };
@@ -633,7 +633,7 @@ static int _acquirement_wand_subtype(int & /*quantity*/,
     // Unknown wands get a huge weight bonus.
     for (auto &weight : weights)
         if (!type_is_identified(OBJ_WANDS, weight.first))
-            weight.second *= 2;
+            weight.second += 3;
 
     const wand_type* wand = random_choose_weighted(weights);
     ASSERT(wand);
@@ -1366,7 +1366,7 @@ int acquirement_create_item(object_class_type class_wanted,
 
         if (class_wanted == OBJ_WANDS)
         {
-            acq_item.plus = max(static_cast<int>(acq_item.plus), 3 + random2(7));
+            acq_item.plus = max(static_cast<int>(acq_item.plus), 2 + random2(7));
             if (acq_item.sub_type == WAND_FLAME)
                 acq_item.plus += random2(9);
         }
