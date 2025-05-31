@@ -462,6 +462,9 @@ static int _acquirement_missile_subtype(int & /*quantity*/,
     missile_weights.emplace_back(MI_BOOMERANG, agent == AQ_VENDOR ? 120 : 50);
     missile_weights.emplace_back(MI_DART, 75);
 
+    if (agent == AQ_VENDOR)
+        missile_weights.emplace_back(MI_THROWING_NET, 30);
+
     if (you.body_size() >= SIZE_MEDIUM)
         missile_weights.emplace_back(MI_JAVELIN, 100);
 
@@ -1372,6 +1375,9 @@ int acquirement_create_item(object_class_type class_wanted,
                 acq_item.quantity = max(1, acq_item.quantity / 2);
             else
                 acq_item.quantity += 2 + random2avg(7,2);
+
+            if (acq_item.sub_type == MI_THROWING_NET)
+                acq_item.quantity = 1 + random2(3);
         }
         else if (class_wanted == OBJ_POTIONS || class_wanted == OBJ_SCROLLS
                  || class_wanted == OBJ_BAUBLES)
