@@ -7728,5 +7728,5 @@ void use_restoration_shrine()
 
     env.grid(you.pos()) = DNGN_STONE_ARCH;
     unnotice_feature(level_pos(level_id::current(), you.pos()));
-    mpr("You feel restored."):
+    mpr("You feel restored.");
 }

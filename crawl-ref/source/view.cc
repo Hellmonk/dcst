@@ -26,6 +26,7 @@
 #include "delay.h"
 #include "dgn-overview.h"
 #include "directn.h"
+#include "dungeon.h"
 #include "english.h"
 #include "env.h"
 #include "tile-env.h"
@@ -1050,6 +1051,32 @@ void flash_view_delay(use_animation_type a, colour_t colour, int flash_delay,
     }
 }
 
+static void _explore_heal_one_hp()
+{
+    if (you.hp >= you.hp_max)
+    {
+        if (!env.properties.exists(EXPLORE_HEAL_KEY))
+            env.properties[EXPLORE_HEAL_KEY] = 1;
+        else
+            env.properties[EXPLORE_HEAL_KEY]++;
+    }
+    else
+        inc_hp(1);
+}
+
+static void _explore_heal_one_mp()
+{
+    if (you.magic_points >= you.max_magic_points)
+    {
+        if (!env.properties.exists(EXPLORE_MP_KEY))
+            env.properties[EXPLORE_MP_KEY] = 1;
+        else
+            env.properties[EXPLORE_MP_KEY]++;
+    }
+    else
+        inc_mp(1);
+}
+
 static void _do_explore_healing()
 {
     if (crawl_state.disables[DIS_PLAYER_REGEN])
@@ -1071,10 +1098,10 @@ static void _do_explore_healing()
         if (you.has_mutation(MUT_MANA_LINK)
             && !x_chance_in_y(you.magic_points, you.max_magic_points))
         {
-            inc_mp(1);
+            _explore_heal_one_mp();
         }
         else // standard hp regeneration
-            inc_hp(1);
+            _explore_heal_one_hp();
         you.hit_points_regeneration -= 100;
     }
 
@@ -1083,15 +1110,12 @@ static void _do_explore_healing()
     // MP Regeneration
     if (player_regenerates_mp())
     {
-        if (you.magic_points < you.max_magic_points)
-        {
-            const int base_val = player_mp_regen();
-            you.magic_points_regeneration += base_val;
-        }
+        const int base_val = player_mp_regen();
+        you.magic_points_regeneration += base_val;
 
         while (you.magic_points_regeneration >= 100)
         {
-            inc_mp(1);
+            _explore_heal_one_mp();
             you.magic_points_regeneration -= 100;
         }
 

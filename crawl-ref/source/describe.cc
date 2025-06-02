@@ -3258,7 +3258,7 @@ static string _feat_action_desc(const vector<command_type>& actions,
     return comma_separated_fn(begin(actions), end(actions),
         [feat] (command_type cmd)
         {
-            if (feat == CMD_GO_DOWNSTAIRS && feat == DNGN_SHRINE_RESTORATION)
+            if (cmd == CMD_GO_DOWNSTAIRS && feat == DNGN_SHRINE_RESTORATION)
                 return string("(>)use");
 
             if (cmd == CMD_GO_DOWNSTAIRS && feat_is_altar(feat))

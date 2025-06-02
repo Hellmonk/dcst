@@ -36,6 +36,8 @@ COMPILE_CHECK(sizeof(feature_property_type) <= sizeof(terrain_property_t));
 #define TRANSPORTER_DEST_NAME_PROP "_transporter_dest_name"
 
 #define DESCENT_STAIRS_KEY "descent_stairs_gone"
+#define EXPLORE_HEAL_KEY "explore_heal_amount"
+#define EXPLORE_MP_KEY "explore_mp_amount"
 
 const unsigned short INVALID_MAP_INDEX = 10000;
 

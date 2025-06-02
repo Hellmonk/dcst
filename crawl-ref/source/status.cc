@@ -338,6 +338,32 @@ bool fill_status_info(int status, status_info& inf)
         }
         break;
 
+    case STATUS_EXPLORE_HEAL:
+        if (env.properties.exists(EXPLORE_HEAL_KEY)
+            && env.properties[EXPLORE_HEAL_KEY].get_int() > 0)
+        {
+            inf.light_colour = WHITE;
+            inf.light_text
+                = make_stringf("ExploreHeal(%d)",
+                               env.properties[EXPLORE_HEAL_KEY].get_int());
+            inf.short_text   = "explore health";
+            inf.long_text    = "You will restore HP from exploration over time.";
+        }
+        break;
+
+    case STATUS_EXPLORE_MP:
+        if (env.properties.exists(EXPLORE_MP_KEY)
+            && env.properties[EXPLORE_MP_KEY].get_int() > 0)
+        {
+            inf.light_colour = WHITE;
+            inf.light_text
+                = make_stringf("ExploreMP(%d)",
+                               env.properties[EXPLORE_MP_KEY].get_int());
+            inf.short_text   = "explore mp";
+            inf.long_text    = "You will restore MP from exploration over time.";
+        }
+        break;
+
     case STATUS_CONTAMINATION:
         _describe_glow(inf);
         break;

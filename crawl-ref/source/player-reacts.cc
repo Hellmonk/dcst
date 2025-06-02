@@ -1021,13 +1021,21 @@ void maybe_attune_regen_items(bool attune_regen, bool attune_mana_regen)
 // BASELINE_DELAY, and your regeneration rate. MP regeneration happens
 // similarly, but the countup depends on delay, BASELINE_DELAY, and
 // you.max_magic_points
-/*static void _regenerate_hp_and_mp(int delay)
+static void _regenerate_hp_and_mp(int delay)
 {
     if (crawl_state.disables[DIS_PLAYER_REGEN])
         return;
 
     const int old_hp = you.hp;
     const int old_mp = you.magic_points;
+
+    if (!env.properties.exists(EXPLORE_HEAL_KEY))
+    {
+        env.properties[EXPLORE_HEAL_KEY] = 0;
+
+    if (!env.properties.exists(EXPLORE_MP_KEY))
+        env.properties[EXPLORE_MP_KEY] = 0;
+    }
 
     // HP Regeneration
     if (!you.duration[DUR_DEATHS_DOOR])
@@ -1036,19 +1044,25 @@ void maybe_attune_regen_items(bool attune_regen, bool attune_mana_regen)
         you.hit_points_regeneration += div_rand_round(base_val * delay, BASELINE_DELAY);
     }
 
-    while (you.hit_points_regeneration >= 100)
+    while (you.hit_points_regeneration >= 100 && env.properties[EXPLORE_HEAL_KEY].get_int() > 0
+           && you.hp < you.hp_max)
     {
         // at low mp, "mana link" restores mp in place of hp
         if (you.has_mutation(MUT_MANA_LINK)
             && !x_chance_in_y(you.magic_points, you.max_magic_points))
         {
             inc_mp(1);
+            env.properties[EXPLORE_HEAL_KEY]--;
         }
         else // standard hp regeneration
+        {
             inc_hp(1);
+            env.properties[EXPLORE_HEAL_KEY]--;
+        }
         you.hit_points_regeneration -= 100;
     }
 
+    you.hit_points_regeneration = min(you.hit_points_regeneration, 99);
     ASSERT_RANGE(you.hit_points_regeneration, 0, 100);
 
     // MP Regeneration
@@ -1061,12 +1075,15 @@ void maybe_attune_regen_items(bool attune_regen, bool attune_mana_regen)
             you.magic_points_regeneration += mp_regen_countup;
         }
 
-        while (you.magic_points_regeneration >= 100)
+        while (you.magic_points_regeneration >= 100 && env.properties[EXPLORE_MP_KEY].get_int() > 0
+               && you.magic_points < you.max_magic_points)
         {
             inc_mp(1);
             you.magic_points_regeneration -= 100;
+            env.properties[EXPLORE_MP_KEY]--;
         }
 
+        you.magic_points_regeneration = min(you.magic_points_regeneration, 99);
         ASSERT_RANGE(you.magic_points_regeneration, 0, 100);
     }
 
@@ -1074,7 +1091,7 @@ void maybe_attune_regen_items(bool attune_regen, bool attune_mana_regen)
     maybe_attune_regen_items(you.hp != old_hp && you.hp == you.hp_max,
                              you.magic_points != old_mp
                              && you.magic_points == you.max_magic_points);
-}*/
+}
 
 static void _handle_fugue(int delay)
 {
@@ -1181,6 +1198,8 @@ void player_reacts()
     you.update_fearmongers();
 
     you.handle_constriction();
+
+    _regenerate_hp_and_mp(you.time_taken);
 
     if (you.duration[DUR_CELEBRANT_COOLDOWN] && you.hp == you.hp_max)
     {
