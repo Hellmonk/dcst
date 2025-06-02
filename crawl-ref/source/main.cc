@@ -1825,6 +1825,11 @@ static void _do_cycle_quiver(int dir)
 
 static void _do_list_gold()
 {
+    const int vends = check_vendors_on_level();
+
+    mprf("There %s%d vendor%s on this level.", vends != 1 ? "are " : "is "
+         , vends, vends != 1 ? "s" : "");
+
     if (shopping_list.empty())
     {
         mprf("You have %d gold piece%s.", you.gold, you.gold != 1 ? "s" : "");

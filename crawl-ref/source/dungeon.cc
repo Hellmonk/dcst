@@ -7670,3 +7670,16 @@ int starting_absdepth()
         return 1;
     return 0; // (absdepth is 0-indexed)
 }
+
+int check_vendors_on_level()
+{
+    int vendors = 0;
+    for (rectangle_iterator ri(0); ri; ++ri)
+    {
+        dungeon_feature_type feat = env.grid(*ri);
+        if (feat == DNGN_ENTER_VENDOR)
+            vendors++;
+    }
+
+    return vendors;
+}

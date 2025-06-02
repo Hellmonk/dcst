@@ -959,7 +959,7 @@ class ShopMenu : public InvMenu
     vector<int> bought_indices;
 
     int selected_cost(bool use_shopping_list=false) const;
-    int max_cost() const;
+    int max_cost(bool use_shopping_list=false) const;
 
     void init_entries();
     void update_help();
@@ -1091,30 +1091,41 @@ int ShopMenu::selected_cost(bool use_shopping_list) const
     return cost;
 }
 
-int ShopMenu::max_cost() const
+int ShopMenu::max_cost(bool use_shopping_list) const
 {
     int cost = 0;
     for (auto item : selected_entries())
         cost = max(cost, dynamic_cast<ShopEntry*>(item)->cost);
+    if (use_shopping_list && cost == 0)
+    {
+        for (auto item : items)
+        {
+            auto e = dynamic_cast<ShopEntry*>(item);
+            if (shopping_list.is_on_list(*e->item, &pos))
+                cost = max(cost, e->cost);
+        }
+    }
 
     return cost;
 }
 
 void ShopMenu::update_help()
 {
+    const bool voucher = have_voucher();
     // TODO: convert to a regular keyhelp, make less painful
 
     //You have 2000 gold pieces. After the purchase, you will have 1802 gold pieces.
     //[Esc] exit          [Tab] buy|examine items     [a-j] mark item for purchase
     //[/] sort (type)     [Enter] buy marked items    [A-J] put item on shopping list
-    string top_line = make_stringf("<yellow>You have %d gold piece%s.",
+    string top_line = make_stringf("<yellow>You have %d gold piece%s%s.",
                                    you.gold,
-                                   you.gold != 1 ? "s" : "");
+                                   you.gold != 1 ? "s" : "",
+                                   voucher ? " and a voucher" : "");
     const int total_cost = !can_purchase ? 0 : selected_cost(true);
     if (total_cost > you.gold)
     {
-        int max = max_cost();
-        if (have_voucher() && total_cost - max <= you.gold)
+        int max = max_cost(true);
+        if (voucher && total_cost - max <= you.gold)
         {
             top_line += "<lightred>";
             top_line +=
@@ -1245,7 +1256,7 @@ void ShopMenu::purchase_selected()
     const bool too_expensive = (cost > you.gold);
     if (too_expensive)
     {
-        if (!have_voucher() || cost - max_cost() > you.gold)
+        if (!have_voucher() || cost - max_cost(buying_from_list) > you.gold)
         {
             more = formatted_string::parse_string(make_stringf(
                     "<%s>You don't have enough money.</%s>\n",
@@ -1286,7 +1297,7 @@ void ShopMenu::purchase_selected()
     you.last_pickup.clear();
 
     bool use_voucher = false;
-    int voucher_value = too_expensive ? max_cost() : 0;
+    int voucher_value = too_expensive ? max_cost(buying_from_list) : 0;
 
     // Will iterate backwards through the shop (because of the earlier sort).
     // This means we can erase() from shop.stock (since it only invalidates
@@ -2317,10 +2328,13 @@ public:
     bool view_only;
     ShoppingList &list;
 
+    const bool voucher = have_voucher();
+
     string get_keyhelp(bool) const override
     {
-        string s = make_stringf("<yellow>You have %d gold pieces</yellow>\n"
-                                "<lightgrey>", you.gold);
+        string s = make_stringf("<yellow>You have %d gold pieces%s</yellow>\n"
+                                "<lightgrey>", you.gold,
+                                 voucher ? " and a voucher." : "");
 
         if (view_only)
             s += "Choose to examine item  ";

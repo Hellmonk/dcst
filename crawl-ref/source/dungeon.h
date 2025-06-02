@@ -311,3 +311,4 @@ void dgn_place_transporter(const coord_def &pos, const coord_def &dest);
 bool dgn_make_transporters_from_markers();
 
 int starting_absdepth();
+int check_vendors_on_level();
