@@ -2378,7 +2378,8 @@ item_def* monster_die(monster& mons, killer_type killer,
     const bool hard_reset    = testbits(mons.flags, MF_HARD_RESET);
     const bool timeout       = killer == KILL_TIMEOUT;
     const bool gives_player_xp = mons_gives_xp(mons, you);
-    bool drop_items          = mons_is_unique(mons.type) && !hard_reset;
+    bool drop_items          = (mons_is_unique(mons.type) || mons.type == MONS_DANCING_WEAPON) 
+                                && !hard_reset;
     bool in_transit          = false;
     const bool was_banished  = (killer == KILL_BANISHED);
     const bool mons_reset    = RESET_KILL(killer);
