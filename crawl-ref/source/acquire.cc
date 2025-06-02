@@ -1634,10 +1634,13 @@ static void _create_acquirement_item(item_def &item, string items_key,
     }
     else
     {
-        if (copy_item_to_grid(item, you.pos()) != NON_ITEM)
-            canned_msg(MSG_SOMETHING_APPEARS);
-        else
-            canned_msg(MSG_NOTHING_HAPPENS);
+        if (item_is_stationary(item) || !move_item_to_inv(item))
+        {
+            if (copy_item_to_grid(item, you.pos()) != NON_ITEM)
+                canned_msg(MSG_SOMETHING_APPEARS);
+            else
+                canned_msg(MSG_NOTHING_HAPPENS);
+        }
     }
 
     acq_items.clear();
