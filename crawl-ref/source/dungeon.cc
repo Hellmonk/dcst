@@ -1256,10 +1256,13 @@ static void _fixup_descent_hatches()
 
 static void _fixup_dcst_shops()
 {
+    const bool shops_allowed = at_branch_bottom()
+                || !is_connected_branch(you.where_are_you);
+
     for (rectangle_iterator ri(1); ri; ++ri)
     {
-        if (env.grid(*ri) == DNGN_ENTER_SHOP && !player_in_branch(BRANCH_ORC)
-            && is_connected_branch(you.where_are_you) && !one_chance_in(10))
+        if (env.grid(*ri) == DNGN_ENTER_SHOP && !shops_allowed
+            && !one_chance_in(10))
         {
             _set_grd(*ri, DNGN_ABANDONED_SHOP);
         }

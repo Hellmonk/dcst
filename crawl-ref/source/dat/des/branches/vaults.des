@@ -11,7 +11,9 @@
 function vaults_end_loot(e)
     e.subst("? = | * .:43")
     e.subst("| = | *:2")
+    e.nsubst("* = 1:Z / *")
     e.subst("* = * |:2")
+    e.kfeat("Z = weapon shop / armour shop")
 end
 
 -- Vaults:$ cross-vault rune substitution. Turn 'O' into a rune (if it doesn't

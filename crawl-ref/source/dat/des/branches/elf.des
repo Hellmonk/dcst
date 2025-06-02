@@ -65,7 +65,8 @@ function elf_loot_randomisation(e)
   e.nsubst("$ = 1:R / *:$")
   e.subst("$ = $:20 *:4 |:1")
   e.subst("* = * |:3")
-  e.nsubst("* = 2:$ / *:*")
+  e.nsubst("* = 3:~ / *:*")
+  e.kfeat("~ = book shop / book shop / jewellery shop")
 end
 
 -- The standard Elf:$ monster set

@@ -55,6 +55,7 @@ function setup_slime_pit_ending(e)
   e.mons("great orb of eyes / nothing")
   e.kfeat("Z = altar_jiyva")
   e.kitem("k = |, starry gem")
+  e.kfeat("Y = any shop")
   e.kitem("O = slimy rune of Zot")
 
 -- Attach function to the Royal Jelly itself. This will follow it wherever
@@ -914,7 +915,7 @@ xxxxxxxxx'..''................""""."""""................''xxxxxxxxxxxx
 xxxxxxxxx'x.................."cccc2ccccc".................'xxxxxxxxxxx
 xxxxxxxxx'.'................"cc*cc..cc*cc".................''xxxxxxxxx
 xxxxxxxxx'................."cc***cc4c***cc".................xxxxxxxxxx
-xxxxxxxxx'................"cc*|*cc..cc*|*cc"................'xxxxxxxxx
+xxxxxxxxx'................"cc*Y*cc..cc*Y*cc"................'xxxxxxxxx
 xxxxxxxx''..............."cc*|O|*n4nn*|P|*cc"...............'xxxxxxxxx
 xxxxxxxx'................"cc**|*nn..nn*|**cc"................'''xxxxxx
 xxxxxxxx'................"ccc**nonn4npn**ccc"..................xxxxxxx
@@ -925,7 +926,7 @@ xxxxxx'.................."ccccnnnn3.nnnncccc"...................'xxxxx
 xxxxxx'.................."ccc**nqnn4nrn**ccc"...................'xxxxx
 xxxxxx'.................."cc**|*nn..nn*|**cc"..................'xxxxxx
 xxxxx'..................."cc*|Q|*n4nn*|R|*cc"..................'xxxxxx
-xxxxx''..................."cc*|*cc..cc*|*cc"..................'xxxxxxx
+xxxxx''..................."cc*Y*cc..cc*Y*cc"..................'xxxxxxx
 xxxxxxx'..................."cc***cc4c***cc"...................'xxxxxxx
 xxxxxxxx'..................."cc*cc..cc*cc"....................'xxxxxxx
 xxxxxxxx'...................."cccc2ccccc"....................'xxxxxxxx
@@ -999,9 +1000,9 @@ xxxxxxxxx''...............c.....c...c.....c..................''''xxxx
 xxxxxxxxxxx'.............n4n..P..nQn..R..n4n................'xxxxxxxx
 xxxxxxxxxxx'............c...c..4..c..4..c...c..............'xxxxxxxxx
 xxxxxxxxxx'.............ccncc..ccncncc..ccncc..............'xxxxxxxxx
-xxxxxxxx''..............n*|*n.n.ck|kc.n.n*|*n...............''xxxxxxx
-xxxxxx''...............cc|*|ccS.n|O|n.Scc|*|cc................'xxxxxx
-xxxxx'..................n*|*n.n.ck|kc.n.n*|*n..................'xxxxx
+xxxxxxxx''..............n*|*n.n.ckYkc.n.n*|*n...............''xxxxxxx
+xxxxxx''...............cc|*|ccS.nYOYn.Scc|*|cc................'xxxxxx
+xxxxx'..................n*|*n.n.ckYkc.n.n*|*n..................'xxxxx
 xxxx'...................ccncc..ccncncc..ccncc...................'xxxx
 xxxx'...................c...c..4..c..4..c...c...............{...'xxxx
 xxxx'....................n4n..R..nQn..P..n4n....................'xxxx
@@ -1073,7 +1074,7 @@ xx`...{.cxxxc...........cxxxc.4...n...4.cxxxc...........cxxxc.[...`xx
 x`..c...cxxxc...c...c...cxxxc...c...c...cxxxc...c...c...cxxxc...c..`x
 x`.ccccccxxxcccccc.ccccccxnxcccccc.ccccccxnxcccccc.ccccccxxxcccccc.`x
 x`..cxxxxxxxxxxxc...cxxxxnnnn|**c...c**|nnnnxxxxc...cxxxxxxxxxxxc..`x
-x``.cxxxxxxxxxxxc...cxxxnnPnn|**c.c.c**|nnQnnxxxc...cxxxxxxxxxxxc.``x
+x``.cxxxxxxxxxxxc...cxxxnnPnnY**c.c.c**YnnQnnxxxc...cxxxxxxxxxxxc.``x
 x`..cxxxxxxxxxxxc...cxxxxnnnn|**c...c**|nnnnxxxxc...cxxxxxxxxxxxc..`x
 x`.ccccccxxxcccccc.ccccccnnncnnncc.ccnnncnnncccccc.ccccccxxxcccccc.`x
 x`..cxxxcxxxc...c...c...c|p|n..nc...cn..n|q|c...c...c...cxxxcxxxc..`x
@@ -1089,7 +1090,7 @@ x`..`xxxcxxxc.4...n...4.c***n.3...c...3.n***c.4...n...4.cxxxcxxx`..`x
 x`..cxxxcxxxc...c...c...c|r|n..nc...cn..n|s|c...c...c...cxxxcxxxc..`x
 x`.ccccccxxxcccccc.ccccccnnncnnncc.ccnnncnnncccccc.ccccccxxxcccccc.`x
 x`..cxxxxxxxxxxxc...cxxxxnnnn|**c...c**|nnnnxxxxc...cxxxxxxxxxxxc..`x
-x``.cxxxxxxxxxxxc...cxxxnnRnn|**c.c.c**|nnSnnxxxc...cxxxxxxxxxxxc.``x
+x``.cxxxxxxxxxxxc...cxxxnnRnnY**c.c.c**YnnSnnxxxc...cxxxxxxxxxxxc.``x
 x`..cxxxxxxxxxxxc...cxxxxnnnn|**c...c**|nnnnxxxxc...cxxxxxxxxxxxc..`x
 x`.ccccccxxxcccccc.ccccccxnxcccccc.ccccccxnxcccccc.ccccccxxxcccccc.`x
 x`..c...cxxxc...c...c...cxxxc...c...c...cxxxc...c...c...cxxxc...c..`x
@@ -1130,7 +1131,7 @@ NSUBST:  S = { / [ / ( / 4.., P = O / *|
 MAP
                            cccccccccc
                            c*n|P||n*c
-                           c**n|pn**c
+                           c**nYpn**c
                           ccc**nn**ccc
                         cccncc*|**ccnccc
                       ccc....cnnnnc....ccc
@@ -1160,7 +1161,7 @@ c**cc............''xxxxxxxxx'''.3.''xxxxxxxxx''............cc**c
 cn**cc............'''''''''''2....2'''''''''''............cc**nc
 c|n**n............'...'...'........'...'...'..............n**n|c
 c|on*n..............4...4...3..1.....4...4...4............n|nq|c
-cO|n|n............4...4...4.....Z..3...4...4..............n*n|Qc
+cOYn|n............4...4...4.....Z..3...4...4..............n*nYQc
 c|n**n..............'...'...'........'...'...'............n**n|c
 cn**cc............'''''''''''2....2'''''''''''............cc**nc
 c**cc............''xxxxxxxxx''.3.'''xxxxxxxxx''............cc**c
@@ -1189,7 +1190,7 @@ ccccn.H..........'xxxxxxxxxxx'....'xxxxxxxxxxx'..........E.ncccc
                       ccc....cnnnnc....ccc
                         cccncc**|*ccnccc
                           ccc**nn**ccc
-                           c**nr|n**c
+                           c**nrYn**c
                            c*n||R|n*c
                            cccccccccc
 ENDMAP
@@ -1224,7 +1225,7 @@ xxx'............'xxxx'....{....'xxxxxx''..........'xx
 xxxx'............'xxxx'.......'xxxxx''...........'xxx
 xxxxx'...........'xxxxxnnncnnnxxxxx'............'xxxx
 xxxxxx'...........'xxccn**c**nccxx'.............'xxxx
-xxxxxxx'...........'xc|***c***|cx'..............'xxxx
+xxxxxxx'...........'xcY***c***Ycx'..............'xxxx
 xxxxxxxx'...........nn***|c|***nn................'xxx
 xxxxxxxxx'..........n***d|c|e***n.................'xx
 xxxxxxxxx'..........n**||DcE||**n.................'xx
@@ -1232,7 +1233,7 @@ xxxxxxxxx'........{.ccccccccccccc.{................'x
 xxxxxxxxx'..........n**||FcG||**n..........''......'x
 xxxxxxx''...........n***f|c|g***n.........'xx'.....'x
 xxxxx''.............nn***|c|***nn'.......'xxx'.....'x
-xxx'...............'xc|***c***|cxx'......'xxx'....'xx
+xxx'...............'xcY***c***Ycxx'......'xxx'....'xx
 xx'.........'x....'xxccn**c**nccxxx'...''xxx'.....'xx
 xx'.......'xxx'..'xxxxxnnncnnnxxxxxx'''xxxxx'.....'xx
 xx'......'xxxxx''xxxxx'.......xxxxxxxxxxxxx'.....'xxx
@@ -1294,9 +1295,9 @@ xxxxccc.c.ccc..........!!....cc".!....'xxxccxx''..'''x""c.!.nnn|***cxx
 xxccc.......ccc.........!.4""".......!""4'"'''......!"".......nn|**ccx
 xxxc.........c.........""........4...."...!!.........!....3....n|***cx
 xxcc.........cc........".......R...R..!!...!..4..4..!!.........nn|**cx
-xxc..........."........cc..............!........................nk|kcx
-xxcc....{....""........".2."".4..V..4.....2.....4...2..3.1Z..3.nn|O|cx
-xxc...........!........""..!....................................nk|kcx
+xxc..........."........cc..............!........................nkYkcx
+xxcc....{....""........".2."".4..V..4.....2.....4...2..3.1Z..3.nnYOYcx
+xxc...........!........""..!....................................nkYkcx
 xxcc..........!........"...!!..R...R..........4..4..!!.........nn|**cx
 xxxc...................""...!....4........!!.........!....3....n|***cx
 xxccc...................!.4""".....".cc!4.!.........""".......nn|**ccx
@@ -1373,9 +1374,9 @@ xxxxxxxx'...........'c*n.....M.1.1.M.....n*c'...........'xxxxxxxx
 xxxxxxxxx'.........'cc*nn...............nn*cc'.........'xxxxxxxxx
 xxxxxxxxxx'........'c***n.....4.M.4.....n***c'........'xxxxxxxxxx
 xxxxxxxxxxx'......'cc***nn.............nn***cc'......'xxxxxxxxxxx
-xxxxxxxxxxxx'.....'c*o|o*n.............n*q|q*c'.....'xxxxxxxxxxxx
+xxxxxxxxxxxx'.....'c*oYo*n.............n*qYq*c'.....'xxxxxxxxxxxx
 xxxxxxxxxxxxx'...'cc*|O|*nn...........nn*|Q|*cc'...'xxxxxxxxxxxxx
-xxxxxxxxxxxxxx'..'c**o|o**n...........n**q|q**c'..'xxxxxxxxxxxxxx
+xxxxxxxxxxxxxx'..'c**oYo**n...........n**qYq**c'..'xxxxxxxxxxxxxx
 xxxxxxxxxxxxxxx''cc*******cc.........cc*******cc''xxxxxxxxxxxxxxx
 xxxxxxxxxxxccccccccccccccccccccc.cccccccccccccccccccccxxxxxxxxxxx
 xxxxxxxxxxxccccccc''''''''''ccc.4.ccc''''''''''cccccccxxxxxxxxxxx

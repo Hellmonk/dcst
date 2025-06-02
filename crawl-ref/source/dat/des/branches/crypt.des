@@ -78,38 +78,40 @@ function crypt_loot_plus(e)
   -- provide some unreliable but high quality incentives.
   -- TODO: shove this into an extra-greedy shop so people actually notice the
   -- existence of this and thus are more incentivized for optional branch #3.
-  local drain = "ego:draining good_item pre_id"
-  local pain = "ego:pain pre_id"
-  local vamp = "ego:vampirism pre_id"
-  local book = "randbook disc:necromancy numspells:6 spells:"
-  local ring = "any ring randart artprops:rN:2"
-  local amulet = "any amulet randart artprops:Regen:1"
-  -- One drop-off of these,
-  e.kitem("d = double sword w:5 " .. drain .." / triple sword w:5 " .. drain ..
-          " / quick blade " .. drain .. " / executioner's axe " .. drain ..
-          " / eveningstar " .. drain .. " / partisan w:5 " .. drain ..
-          " / bardiche w:5 " .. drain .. " / lajatang " .. drain)
-  e.kitem("e = great sword " .. pain .." / battleaxe " .. pain ..
-          " / great mace " .. pain .. " / glaive " .. pain ..
-          " / quarterstaff " .. pain)
-  e.kitem("f = great sword " .. vamp .." / quick blade " .. vamp ..
-          " / battleaxe " .. vamp .. " / great mace " .. vamp ..
-          " / glaive " .. vamp .. ", sanguine talisman " ..
-          " / sanguine talisman randart w:2")
-  e.kitem("g = " .. ring .. ", " .. ring .. " / " .. amulet .. " w:2, " ..
-          ring .. " / " .. amulet .. " w:2 / sanguine talisman ")
-  -- and one drop-off of these.
-  e.kitem("h = vampires_tooth / sword_of_the_doom_knight / leech / " ..
-          "finisher / scythe_of_curses / majin-bo / " ..
-          "sceptre_of_torment / undeadhunter / brilliance")
-  e.kitem("i = necronomicon / " .. book .. "death's_door / " .. book .. "haunt / "
-          .. book .. "borgnjor's_revivification / " .. book .. "infestation")
-  e.kitem("j = talisman of death / talisman of death randart w:1, " ..
-          "staff of death randart / any magical staff randart artprops:Necro / " ..
-          "skull_of_zonguldrok w:1")
   e.kitem("k = ivory gem")
   e.subst("d = d:20 ef g:20")
-  e.subst("h = h:5 i:15 j")
+  local i = { "talisman of death", "talisman of death randart", "staff of death randart",
+              "any magical staff randart artprops:Necro", "sanguine talisman",
+              "sanguine talisman randart", "sanguine talisman randart",
+              "any ring randart artprops:rN:2", "any amulet randart artprops:Regen:1",
+              "shadow dragon scales randart", "shadow dragon scales good_item",
+              "pearl dragon scales good_item", "scroll of torment q:5", "potion of experience",
+              "double sword ego:draining plus:6", "triple sword ego:draining plus:6",
+              "quick blade ego:draining plus:6", "eveningstar ego:draining plus:6",
+              "broad axe ego:draining plus:6", "battleaxe ego:draining plus:6",
+              "bardiche ego:draining plus:6", "partisan ego:draining plus:6",
+              "lajatang ego:draining plus:6", "demon whip ego:draining plus:6",
+              "demon trident ego:draining plus:6", "demon blade ego:draining plus:6",
+              "great sword ego:draining plus:6", "glaive ego:draining plus:6",
+              "executioner's axe ego:draining plus:6", "lajatang randart ego:pain",
+              "quick blade ego:pain plus:6", "longbow ego:draining plus:6",
+              "hand cannon ego:draining plus:6", "triple crossbow ego:draining plus:6",
+              "broad axe ego:pain plus:6", "demon trident ego:pain plus:6",
+              "demon blade ego:pain plus:6", "demon whip ego:pain plus:6",
+              "broad axe randart ego:vampirism", "eveningstar randart ego:vampirism",
+              "lajatang randart ego:vampirism", "any armour randart artprops:rN:1",
+              "any armour randart artprops:rN:1", "any armour randart artprops:rN:1",
+              "any armour randart artprops:rN:1", "any armour randart artprops:rN:1",
+              "any armour randart artprops:rN:1", "any armour randart artprops:rN:1",
+              "any armour randart artprops:rN:1", "any armour randart artprops:rN:1",
+              "any armour randart artprops:rN:1", "any armour randart artprops:rN:1",
+              "any armour randart artprops:rN:1", "any armour randart artprops:rN:1",
+              "crystal plate armour ego:positive_energy", "any armour randart artprops:Regen:1",
+              "shadow dragon scales good_item", "staff of death randart",
+              "staff of death randart", "staff of death randart", "any magical staff randart artprops:Necro"}
+  local inventory = util.join(" | ", util.random_subset(i, 13))
+  e.kfeat("Q = general shop count:13 use_all ; " .. inventory)
+  e.nsubst("h = 1:Q / h")
 end
 }}
 
