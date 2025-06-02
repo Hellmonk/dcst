@@ -340,6 +340,9 @@ command_type feat_stair_direction(dungeon_feature_type feat)
     if (feat_is_altar(feat))
         return CMD_GO_DOWNSTAIRS; // arbitrary; consistent with shops
 
+    if (feat == DNGN_SHRINE_RESTORATION)
+        return CMD_GO_DOWNSTAIRS;
+
     switch (feat)
     {
     case DNGN_STONE_STAIRS_UP_I:

@@ -376,6 +376,11 @@ A fountain of sparkling water
 
 A decorative fountain, flowing with brightly sparkling, faintly magic water.
 %%%%
+A shrine of restoration
+
+A shrine pulsing with healing energies. It can be activated, once, to restore
+your health, magic, and status, provided no enemies are nearby.
+%%%%
 A cache of baked goods
 
 A hoard of breadstuffs, baked and fried from minor divine gifts of flour and

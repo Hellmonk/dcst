@@ -59,10 +59,12 @@
 #include "nearby-danger.h"
 #include "notes.h"
 #include "place.h"
+#include "prompt.h"
 #include "randbook.h"
 #include "random.h"
 #include "religion.h"
 #include "show.h"
+#include "spl-goditem.h"
 #include "spl-transloc.h"
 #include "stairs.h"
 #include "state.h"
@@ -7685,4 +7687,46 @@ int check_vendors_on_level()
     }
 
     return vendors;
+}
+
+void use_restoration_shrine()
+{
+    if (env.grid(you.pos()) != DNGN_SHRINE_RESTORATION)
+        return;
+
+    const bool ddoor = you.duration[DUR_DEATHS_DOOR];
+
+    if ((you.hp == you.hp_max || ddoor) && you.magic_points == you.max_magic_points
+        && !player_is_cancellable() && !you.duration[DUR_POISONING])
+    {
+        mpr("The shrine would do nothing in your present state.");
+        return;
+    }
+
+    if (there_are_monsters_nearby(true, true, false))
+    {
+        mpr("The shrine refuses to activate in the presence of monsters.");
+        return;
+    }
+
+    string ddoor_string = ddoor ? "Death's Door will prevent you from healing!" : "";
+
+    if (!yesno(make_stringf("Use the shrine? %s", ddoor_string.c_str()).c_str(), true, 0))
+    {
+        canned_msg(MSG_OK);
+        return;
+    }
+
+    if (!ddoor)
+        set_hp(you.hp_max);
+
+    set_mp(you.max_magic_points);
+
+    you.redraw_hit_points = true;
+    you.duration[DUR_POISONING] = 0;
+    debuff_player(true);
+
+    env.grid(you.pos()) = DNGN_STONE_ARCH;
+    unnotice_feature(level_pos(level_id::current(), you.pos()));
+    mpr("You feel restored."):
 }

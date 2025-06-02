@@ -312,3 +312,4 @@ bool dgn_make_transporters_from_markers();
 
 int starting_absdepth();
 int check_vendors_on_level();
+void use_restoration_shrine();

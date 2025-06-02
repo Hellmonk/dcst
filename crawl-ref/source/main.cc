@@ -1324,7 +1324,8 @@ static bool _can_take_stairs(dungeon_feature_type ftype, bool down,
                              bool known_shaft)
 {
     // Up and down both work for shops, portals, and altars.
-    if (ftype == DNGN_ENTER_SHOP || ftype == DNGN_ENTER_VENDOR || feat_is_altar(ftype))
+    if (ftype == DNGN_ENTER_SHOP || ftype == DNGN_ENTER_VENDOR || feat_is_altar(ftype)
+        || ftype == DNGN_SHRINE_RESTORATION)
     {
         if (crawl_state.doing_prev_cmd_again)
         {
@@ -1339,6 +1340,8 @@ static bool _can_take_stairs(dungeon_feature_type ftype, bool down,
             shop();
         else if (ftype == DNGN_ENTER_VENDOR)
             vend();
+        else if (ftype == DNGN_SHRINE_RESTORATION)
+            use_restoration_shrine();
         else
             try_god_conversion(feat_altar_god(ftype));
         // Even though we may have "succeeded", return false so we don't keep

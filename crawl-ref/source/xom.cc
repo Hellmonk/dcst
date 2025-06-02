@@ -2188,7 +2188,7 @@ static vector<coord_def> _xom_scenery_candidates()
     {
         dungeon_feature_type feat = env.grid(*ri);
         if (feat_is_fountain(feat) && feat != DNGN_FOUNTAIN_BLOOD
-            && feat != DNGN_FOUNTAIN_EYES)
+            && feat != DNGN_FOUNTAIN_EYES && feat != DNGN_SHRINE_RESTORATION)
         {
             candidates.push_back(*ri);
         }

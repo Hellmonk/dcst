@@ -756,4 +756,11 @@ FOUNTAIN(DNGN_RUNELIGHT, "runelight", "runelight", ETC_DISJUNCTION),
     FFT_NOTABLE, MF_FEATURE,
 },
 
+{
+    DNGN_SHRINE_RESTORATION, "shrine of restoration", "shrine_restoration",
+    DCHAR_ARCH, NUM_DCHAR_TYPES,
+    LIGHTCYAN, LIGHTGREY, LIGHTCYAN, LIGHTCYAN, LIGHTGREY,
+    FFT_NOTABLE, MF_FEATURE,
+},
+
 };

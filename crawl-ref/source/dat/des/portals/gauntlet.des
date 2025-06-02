@@ -1234,6 +1234,7 @@ SUBVAULT: j : gauntlet_arena_second
 SUBVAULT: y : gauntlet_exit
 # Just in case we ever add lava felids, prevent their revival in closets.
 KPROP:    lG = no_tele_into
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
                ccc ccc ccccccccccccc ccc ccc
@@ -1254,7 +1255,7 @@ MAP
     cGn........n.nnnnaaaaaan...nddddddnnnn.n........nGc
   cccnn........n.n...........l...........n.n........nnccc
 cccl.....nnnnnnn.nnnnnnn....lGl....nnnnnnn.nnnnnnn.....lccc
-cGn......nJ...........Ln.....l.....nN...........Pn......nGc
+cGn......nJ.....~.....Ln.....l.....nN.....~.....Pn......nGc
 ccc..nnnnnnnnnnnnnnnnnnnnnnn...nnnnnnnnnnnnnnnnnnnnnnn..ccc
   c..eeeeeeeeeeelfffffffffff...ggggggggggglhhhhhhhhhhh..c
 ccc..eeeeeeeeeeelfffffffffff...ggggggggggglhhhhhhhhhhh..ccc
@@ -1266,7 +1267,7 @@ cGn..neeeeeeeeenlnfffffffffn...ngggggggggnlnhhhhhhhhhn..nGc
 ccc..neeeeeeeeenlnfffffffffn...ngggggggggnlnhhhhhhhhhn..ccc
   c..neeeeeeeeenlnfffffffffn...ngggggggggnlnhhhhhhhhhn..c
 ccc..nnnnnnnnnnnnnnnnnnnnnnn...nnnnnnnnnnnnnnnnnnnnnnn..ccc
-cGn......nK...........Mn.....l.....nO...........Qn......nGc
+cGn......nK.....~.....Mn.....l.....nO.....~.....Qn......nGc
 cccl.....nnnnnnn.nnnnnnn....lGl....nnnnnnn.nnnnnnn.....lccc
   cccnn........n.n...........l...........n.n........nnccc
     cGn........n.niiiiiinnnn...nnnnjjjjjjn.n........nGc
@@ -1321,6 +1322,7 @@ SUBVAULT: r : gauntlet_arena_second
 SUBVAULT: s : gauntlet_arena_second
 SUBVAULT: u : gauntlet_arena_second
 SUBVAULT: y : gauntlet_exit
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
 ccccccccccccccccccccccccccccccccccc
@@ -1340,7 +1342,7 @@ ccc..naaaaaaaaan...npppppppppn..ccc
 ccc..naaaaaaaaan...npppppppppn..ccc
 ccc..nnnnnnnnnnn...nnnnnnnnnnn..ccc
 cGn.....n.E.n....l....n.H.n.....nGc
-ccc...G.n...n...lGl...n...n.G...ccc
+ccc...G.n.~.n...lGl...n.~.n.G...ccc
 ccc.....n.J.n....l....n.L.n.....ccc
 ccc..nnnnnnnnnnn...nnnnnnnnnnn..ccc
 cGn..qqqqqqqqqqq...rrrrrrrrrrr..nGc
@@ -1354,7 +1356,7 @@ ccc..nqqqqqqqqqn...nrrrrrrrrrn..ccc
 cGn..nqqqqqqqqqn...nrrrrrrrrrn..nGc
 ccc..nnnnnnnnnnn...nnnnnnnnnnn..ccc
 ccc.....n.K.n....l....n.M.n.....ccc
-ccc...G.n...n...lGl...n...n.G...ccc
+ccc...G.n.~.n...lGl...n.~.n.G...ccc
 cGn.....n.N.n....l....n.P.n.....nGc
 ccc..nnnnnnnnnnn...nnnnnnnnnnn..ccc
 ccc..sssssssssss...uuuuuuuuuuu..ccc
@@ -1407,6 +1409,7 @@ SUBVAULT: f : gauntlet_arena_first
 SUBVAULT: g : gauntlet_arena_first
 SUBVAULT: h : gauntlet_arena_first
 SUBVAULT: y : gauntlet_exit
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
 ccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -1419,21 +1422,21 @@ ccc..aaaaaaaaaaa...eeeeeeeeeee.G.nfffffffffn..ccc
 ccc..aaaaaaaaaaa.A.eeeeeeeeeee...nfffffffffn..ccc
 cGn..aaaaaaaaaaa...eeeeeeeeeeennnnfffffffffn..nGc
 ccc..aaaaaaaaaaa...eeeeeeeeeee...nfffffffffn..ccc
-ccc..aaaaaaaaaaa...eeeeeeeeeeeK.Lnfffffffffn..ccc
+ccc..aaaaaaaaaaa...eeeeeeeeeeeK~Lnfffffffffn..ccc
 ccc..aaaaaaaaaaa...eeeeeeeeeee...nfffffffffn..ccc
 cGn..naaaaaaaaan...neeeeeeeeennnnnfffffffffn..nGc
 ccc..naaaaaaaaan...neeeeeeeeen...nfffffffffn..ccc
 ccc..naaaaaaaaan...neeeeeeeeen.G.nfffffffffn..ccc
 ccc..nnnnnnnnnnn...nnnnnnnnnnn...nffffffnnnn..ccc
 cGn.....n.E.n....l.............l....n.M.n.....nGc
-ccc...G.n...n...lGl...........lGl...n...n.G...ccc
+ccc...G.n.~.n...lGl...........lGl...n.~.n.G...ccc
 ccc.....n.F.n....l.............l....n.N.n.....ccc
 ccc..nnnnnnnnnnn...nnnnnnnnnnn...nnnnnnnnnnn..ccc
 cGn..ddddddddddd...hhhhhhhhhhh.G.ggggggggggg..nGc
 ccc..ddddddddddd...hhhhhhhhhhh...ggggggggggg..ccc
 ccc..ddddddddddd...hhhhhhhhhhhnnnggggggggggg..ccc
 ccc..ddddddddddd...hhhhhhhhhhh...ggggggggggg..ccc
-cGn..ddddddddddd...hhhhhhhhhhhP.Oggggggggggg..nGc
+cGn..ddddddddddd...hhhhhhhhhhhP~Oggggggggggg..nGc
 ccc..ddddddddddd...hhhhhhhhhhh...ggggggggggg..ccc
 ccc..ndddddddddn...nhhhhhhhhhnnnnngggggggggn..ccc
 ccc..ndddddddddn...nhhhhhhhhhn...ngggggggggn..ccc
@@ -1478,6 +1481,7 @@ SUBVAULT: k : gauntlet_arena_second
 SUBVAULT: y : gauntlet_exit
 # Just in case we ever add lava felids, prevent their revival in closets.
 KPROP:    lG = no_tele_into
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
                                      ccccc
@@ -1499,7 +1503,7 @@ MAP
    cGn..............n.nnnnddddddnnnnnnnnnnnnnnneeeeeennnn.n..............nGc
   ccnn..............n.nllGllnF.........E.........JnllGlln.n..............nncc
 cccl....nnnnnnnnnnnnn.nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn.nnnnnnnnnnnnn....lccc
-cGn.....nL...........N...........PnllllGllllnR...........p...........rn.....nGc
+cGn.....nL....~......N.....~.....PnllllGllllnR.....~.....p......~....rn.....nGc
 ccc.nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn.ccc
   c.fffffffffff.ggggggggggg.hhhhhhhhhhh.iiiiiiiiiii.jjjjjjjjjjj.kkkkkkkkkkk.c
 ccc.fffffffffff.ggggggggggg.hhhhhhhhhhh.iiiiiiiiiii.jjjjjjjjjjj.kkkkkkkkkkk.ccc
@@ -1552,6 +1556,7 @@ SUBVAULT: r : gauntlet_arena_77_first
 SUBVAULT: s : gauntlet_arena_77_second
 SUBVAULT: u : gauntlet_arena_77_second
 SUBVAULT: y : gauntlet_exit
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
              c
@@ -1573,7 +1578,7 @@ ccw.naaaaaaan.npppppppn.wcc
 ccc.nnnnnnnnnnnnnnnnnnn.ccc
 ccw....nE.........Hn....wcc
 cww..G.n.G.G.G.G.G.n.G..wwc
-ccw....nJ.........Ln....wcc
+ccw....nJ....~....Ln....wcc
 ccc.nnnnnnnnn.nnnnnnnnn.ccc
 ccw.qqqqqqqqq.rrrrrrrrr.wcc
 cww.qqqqqqqqq.rrrrrrrrr.wwc
@@ -1585,7 +1590,7 @@ ccw.nqqqqqqqn.nrrrrrrrn.wcc
 ccc.nnnnnnnnnnnnnnnnnnn.ccc
 ccw....nK.........Mn....wcc
 cww..G.n.G.G.G.G.G.n.G..wwc
-ccw....nN.........Pn....wcc
+ccw....nN....~....Pn....wcc
 ccc.nnnnnnnnn.nnnnnnnnn.ccc
 ccw.sssssssss.uuuuuuuuu.wcc
 cww.sssssssss.uuuuuuuuu.wwc
@@ -1633,6 +1638,7 @@ SUBVAULT: s : gauntlet_arena_77_second
 SUBVAULT: u : gauntlet_arena_77_second
 SUBVAULT: z : gauntlet_arena_77_second
 SUBVAULT: y : gauntlet_exit
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
                       ccc
@@ -1651,7 +1657,7 @@ MAP
         cww..t'''t.naaaaaaan.t'''t..wwc
         cw.........naaaaaaan.........wc
      cccc...nnnnnnnnnnnnnnnnnnnnnnn...cccc
-     cww....nF.........E.........Jn....wwc
+     cww....nF.......~.E.........Jn....wwc
      cw..nnnnnnnnnnnnnnnnnnnnnnnnnnnnn..wc
   cccc...ppppppppp...........qqqqqqqqq...cccc
   cww..t.ppppppppp..'cwcwc'..qqqqqqqqq.t..wwc
@@ -1661,7 +1667,7 @@ ccw.''''.ppppppppp.''wwwww''.qqqqqqqqq.''''.wcc
 cww.'''t.npppppppn..'cwcwc'..nqqqqqqqn.t'''.wwc
 ccw.''...npppppppn...'''''...nqqqqqqqn...''.wcc
 ccc.'t.nnnnnnnnnnnnn..'t'..nnnnnnnnnnnnn.t'.ccc
-ccw....nL....H....Nn.......nP....K....Rn....wcc
+ccw....nL..~.H....Nn.......nP....K.~..Rn....wcc
 cww.nnnnnnnnnnnnnnnnnnn.nnnnnnnnnnnnnnnnnnn.wwc
 ccw.rrrrrrrrr.sssssssss.uuuuuuuuu.zzzzzzzzz.wcc
 ccc.rrrrrrrrr.sssssssss.uuuuuuuuu.zzzzzzzzz.ccc
@@ -1726,6 +1732,7 @@ MARKER:   Z = lua:transp_loc("escape_option_3")
 MARKER:   - = lua:transp_dest_loc("escape_option_3")
 MARKER:   u = lua:transp_loc("escape_option_4")
 MARKER:   z = lua:transp_dest_loc("escape_option_4")
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -1737,7 +1744,7 @@ ccw...naaaaaaan.G.npppppppn.G.nqqqqqqqn.G.nrrrrrrrn.G.nsssssssn...wcc
 cwwA..naaaaaaan...npppppppn...nqqqqqqqn...nrrrrrrrn...nsssssssn...wwc
 ccw...naaaaaaannnnnpppppppnnnnnqqqqqqqnnnnnrrrrrrrnnnnnsssssssn...wcc
 ccc..DnaaaaaaanE.FnpppppppnH.JnqqqqqqqnK.LnrrrrrrrnM.Nnsssssssn...ccc
-ccw...naaaaaaan...npppppppn...nqqqqqqqn...nrrrrrrrn...nsssssssn...wcc
+ccw...naaaaaaan.~.npppppppn.~.nqqqqqqqn.~.nrrrrrrrn.~.nsssssssn...wcc
 cww<..naaaaaaan...npppppppn...nqqqqqqqn...nrrrrrrrn...nsssssssn...wwc
 ccw...naaaaaaanGPGnpppppppnGRGnqqqqqqqnGZGnrrrrrrrnGuGnsssssssn...wcc
 ccc...naaaaannnnnnnpppppnnnnnnnqqqqqnnnnnnnrrrrrnnnnnnnsssssnnn...ccc
@@ -1764,88 +1771,6 @@ cccccccccccccccccccccccccvvnnnnnnnnnnnnnnnvvccccccccccccccccccccccccc
                           vvvvvvvvvvvvvvvvv
 ENDMAP
 
-################################################################################
-# Main vaults with multiple arena shapes. Denoted by a lava pattern along the
-# walls, and no fountains.
-################################################################################
-NAME:   minmay_gauntlet_mixed_big_or_small
-ORIENT: encompass
-TAGS:   no_item_gen no_monster_gen no_trap_gen
-: gauntlet_setup(_G, "DFJLNP", "EHKMOQ")
-SUBVAULT: a : gauntlet_arena_first
-SUBVAULT: p : gauntlet_arena_77_first
-SUBVAULT: q : gauntlet_arena_first
-SUBVAULT: r : gauntlet_arena_77_first
-: gauntlet_arena_set_tier(2)
-SUBVAULT: s : gauntlet_arena_second
-SUBVAULT: u : gauntlet_arena_77_second
-SUBVAULT: y : gauntlet_exit
-: gauntlet_appearance(_G)
-MAP
-  ccccccccccccccc
- cclclclclclclclcc
-cc...............cc
-cl.......D.....<.lc
-cc..nnnnnnnnnnn..cc
-cl..aaaaaaaaaaa..lc
-cc..aaaaaaaaaaa..cccccccccccc
-cl..aaaaaaaaaaa..lclclclclclcc
-cc..aaaaaaaaaaa.A...........lc
-cl..aaaaaaaaaaa......F......cc
-cc..aaaaaaaaaaa..nnnnnnnnn..lc
-cl..naaaaaaaaan..ppppppppp..cc
-cc..naaaaaaaaan..ppppppppp..lc
-cl..naaaaaaaaan..ppppppppp..cc
-cc..nnnnnnnnnnn..ppppppppp..lc
-cl......nEn......ppppppppp..cc
-cc......nJn......npppppppn..lc
-cl..nnnnnnnnnnn..npppppppn..cc
-cc..qqqqqqqqqqq..nnnnnnnnn..lc
-cl..qqqqqqqqqqq.....nHn.....cc
-cc..qqqqqqqqqqq.....nLn.....lc
-cl..qqqqqqqqqqq..nnnnnnnnn..cc
-cc..qqqqqqqqqqq..rrrrrrrrr..lc
-cl..qqqqqqqqqqq..rrrrrrrrr..cc
-cc..nqqqqqqqqqn..rrrrrrrrr..lc
-cl..nqqqqqqqqqn..rrrrrrrrr..cc
-cc..nqqqqqqqqqn..rrrrrrrrr..lc
-cl..nnnnnnnnnnn..nrrrrrrrn..cc
-cc......nKn......nrrrrrrrn..lc
-cl......nNn......nnnnnnnnn..cc
-cc..nnnnnnnnnnn.....nMn.....lc
-cl..sssssssssss.....nPn.....cc
-cc..sssssssssss..nnnnnnnnn..lc
-cl..sssssssssss..uuuuuuuuu..cc
-cc..sssssssssss..uuuuuuuuu..lc
-cl..sssssssssss..uuuuuuuuu..cc
-cc..sssssssssss..uuuuuuuuu..lc
-cl..nsssssssssn..uuuuuuuuu..cc
-cc..nsssssssssn..nuuuuuuun..lc
-cl..nsssssssssn..nuuuuuuun..cc
-cc..nnnnnnnnnnn..nnnnnnnnn..lc
-cl..............<...........cc
-cc..........................lc
- cclclclclclcnnnnnnclclclclccc
-  ccccccccccc.O..Q.cccccccccc
-       vvvvvv......vvvvv
-       v...............v
-       v...............v
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vyyyyyyyyyyyyyyyv
-       vvyyyyyyyyyyyyyvv
-       vvyyyyyyyyyyyyyvv
-       vvyyyyyyyyyyyyyvv
-       vvvvvvvvvvvvvvvvv
-ENDMAP
-
 NAME:   minmay_gauntlet_mixed_oops_all_seconds
 ORIENT: encompass
 TAGS:   no_item_gen no_monster_gen no_trap_gen
@@ -1858,6 +1783,7 @@ SUBVAULT: r : gauntlet_arena_second
 SUBVAULT: s : gauntlet_arena_77_second
 SUBVAULT: u : gauntlet_arena_second
 SUBVAULT: y : gauntlet_exit
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
                  ccccccccccccc
@@ -1876,8 +1802,8 @@ MAP
  cl...naaaaaaan...npppppppppn...nqqqqqqqn...lc
  cc...nnnnnnnnn...npppppppppn...nnnnnnnnn...cc
  cl.....n.E.n.....nnnnnnnnnnn.....n.K.n.....lc
- cc.G...n.G.n...G....n.H.n....G...n.G.n...G.cc
-cc......n.L.n........n...n........n.P.n......cc
+ cc.G...n~G.n...G....n.H.n....G...n.G~n...G.cc
+cc......n.L.n........n.~.n........n.P.n......cc
 cl...nnnnnnnnnnn.....n.N.n.....nnnnnnnnnnn...lc
 cc...rrrrrrrrrrr...nnnnnnnnn...uuuuuuuuuuu...cc
 cl...rrrrrrrrrrr...sssssssss...uuuuuuuuuuu...lc
@@ -1930,6 +1856,7 @@ SUBVAULT: s : gauntlet_arena_77_second
 SUBVAULT: u : gauntlet_arena_77_second
 SUBVAULT: z : gauntlet_arena_77_second
 SUBVAULT: y : gauntlet_exit
+KFEAT:   ~ = shrine_restoration
 : gauntlet_appearance(_G)
 MAP
             ccccccccccccc
@@ -1947,7 +1874,7 @@ cl..naaaaaaan.npppppppn.nqqqqqqqn..lc
 cc..naaaaaaan.npppppppn.nqqqqqqqn..cc
 cl..nnnnnnnnnnnnnnnnnnnnnnnnnnnnn..lc
 ccc...n.E.........H.........K.n...ccc
- cl...n...........L...........n...lc
+ cl...n........~..L...........n...lc
  ccc..nnnnnnnnnnnnnnnnnnnnnnnnn..ccc
   cl.........rrrrrrrrrrr.........lc
   ccc........rrrrrrrrrrr........ccc
@@ -1960,7 +1887,7 @@ ccc...n.E.........H.........K.n...ccc
   cl.........nrrrrrrrrrn.........lc
  ccc..nnnnnnnnnnnnnnnnnnnnnnnnn..ccc
  cl...n...........M...........n...lc.
-ccc...n.N.........P.........R.n...ccc
+ccc...n.N.........P..~......R.n...ccc
 cl..nnnnnnnnnnnnnnnnnnnnnnnnnnnnn..lc
 cc..sssssssss.uuuuuuuuu.zzzzzzzzz..cc
 cl..sssssssss.uuuuuuuuu.zzzzzzzzz..lc

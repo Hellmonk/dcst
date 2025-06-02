@@ -852,6 +852,7 @@ SHUFFLE: BCD, EF, JKL, MNOPQR, pqrs
 SUBST:   BEJ = n, C : nc, K : ncc, DFL = c
 SUBST:   M = v, N : vvvcnww, O : vvnwww, PQR = w
 SUBST:   p = t, q : tt", r : t""", s = "
+KFEAT:   ~ = shrine_restoration
 FTILE:   ' = floor_necropolis_square_grass
 FTILE:   "<tGf = floor_necropolis_grass
 : set_feature_name("metal_statue", "iron statue")
@@ -881,7 +882,7 @@ vwwwwwwwwwwwwwwwwwwwwwoooooooooooooooooooooooooocYYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
 vwwwwwwwwwwwwwwwwwwwwooccccccCCCccccccnnccccccDDcYYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
 vwwwwwwwwwwNwwNwwNwwoocc........................cYYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
 vwwwwwwwwwwwwwwwwwwwocc.........................cYYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
-vwwwwwwwwwwwwwwwwwwwoB..........................+YYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
+vwwwwwwwwwwwwwwwwwwwoB........................~.+YYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
 vwwwwwwwwwwooooooooooB..........................+YYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
 vwwwwwwwwwoocccJJJcccccc++ccc...ccc++cccc++ccc..cYYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
 vwwwwwwwwoocc...............ccVcc............ccVcYYYYYYYYYYYYYYYYYYYYcowwwwwwwwv
@@ -911,14 +912,14 @@ vwwwwwwwocXXXXXXXXXXXXXXXXXXXXc'''"""""""""""'''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwMwoKXXXXXXXXXXXXXXXXXXXXc'''"t"""r"q"t"'''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwoKXXXXXXXXXXXXXXXXXXXXc'''"ttrr"q"tt"'''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwoK....................c''''"""""""""''''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
-vwwwwwwwoc....................c'''''''''''''''''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
+vwwwwwwwoc..........~.........c'''''''''''''''''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwoc...vv...........vv..c'''''''''''''''''cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwocc...................c''''''''''''''''ccZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwoocc.................ccc..............cccZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwwoocc...............ccVcc............ccVcZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwwwoocccJJJcccccc++ccc...ccc++cccc++ccc..cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwwwwooooooooooB..........................+ZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
-vwwwwwwwwwwwwwwwwwwwoB..........................+ZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
+vwwwwwwwwwwwwwwwwwwwoB........................~.+ZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwwwwwwwwwwwwwocc.........................cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwwwwNwwNwwNwwoocc........................cZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
 vwwwwwwwwwwwwwwwwwwwwooccccccCCCccccccnnccccccDDcZZZZZZZZZZZZZZZZZZZZcowwwwwwwwv
@@ -946,6 +947,7 @@ SHUFFLE: BC, DEF, MNOPQR, pqrs
 SUBST:   BD = n, C : nc, E : ncc, F = c
 SUBST:   M = v, N : vvvcnww, O : vvnwww, PQR = w
 SUBST:   pq = t, r : t""", s = "
+KFEAT:   ~ = shrine_restoration
 FTILE:   ' = floor_necropolis_square_grass
 FTILE:   "<tGf = floor_necropolis_grass
 : set_feature_name("metal_statue", "iron statue")
@@ -994,10 +996,10 @@ vwwwwwwocXXXXXXXXXXXXXXXXXXXXcYYYYYYYYYYYYYYYYYYYYcZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocXXXXXXXXXXXXXXXXXXXXcv..................vcZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocXXXXXXXXXXXXXXXXXXXXcccccccccc++ccccccccccZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocXXXXXXXXXXXXXXXXXXXXccV................VccZZZZZZZZZZZZZZZZZZZZcowwwwwwv
-vwwwwwwocXXXXXXXXXXXXXXXXXXXXc....................cZZZZZZZZZZZZZZZZZZZZcowwwwwwv
+vwwwwwwocXXXXXXXXXXXXXXXXXXXXc.........~..........cZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocXXXXXXXXXXXXXXXXXXXXc......''''''''......cZZZZZZZZZZZZZZZZZZZZcowwwwwwv
-vwwwwwwocXXXXXXXXXXXXXXXXXXXX+.....''p"rr"p''.....+ZZZZZZZZZZZZZZZZZZZZcowwwwwwv
-vwwwwwwocXXXXXXXXXXXXXXXXXXXX+.....'"Gf""fG"'.....+ZZZZZZZZZZZZZZZZZZZZcowwwwwwv
+vwwwwwwocXXXXXXXXXXXXXXXXXXXX+..~..''p"rr"p''.....+ZZZZZZZZZZZZZZZZZZZZcowwwwwwv
+vwwwwwwocXXXXXXXXXXXXXXXXXXXX+.....'"Gf""fG"'..~..+ZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocXXXXXXXXXXXXXXXXXXXXc.....''q"ss"q''.....cZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocXXXXXXXXXXXXXXXXXXXXc......''''''''......cZZZZZZZZZZZZZZZZZZZZcowwwwwwv
 vwwwwwwocc..................cc....................cc..................ccowwwwwwv
@@ -1040,6 +1042,7 @@ SHUFFLE: BC, DEF, MNOPQR, prqs
 SUBST:   BD = n, C : nc, E : nc, F = c
 SUBST:   M = v, N : vvvcnww, O : vvnwww, PQR = w
 SUBST:   p = t, q : tt", r : t""", s = "
+KFEAT:   ~ = shrine_restoration
 FTILE:   ' = floor_necropolis_square_grass
 FTILE:   "A>tGf = floor_necropolis_grass
 : set_feature_name("metal_statue", "iron statue")
@@ -1072,7 +1075,7 @@ vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c...c..YYYYYYYYYYYYYYYYYYYY..cowwwwwwv
 vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c...c..YYYYYYYYYYYYYYYYYYYY..cowwwwwwv
 vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c...c..YYYYYYYYYYYYYYYYYYYY..cowwQwwwv
 vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c...c..YYYYYYYYYYYYYYYYYYYY..cowwwwwwv
-vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c...c..YYYYYYYYYYYYYYYYYYYY..cowwwwwwv
+vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c.~.c..YYYYYYYYYYYYYYYYYYYY..cowwwwwwv
 vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..c...c..YYYYYYYYYYYYYYYYYYYY..cowwQwwwv
 vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..+...+..YYYYYYYYYYYYYYYYYYYY..Eowwwwwwv
 vwwwwwoc..XXXXXXXXXXXXXXXXXXXX..+...+..YYYYYYYYYYYYYYYYYYYY..Eowwwwwwv
@@ -1089,7 +1092,7 @@ vwwwwwocc......................cc...cc......................ccowwPwwwv
 vwwwwwoccc....................ccc...ccc....................cccowwwwwwv
 vwwwwwocccccccccccc...ccccccccccv+++vccccccccccc++ccccccccccccowwwwwwv
 vwwwwwooooccc'''''ccVcc.............+.......................nnowwwwwwv
-vwwwwwwwwocc'''''''ccc''............+.......................Vcowwwwwwv
+vwwwwwwwwocc'''''''ccc''............+.........~....~........Vcowwwwwwv
 vwwwwwwwwoc''"""""''c''''''''''''...+.......................nnowwwwwwv
 vwwwwwwwwoc''"pAs"''c'''''''''''''..vccccccccccc++ccccccccccccowwwwwwv
 vwwwwwwwwoc''"""""''c''"""""""""''..ccc....................cccowwwwwwv
@@ -1134,6 +1137,7 @@ SHUFFLE: BC, DEFH, MNOPQ, prqs
 SUBST:   BD = n, C : nc, E : nc, FH = c
 SUBST:   M = v, N : vvvcnww, O : vvnwwww, PQ = w
 SUBST:   p = t, q : tf", r : t""", s = "
+KFEAT:   ~ = shrine_restoration
 FTILE:   ' = floor_necropolis_square_grass
 FTILE:   "A>tGf = floor_necropolis_grass
 : set_feature_name("metal_statue", "iron statue")
@@ -1167,7 +1171,7 @@ vwwwwwwwwwwwoHXXXXXXXXXXXXXXXXXXXXcowwwwwwwwocYYYYYYYYYYYYYYYYYYYYHowwwwwwwwwwwv
 vwwwwwwQwwwwocXXXXXXXXXXXXXXXXXXXXcoooooooooocYYYYYYYYYYYYYYYYYYYYcowwwwQwwwwwwv
 vwwwwwwwwPwwocXXXXXXXXXXXXXXXXXXXXcccccnncccccYYYYYYYYYYYYYYYYYYYYcowwPwwwwwwwwv
 vwwwwwwwwwwwocXXXXXXXXXXXXXXXXXXXXcV........VcYYYYYYYYYYYYYYYYYYYYcowwwwwwwwwwwv
-vwwwwwwwwwwwoFXXXXXXXXXXXXXXXXXXXXc..........cYYYYYYYYYYYYYYYYYYYYFowwwwwwwwwwwv
+vwwwwwwwwwwwoFXXXXXXXXXXXXXXXXXXXXc~........~cYYYYYYYYYYYYYYYYYYYYFowwwwwwwwwwwv
 vwwwwwwwOwwwoFXXXXXXXXXXXXXXXXXXXXc.''''''''.cYYYYYYYYYYYYYYYYYYYYFowwwOwwwwwwwv
 vwwwwwwwwwwwocXXXXXXXXXXXXXXXXXXXX+.'""""""'.+YYYYYYYYYYYYYYYYYYYYcowwwwwwwwwwwv
 vwwwwwwwwwwwocXXXXXXXXXXXXXXXXXXXX+.'""pt""'.+YYYYYYYYYYYYYYYYYYYYcowwwwwwwwwwwv
@@ -1183,7 +1187,7 @@ vwwwwwwwwMwwocXXXXXXXXXXXXXXXXXXXXc.'""""""'.cYYYYYYYYYYYYYYYYYYYYcowwMwwwwwwwwv
 vwwwwwwwwwwwocccccccccccccccccccccc.''''''''.ccccccccccccccccccccccowwwwwwwwwwwv
 vwwwwwwwwwwwooooooccc''''''''c....................c''''''''cccoooooowwwwwwwwwwwv
 vwwwwwwwwwwwwwwwwocc'''''''''+....................+'''''''''ccowwwwwwwwwwwwwwwwv
-vwwwwwwwwwwwwwwwwoc''""""""''+....................+''""""""''cowwwwwwwwwwwwwwwwv
+vwwwwwwwwwwwwwwwwoc''""""""''+.........~..........+''""""""''cowwwwwwwwwwwwwwwwv
 vwwwwwwwwwwwwwwwwoc''"ts"t"''c.......V....V.......c''"t"st"''cowwwwwwwwwwwwwwwwv
 vwwwwwwwwwwwwwMwwoc''""""""''cccccccccc++cccccccccc''""""""''cowwMwwwwwwwwwwwwwv
 vwwwwwwwwwwwwwwwwoB'""Gf"r""'cZZZZZZZZZZZZZZZZZZZZc'""r"fG""'Bowwwwwwwwwwwwwwwwv
