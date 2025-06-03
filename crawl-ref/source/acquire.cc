@@ -1829,7 +1829,7 @@ vector<object_class_type> consumable_vendor_classes()
 
     if (!you.has_mutation(MUT_NO_ARTIFICE))
     {
-        if (one_chance_in(6) && 
+        if (one_chance_in(6) &&
             (!player_in_branch(BRANCH_DUNGEON) || one_chance_in(15)))
         {
             rand_classes.emplace_back(OBJ_MISCELLANY);

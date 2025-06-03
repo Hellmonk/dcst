@@ -1,3 +1,16 @@
+DCST (0.0004)
+-------------
+* More changes to vendor items: allow nets, nerf early vends, etc.
+* Big weird explore regen changes: overheal goes into a normal regen pool
+* Made armataur rollpage and trog hand work like normal regen
+* Shortened Zot clock to 1200 turns
+* Display remaining vendors on a floor in $
+* Added a feature to necropoli and gauntlets for fast healing (use with >)
+* Added shops to Elf, Crypt, Vaults, and Slime endings
+* Acquired and vended items will be added directly to inventory if possible
+* Dancing weapons now 'drop' themselves again
+* Fixed several bugs
+
 DCST (0.0003)
 -------------
 * Adjusted base regen rate to be a bit better lategame
