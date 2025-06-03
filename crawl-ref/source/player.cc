@@ -1049,18 +1049,6 @@ static int _player_bonus_regen()
 
     rr += get_form()->regen_bonus();
 
-    // Powered By Death mutation, boosts regen by variable strength
-    // if the duration of the effect is still active.
-    if (you.duration[DUR_POWERED_BY_DEATH])
-        rr += you.props[POWERED_BY_DEATH_KEY].get_int() * 100;
-
-    // Rampage healing grants a variable regen boost while active.
-    if (you.get_mutation_level(MUT_ROLLPAGE) > 1
-        && you.duration[DUR_RAMPAGE_HEAL])
-    {
-        rr += you.props[RAMPAGE_HEAL_KEY].get_int() * 65;
-    }
-
     return rr;
 }
 
@@ -1113,10 +1101,6 @@ int player_regen()
         rr = 0;
     }
 
-    // Trog's Hand. This circumvents sickness or inhibited regeneration.
-    if (you.duration[DUR_TROGS_HAND])
-        rr += 100;
-
     // Jiyva's passive healing also bypasses sickness, as befits a god.
     if (have_passive(passive_t::jelly_regen))
     {
@@ -1147,10 +1131,6 @@ int player_mp_regen()
         if (is_artefact(*item))
             regen_amount += 40 * artefact_property(*item, ARTP_MANA_REGENERATION);
     }
-
-    // Rampage healing grants a variable regen boost while active.
-    if (you.duration[DUR_RAMPAGE_HEAL])
-        regen_amount += you.props[RAMPAGE_HEAL_KEY].get_int() * 33;
 
     if (have_passive(passive_t::jelly_regen))
     {

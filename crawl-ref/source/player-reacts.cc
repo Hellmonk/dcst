@@ -1042,6 +1042,33 @@ static void _regenerate_hp_and_mp(int delay)
     {
         const int base_val = player_regen();
         you.hit_points_regeneration += div_rand_round(base_val * delay, BASELINE_DELAY);
+
+
+        // Trog's Hand. This circumvents sickness or inhibited regeneration.
+        if (you.duration[DUR_TROGS_HAND])
+        {
+            int trog_heal = div_rand_round(100 * delay, BASELINE_DELAY);
+            inc_hp(div_rand_round(trog_heal, 100));
+        }
+
+        // Powered By Death mutation, boosts regen by variable strength
+        // if the duration of the effect is still active.
+        if (you.duration[DUR_POWERED_BY_DEATH])
+        {
+            int pbd_heal = div_rand_round(you.props[POWERED_BY_DEATH_KEY].get_int() * 100 * delay,
+                            BASELINE_DELAY);
+            inc_hp(div_rand_round(pbd_heal, 100));
+        }
+
+        // Rampage healing grants a variable regen boost while active.
+        if (you.get_mutation_level(MUT_ROLLPAGE) > 1
+            && you.duration[DUR_RAMPAGE_HEAL])
+        {
+            int rollpage_heal = div_rand_round(you.props[RAMPAGE_HEAL_KEY].get_int() * 65 * delay,
+                                    BASELINE_DELAY);
+            inc_hp(div_rand_round(rollpage_heal, 100));
+
+        }
     }
 
     while (you.hit_points_regeneration >= 100 && env.properties[EXPLORE_HEAL_KEY].get_int() > 0
@@ -1068,6 +1095,14 @@ static void _regenerate_hp_and_mp(int delay)
     // MP Regeneration
     if (player_regenerates_mp())
     {
+        if (you.get_mutation_level(MUT_ROLLPAGE) > 1
+            && you.duration[DUR_RAMPAGE_HEAL])
+        {
+            int rollpage_mana = div_rand_round(you.props[RAMPAGE_HEAL_KEY].get_int() * 33 * delay,
+                                    BASELINE_DELAY);
+            inc_mp(div_rand_round(rollpage_mana, 100));
+        }
+
         if (you.magic_points < you.max_magic_points)
         {
             const int base_val = player_mp_regen();
