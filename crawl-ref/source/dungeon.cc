@@ -3782,7 +3782,7 @@ static bool _place_vault_by_tag(const string &tag)
     return _build_secondary_vault(vault);
 }
 
-static bool _in_descent_parent(branch_type branch)
+bool in_descent_parent(branch_type branch)
 {
     vector<branch_type> parents = descent_parents(branch);
     for (branch_type parent : parents)
@@ -3847,7 +3847,7 @@ static void _place_branch_entrances(bool use_vaults)
         bool brentry_allowed = false;
 
         brentry_allowed = it->entry_stairs != NUM_FEATURES
-            && _in_descent_parent(it->id)
+            && in_descent_parent(it->id)
             && it->id != you.props[DESCENT_WATER_BRANCH_KEY].get_int()
             && it->id != you.props[DESCENT_POIS_BRANCH_KEY].get_int()
             && at_branch_bottom();
