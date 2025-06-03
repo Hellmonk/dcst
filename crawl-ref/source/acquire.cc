@@ -1805,8 +1805,11 @@ vector<object_class_type> shuffled_acquirement_classes(bool scroll, bool vendor)
 
     if (vendor)
     {
-        if (one_chance_in(3) && !you.has_mutation(MUT_NO_ARTIFICE))
+        if (one_chance_in(3) && !you.has_mutation(MUT_NO_ARTIFICE)
+            && (!player_in_branch(BRANCH_DUNGEON) || one_chance_in(5)))
+        {
             rand_classes.emplace_back(OBJ_MISCELLANY);
+        }
         if (one_chance_in(4) && !you.has_mutation(MUT_NO_GRASPING))
             rand_classes.emplace_back(OBJ_MISSILES);
     }
@@ -1826,8 +1829,11 @@ vector<object_class_type> consumable_vendor_classes()
 
     if (!you.has_mutation(MUT_NO_ARTIFICE))
     {
-        if (one_chance_in(6))
+        if (one_chance_in(6) && 
+            (!player_in_branch(BRANCH_DUNGEON) || one_chance_in(15)))
+        {
             rand_classes.emplace_back(OBJ_MISCELLANY);
+        }
 
         if (x_chance_in_y(2,3))
             rand_classes.emplace_back(OBJ_WANDS);
