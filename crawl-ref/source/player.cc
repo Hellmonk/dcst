@@ -9072,6 +9072,8 @@ bool player::immune_to_hex(const spell_type hex) const
         return !actor::can_sleep();
     case SPELL_HIBERNATION:
         return !can_hibernate();
+    case SPELL_AGONY:
+        return res_torment();
     default:
         return false;
     }
