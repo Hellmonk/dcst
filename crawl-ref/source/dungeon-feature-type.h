@@ -61,6 +61,7 @@ enum dungeon_feature_type
     DNGN_ORCISH_IDOL,
 #if TAG_MAJOR_VERSION > 34
     DNGN_METAL_STATUE,                 // Vault statues that aren't rock
+    DNGN_ZOT_STATUE,                   // Statue of the orbs guardian Zot
 #endif
     DNGN_GRANITE_STATUE,
     DNGN_MALIGN_GATEWAY,
@@ -399,6 +400,7 @@ enum dungeon_feature_type
     DNGN_FRIGID_WALL,
     DNGN_ENTER_VENDOR,
     DNGN_SHRINE_RESTORATION,
+    DNGN_ZOT_STATUE,
 #endif
 
     NUM_FEATURES
