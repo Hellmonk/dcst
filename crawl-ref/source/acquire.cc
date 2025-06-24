@@ -1290,7 +1290,8 @@ static int _item_quant_for_type(object_class_type basetype, int subtype)
 
 int acquirement_create_item(object_class_type class_wanted,
                             int agent, bool quiet,
-                            const coord_def &pos)
+                            const coord_def &pos,
+                            int force_ego)
 {
     ASSERT(class_wanted != OBJ_RANDOM);
 
@@ -1327,7 +1328,7 @@ int acquirement_create_item(object_class_type class_wanted,
             want_arts = false;
 
         thing_created = items(want_arts, class_wanted, type_wanted,
-                              item_level, 0, agent);
+                              item_level, force_ego, agent);
 
         if (thing_created == NON_ITEM)
         {
@@ -1337,6 +1338,21 @@ int acquirement_create_item(object_class_type class_wanted,
         }
 
         item_def &acq_item(env.item[thing_created]);
+
+        // If we asked for a specific brand and got something back without it
+        // (likely because we rolled an incompatible type), destroy the item and
+        // try again.
+        if (force_ego > 0)
+        {
+            if ((acq_item.base_type == OBJ_WEAPONS && get_weapon_brand(acq_item) != force_ego)
+                || (acq_item.base_type == OBJ_ARMOUR && get_armour_ego_type(acq_item) != force_ego))
+            {
+                destroy_item(thing_created, true);
+                thing_created = NON_ITEM;
+                continue;
+            }
+        }
+
         _adjust_brand(acq_item, agent);
 
         // Increase the chance of armour being an artefact by usually
