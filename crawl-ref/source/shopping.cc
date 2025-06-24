@@ -394,6 +394,7 @@ unsigned int item_value(item_def item, bool ident)
 
             case SPARM_POSITIVE_ENERGY:
             case SPARM_POISON_RESISTANCE:
+            case SPARM_ARCHERY:
             case SPARM_REFLECTION:
             case SPARM_SPIRIT_SHIELD:
             case SPARM_HARM:
