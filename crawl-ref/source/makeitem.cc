@@ -1440,7 +1440,8 @@ static int _spell_base_weight(spell_type spell)
     }
 }
 
-static int _choose_parchment_spell(int item_level)
+spell_type choose_parchment_spell(int item_level, spschool school,
+                                  int fixed_spell_level)
 {
     // Keep ISPEC_GOOD_ITEM from being absurdly overweighted to the top end.
     item_level = min(30, item_level);
@@ -1455,14 +1456,23 @@ static int _choose_parchment_spell(int item_level)
     {
         const spell_type spell = (spell_type) i;
 
-        if (!is_player_book_spell(spell))
+        if (!is_player_book_spell(spell)
+            || school != spschool::none && !spell_typematch(spell, school)
+            || fixed_spell_level > 0 && spell_difficulty(spell) != fixed_spell_level)
+        {
             continue;
+        }
 
         const int splevel = spell_difficulty(spell);
         const int weight = _spell_base_weight(spell) * lv_weight[splevel-1];
         const pair <spell_type, int> weight_pair = { spell, weight };
         weights.push_back(weight_pair);
     }
+
+    // If somehow we have been given criteria that match no spell at all, it's
+    // better to return some spell instead of SPELL_NO_SPELL.
+    if (weights.empty())
+        return SPELL_APPORTATION;
 
     return *random_choose_weighted(weights);
 }
@@ -1486,7 +1496,7 @@ static void _generate_book_item(item_def& item, int force_type, int item_level)
     }
     else if (item.sub_type == BOOK_PARCHMENT)
     {
-        item.plus = static_cast<int>(_choose_parchment_spell(item_level));
+        item.plus = static_cast<int>(choose_parchment_spell(item_level));
         return;
     }
 

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "item-prop-enum.h"
+#include "spl-util.h"
 
 static const int NO_AGENT = -1;
 
