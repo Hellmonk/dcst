@@ -1495,25 +1495,8 @@ static void _generate_book_item(item_def& item, int force_type, int item_level)
         item.skill_points = random_range(2000, 3000);
     }
     else if (item.sub_type == BOOK_PARCHMENT)
-    {
         item.plus = static_cast<int>(choose_parchment_spell(item_level));
-        return;
-    }
-
-    // Only randomly generate randart books for OBJ_RANDOM, since randart
-    // spellbooks aren't merely of-the-same-type-but-better, but
-    // have an entirely different set of spells.
-    if (allow_uniques && force_type == OBJ_RANDOM
-        && x_chance_in_y(101 + item_level * 3, 4000))
-    {
-        int choice = random_choose_weighted(
-            29, BOOK_RANDART_THEME,
-             1, BOOK_RANDART_LEVEL);
-
-        item.sub_type = choice;
-    }
-
-    if (item.sub_type == BOOK_RANDART_THEME)
+    else if (item.sub_type == BOOK_RANDART_THEME)
         build_themed_book(item, capped_spell_filter(20));
     else if (item.sub_type == BOOK_RANDART_LEVEL)
     {
