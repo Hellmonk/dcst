@@ -1375,8 +1375,7 @@ static int _choose_parchment_spell(int item_level)
     return *random_choose_weighted(weights);
 }
 
-static void _generate_book_item(item_def& item, bool allow_uniques,
-                                int force_type, int item_level)
+static void _generate_book_item(item_def& item, int force_type, int item_level)
 {
     if (force_type != OBJ_RANDOM)
         item.sub_type = force_type;
@@ -1392,9 +1391,6 @@ static void _generate_book_item(item_def& item, bool allow_uniques,
         item.skill = _choose_manual_skill();
         // Set number of bonus skill points.
         item.skill_points = random_range(2000, 3000);
-        // Preidentify.
-        item.flags |= ISFLAG_IDENTIFIED;
-        return; // rare enough without being replaced with randarts
     }
     else if (item.sub_type == BOOK_PARCHMENT)
     {
@@ -2042,7 +2038,7 @@ int items(bool allow_uniques,
         break;
 
     case OBJ_BOOKS:
-        _generate_book_item(item, allow_uniques, force_type, item_level);
+        _generate_book_item(item, force_type, item_level);
         break;
 
     case OBJ_STAVES:
