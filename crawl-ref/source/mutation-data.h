@@ -2825,6 +2825,7 @@ static const mutation_def mut_data[] =
   {"You recover more slowly from Doom and Banes.", "", ""},
   {"You feel accursed.", "", ""},
   {"You feel less accursed.", "", ""},
+  TILEG_MUT_ACCURSED,
 },
 
 // Makhleb-specific mutations
