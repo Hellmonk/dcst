@@ -2453,7 +2453,7 @@ void process_command(command_type cmd, command_type prev_cmd)
         break;
 
     case CMD_TOGGLE_KEYBOARD:
-        jni_keyboard_control(true);
+        jni_keyboard_control(2);
         break;
 #endif
 
