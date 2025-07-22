@@ -1102,14 +1102,19 @@ command_type travel()
             return CMD_NO_CMD;
         }
 
-        if (Options.explore_auto_rest && !you.is_sufficiently_rested()
-            || you.duration[DUR_NO_MOMENTUM])
+        if (you.duration[DUR_NO_MOMENTUM]
+            || (Options.explore_auto_rest && !you.running.skip_autorest
+                && !you.is_sufficiently_rested())
+            )
         {
             return CMD_WAIT;
         }
 
         for (unsigned int i = 0; i < Options.explore_auto_rest_status.size(); ++i)
         {
+            if (you.running.skip_autorest)
+                break;
+
             duration_type type = Options.explore_auto_rest_status[i];
 
             if (you.duration[type] == 0)
@@ -1141,8 +1146,11 @@ command_type travel()
             return CMD_WAIT;
         }
 
-        if (Options.explore_auto_rest_contam && you.magic_contamination)
+        if (Options.explore_auto_rest_contam && you.magic_contamination
+            && !you.running.skip_autorest)
+        {
             return CMD_WAIT;
+        }
 
         // Exploring.
         if (_on_explore_enterable_feature()
@@ -3421,7 +3429,7 @@ void start_travel(const coord_def& p)
         start_translevel_travel(level_target);
 }
 
-void start_explore(bool grab_items)
+void start_explore(bool grab_items, bool skip_autorest)
 {
     if (Hints.hints_explored)
         Hints.hints_explored = false;
@@ -3442,15 +3450,16 @@ void start_explore(bool grab_items)
             env.map_seen.set(*ri);
 
     you.running.pos.reset();
+    you.running.skip_autorest = skip_autorest;
     _start_running();
 }
 
-void do_explore_cmd()
+void do_explore_cmd(bool skip_autorest)
 {
     if (you.berserk())
         mpr("Calm down first, please.");
     else                        // Start exploring
-        start_explore(Options.explore_greedy);
+        start_explore(Options.explore_greedy, skip_autorest);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -4601,6 +4610,7 @@ void runrest::initialise(int dir, int mode)
     notified_mp_full = false;
     notified_ancestor_hp_full = false;
     turns_passed = 0;
+    skip_autorest = false;
 
     if (dir == RDIR_REST)
     {
@@ -4737,6 +4747,7 @@ void runrest::stop(bool clear_delays)
         (runmode > 0 || runmode < 0 && Options.travel_delay == -1);
     _userdef_run_stoprunning_hook();
     runmode = RMODE_NOT_RUNNING;
+    skip_autorest = false;
 
     // Kill the delay; this is fine because it's not possible to stack
     // run/rest/travel on top of other delays.
@@ -4809,6 +4820,7 @@ void runrest::clear()
     notified_hp_full = false;
     notified_mp_full = false;
     notified_ancestor_hp_full = false;
+    skip_autorest = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
