@@ -648,7 +648,6 @@ void moveto_location_effects(dungeon_feature_type old_feat,
     bool was_running = you.running;
 
     update_monsters_in_view();
-    maybe_update_stashes();
     if (check_for_interesting_features() && you.running.is_explore())
         stop_running();
 

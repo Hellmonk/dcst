@@ -1119,8 +1119,6 @@ void floor_transition(dungeon_feature_type how,
     // There's probably a reason for this. I don't know it.
     if (going_up)
         seen_monsters_react();
-    else
-        maybe_update_stashes();
 
     autotoggle_autopickup(false);
     request_autopickup();
