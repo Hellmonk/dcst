@@ -316,3 +316,5 @@ int starting_absdepth();
 int check_vendors_on_level();
 void use_restoration_shrine();
 bool in_descent_parent(branch_type branch);
+
+int concretize_item_level(int spec_level, int dgn_level = INVALID_ABSDEPTH);
