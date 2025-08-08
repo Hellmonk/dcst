@@ -277,7 +277,7 @@ bool item_known_excluded_from_set(object_class_type type, int sub_type);
 item_set_type item_set_by_name(string name);
 string item_name_for_set(item_set_type typ);
 
-void seen_item(item_def &item);
+void seen_item(item_def &item, bool announce = true);
 
 static inline bool is_weapon(const item_def &item)
 {

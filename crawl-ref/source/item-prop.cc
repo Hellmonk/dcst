@@ -3273,7 +3273,7 @@ weapon_type name_nospace_to_weapon(string name_nospace)
     return WPN_UNKNOWN;
 }
 
-void seen_item(item_def &item)
+void seen_item(item_def &item, bool announce)
 {
     if (!is_artefact(item) && _is_affordable(item))
     {
@@ -3306,7 +3306,8 @@ void seen_item(item_def &item)
         for (int i = MAX_GEAR; i < ENDOFPACK; ++i)
         {
             if (you.inv[i].base_type == item.base_type
-                && you.inv[i].sub_type == item.sub_type)
+                && you.inv[i].sub_type == item.sub_type
+                && announce)
             {
                 held = &you.inv[i];
                 mprf("You learned that %s %s actually %s.",
