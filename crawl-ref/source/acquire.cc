@@ -1610,7 +1610,7 @@ AcquireMenu::AcquireMenu(CrawlVector &aitems, string ikey,
 }
 
 static void _create_acquirement_item(item_def &item, string items_key,
-                                     bool is_gizmo = false)
+                                     bool is_gizmo = false, bool is_vendor = false)
 {
     auto &acq_items = you.props[items_key].get_vector();
 
@@ -1632,6 +1632,10 @@ static void _create_acquirement_item(item_def &item, string items_key,
     // Mark as seen so that Lucky cannot proc off it.
     item.flags |= (ISFLAG_NOTED_ID | ISFLAG_NOTED_GET | ISFLAG_SEEN);
     identify_item(item);
+
+    // Prevent repetitive post-acq type-id messages from vendors
+    if (is_vendor)
+        seen_item(item, false);
 
     if (is_gizmo)
     {
@@ -1690,7 +1694,7 @@ void AcquireMenu::init_entries()
         }
 
         item_def &acq_item = *static_cast<item_def*>(item.data);
-        _create_acquirement_item(acq_item, key, is_gizmo);
+        _create_acquirement_item(acq_item, key, is_gizmo, is_vendor);
 
         return false;
     };
